@@ -1,0 +1,15 @@
+[submodule "Modules/SwiftyStateMachine"]
+	path = Modules/SwiftyStateMachine
+	url = https://github.com/DanielAsher/SwiftyStateMachine.git
+[submodule "Modules/SwiftTask"]
+	path = Modules/SwiftTask
+	url = https://github.com/ReactKit/SwiftTask.git
+[submodule "Modules/RxSwift"]
+	path = Modules/RxSwift
+	url = https://github.com/ReactiveX/RxSwift.git
+[submodule "Modules/Quick"]
+	path = Modules/Quick
+	url = https://github.com/Quick/Quick.git
+[submodule "Modules/Madness"]
+	path = Modules/Madness
+	url = https://github.com/DanielAsher/Madness.git
