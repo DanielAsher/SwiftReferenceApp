@@ -31,6 +31,8 @@
 		65FAA8BA1B8767B6000CC9D6 /* App+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654F9FC41B8765A30042F370 /* App+Extension.swift */; };
 		65FAA8BC1B877300000CC9D6 /* User+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FAA8BB1B877300000CC9D6 /* User+Extension.swift */; };
 		65FAA8BE1B877629000CC9D6 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FAA8BD1B877629000CC9D6 /* Global.swift */; };
+		65FAA8C01B879FE0000CC9D6 /* ApplicationSchema.svg in Resources */ = {isa = PBXBuildFile; fileRef = 65FAA8BF1B879FE0000CC9D6 /* ApplicationSchema.svg */; };
+		65FAA8C21B87A002000CC9D6 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 65FAA8C11B87A002000CC9D6 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -325,6 +327,8 @@
 		65D837A71B8749E600B6D7D3 /* Nimble.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nimble.xcodeproj; path = ../Modules/Quick/Externals/Nimble/Nimble.xcodeproj; sourceTree = "<group>"; };
 		65FAA8BB1B877300000CC9D6 /* User+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+Extension.swift"; sourceTree = "<group>"; };
 		65FAA8BD1B877629000CC9D6 /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
+		65FAA8BF1B879FE0000CC9D6 /* ApplicationSchema.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ApplicationSchema.svg; sourceTree = "<group>"; };
+		65FAA8C11B87A002000CC9D6 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -354,6 +358,7 @@
 		656216191B87283E003F69C3 = {
 			isa = PBXGroup;
 			children = (
+				65FAA8C11B87A002000CC9D6 /* README.md */,
 				657B2C571B873AA0001F6BC2 /* Dependencies */,
 				656216241B87283E003F69C3 /* SwiftReferenceApp */,
 				6562163D1B87283E003F69C3 /* SwiftReferenceAppTests */,
@@ -390,6 +395,7 @@
 		656216251B87283E003F69C3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				65FAA8BF1B879FE0000CC9D6 /* ApplicationSchema.svg */,
 				656216261B87283E003F69C3 /* Info.plist */,
 				6562164A1B87293D003F69C3 /* ApplicationSchema.dot */,
 				6562164C1B872B03003F69C3 /* ApplicationSchema.png */,
@@ -863,6 +869,7 @@
 				656216351B87283E003F69C3 /* LaunchScreen.xib in Resources */,
 				656216321B87283E003F69C3 /* Images.xcassets in Resources */,
 				6562164D1B872B03003F69C3 /* ApplicationSchema.png in Resources */,
+				65FAA8C01B879FE0000CC9D6 /* ApplicationSchema.svg in Resources */,
 				6562164B1B87293D003F69C3 /* ApplicationSchema.dot in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -887,6 +894,7 @@
 				656216281B87283E003F69C3 /* AppDelegate.swift in Sources */,
 				65FAA8BA1B8767B6000CC9D6 /* App+Extension.swift in Sources */,
 				65FAA8B91B876789000CC9D6 /* App.swift in Sources */,
+				65FAA8C21B87A002000CC9D6 /* README.md in Sources */,
 				65FAA8BC1B877300000CC9D6 /* User+Extension.swift in Sources */,
 				6562162B1B87283E003F69C3 /* SwiftReferenceApp.xcdatamodeld in Sources */,
 			);
