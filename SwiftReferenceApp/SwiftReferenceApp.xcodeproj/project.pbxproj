@@ -373,9 +373,9 @@
 		656216241B87283E003F69C3 /* SwiftReferenceApp */ = {
 			isa = PBXGroup;
 			children = (
-				65B227251B87458B001A621D /* Controllers */,
-				65B227241B874584001A621D /* Views */,
 				65B227111B874578001A621D /* Models */,
+				65B227241B874584001A621D /* Views */,
+				65B227251B87458B001A621D /* Controllers */,
 				656216271B87283E003F69C3 /* AppDelegate.swift */,
 				65FAA8BD1B877629000CC9D6 /* Global.swift */,
 				6562162E1B87283E003F69C3 /* Main.storyboard */,

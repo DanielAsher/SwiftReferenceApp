@@ -27,9 +27,9 @@ digraph G
         0 -> 1 [xlabel="Start", lhead=cluster0, color=darkgreen, fontcolor=darkgreen]
 
         1 [label="Idle", color=coral3, fontcolor=coral4]
-        2 [label="Saving", color=coral3, fontcolor=coral4]
-        3 [label="Purchasing", color=coral3, fontcolor=coral4]
-        4 [label="Alerting", color=red2, fontcolor=red3]
+        2 [label="Saving", color=turquoise3, fontcolor=turquoise4]
+        3 [label="Purchasing", color=turquoise3, fontcolor=turquoise4]
+        4 [label="Alerting", color=turquoise3, fontcolor=turquoise4]
 
         1 -> 3 [label="Purchase", color=blue, fontcolor=blue3]
         1 -> 2 [label="Save", color=blue, fontcolor=blue3]
