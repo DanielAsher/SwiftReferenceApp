@@ -26,6 +26,7 @@ extension AppState: DOTLabelable {
     
     var DOTLabel: String {
         switch self {
+        case .Initial: return "Initial"
         case .Idle: return "Idle"
         case .Saving: return "Saving"
         case .Purchasing: return "Purchasing"
@@ -42,6 +43,7 @@ extension AppEvent: DOTLabelable {
     
     var DOTLabel: String {
         switch self {
+        case .Start: return "Start"
         case .Complete: return "Complete"
         case .Failed: return "Failed"
         case .Purchase: return "Purchase "

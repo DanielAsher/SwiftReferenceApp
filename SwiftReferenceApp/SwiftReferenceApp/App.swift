@@ -12,6 +12,7 @@ import SwiftyStateMachine
 import SwiftTask
 
 enum AppState {
+    case Initial
     case Idle
     case Saving(SaveDocument!)
     case Purchasing(PurchaseAccess!)
@@ -19,6 +20,7 @@ enum AppState {
 }
 
 enum AppEvent {
+    case Start
     case Complete
     case Failed
     case Purchase
@@ -31,9 +33,11 @@ class App
 {
     typealias Schema = GraphableStateMachineSchema<AppState, AppEvent, App> 
     
+    static let sharedInstance = App()
+    
     var machine : StateMachine<Schema>! 
     
-    init() {
+    private init() {
         machine  = StateMachine(schema: App.schema, subject: self)
     }
     
@@ -41,6 +45,12 @@ class App
     {   
         state, event in switch state 
         {
+        case AppState.Initial: switch event {
+            case AppEvent.Start:
+                return (AppState.Idle, nil)
+            default:
+                return nil
+            }
         case AppState.Idle: switch event {
             case AppEvent.Save:
                 return (AppState.Saving(nil), nil)
@@ -78,5 +88,10 @@ class App
         default: return nil
         }
     } 
+    
+    // Helper functions
+    func handleEvent(event: AppEvent) { 
+        machine.handleEvent(event) 
+    }
 }
 
