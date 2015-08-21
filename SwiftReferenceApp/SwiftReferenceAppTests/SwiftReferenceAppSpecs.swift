@@ -8,8 +8,36 @@
 
 import UIKit
 import XCTest
+import Nimble
+import Quick
+import SwiftTask
+import SwiftyStateMachine
+import RxSwift
 
-class SwiftReferenceAppTests: XCTestCase {
+
+class SwiftReferenceAppSpecs: QuickSpec {
+    
+    override func spec() {
+        describe("Framework dependencies") 
+        {
+           it("loads SwiftTask") 
+           {
+                var str = "Started..."
+                let task = Task<Void, String, Void> { p, f, r, c in
+                    f("Finished!")
+                }.success { value -> String in
+                    str = value
+                    return value
+                }
+                
+                expect(str).toEventually(equal("Finished!"), timeout: 1)
+            }
+            
+            it("loads SwiftyStateMachine") {
+                
+            }
+        }
+    }
     
     override func setUp() {
         super.setUp()
