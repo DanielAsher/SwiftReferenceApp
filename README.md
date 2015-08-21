@@ -1,6 +1,6 @@
 # SwiftReferenceApp
 
-An attempt to unify StateMachine, Reactive, ViewModel and binding patterns. 
+An attempt to unify StateMachine, Tasks, Reactive, ViewModel and Binding patterns. Phew!
 
 Created to try a reference implementation for a Swift/iOS app.
 
