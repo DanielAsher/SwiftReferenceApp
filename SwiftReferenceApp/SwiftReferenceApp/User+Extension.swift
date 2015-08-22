@@ -6,10 +6,9 @@
 //  Copyright (c) 2015 StoryShare. All rights reserved.
 //
 
-import Foundation
 import SwiftyStateMachine
 
-// MARK: StoryCharacterState DOTLabelable extension
+// MARK: UserState DOTLabelable extension
 extension UserState: DOTLabelable 
 {
     static var DOTLabelableItems: [UserState] 

@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 StoryShare. All rights reserved.
 //
 
-import Foundation
 import RxSwift
 import SwiftyStateMachine
 
