@@ -8,6 +8,16 @@
 
 import SwiftyStateMachine
 
+extension UserState 
+{
+    func hasApplicationAccess() -> Bool {
+        switch self {
+            case .Trial(let saveCount) where saveCount > 5: return false
+            default: return true
+        }
+    }
+}
+
 // MARK: UserState DOTLabelable extension
 extension UserState: DOTLabelable 
 {
@@ -19,7 +29,7 @@ extension UserState: DOTLabelable
     var DOTLabel: String {
         switch self {
         case .FullAccess: return "FullAccess"
-        case .Trial: return "Trial(count: Int)"
+        case .Trial(let count): return "Trial"
         }
     }
 }

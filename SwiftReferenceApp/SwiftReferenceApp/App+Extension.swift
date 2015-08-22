@@ -14,21 +14,27 @@ typealias SaveDocument = Task<Void, String, NSError>
 typealias PurchaseAccess = Task<String, Bool, NSError> 
 typealias AlertMessage = Task<String, Bool, NSError>
 
-extension App {
+extension App 
+{
     func createSaveTask() -> SaveDocument 
     {
-        return SaveDocument { p, fulfill, r, c in
-            timer(dueTime: 1.0, MainScheduler.sharedInstance) 
-                >- subscribeNext { a in fulfill("Saved") }
+        return SaveDocument { p, fulfill, reject, c in
+            timer(dueTime: 0.5, MainScheduler.sharedInstance) 
+                >- subscribeNext { tick in 
+                    if self.currentUser.machine.state.hasApplicationAccess() { fulfill("Saved") } // FIXME: Ugly. HSM needed!!
+                    else { reject(NSError()) }
+                }
                 >- self.disposeBag.addDisposable // FIXME: Causes swiftc seg fault if removed!
         }  
     } 
 
     func createPurchaseTask() -> PurchaseAccess 
     {
-        return PurchaseAccess { p, f, r, c in
+        return PurchaseAccess { p, fulfill, reject, c in
             timer(dueTime: 1.0, MainScheduler.sharedInstance) 
-                >- subscribeNext { a in f(true) }        
+                >- subscribeNext { a in 
+                    if arc4random_uniform(2) > 0 { fulfill(true) } else { reject(NSError()) }  // FIXME: Ugly. HSM needed!!
+                }        
                 >- self.disposeBag.addDisposable // FIXME: Causes swiftc seg fault if removed!
         }
     }

@@ -45,7 +45,14 @@ class MainViewController: UIViewController
        
         // Set userStateLabel.text to "userState"
         app.userState 
-            >- subscribeNext { self.userStatusLabel.text = "\($0.DOTLabel)" }
+            >- subscribeNext { userState in switch userState 
+                { 
+                case .Trial(let count): 
+                    self.userStatusLabel.text = "\(userState.DOTLabel): \(count)" 
+                default:                     
+                    self.userStatusLabel.text = "\(userState.DOTLabel)" 
+                }
+            }
             >- disposeBag.addDisposable
     }
 

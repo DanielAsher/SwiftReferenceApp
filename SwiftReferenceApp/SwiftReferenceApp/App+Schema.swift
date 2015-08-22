@@ -31,9 +31,9 @@ extension App
                             app[.Saved]; return str 
                             }
                         .failure { errorInfo -> String in 
-                            app[.Failed]; return "\(errorInfo)"        // FIXME: Unable to use $0 
+                            app[.Failed]; return "Error!"        // FIXME: Unable to use $0 
                             } 
-                    return .Saving(nil) })
+                    return .Saving(saver) })
                 
             case AppEvent.Purchase:
                 return (AppState.Purchasing(nil), { app in 
@@ -44,7 +44,7 @@ extension App
                         .failure { errorInfo -> Bool in 
                             app[.Failed]; return false 
                         } 
-                    return .Purchasing(nil) })
+                    return .Purchasing(purchaser) })
                 
             default: return nil
             }
@@ -54,14 +54,14 @@ extension App
                 
             case AppEvent.Failed:
                 return (AppState.Alerting(nil), { app in 
-                    let alert = app.createAlertTask()
+                    let alerter = app.createAlertTask()
                         .success { saved -> Bool in 
                             app[.Complete]; return saved 
                         }
                         .failure { errorInfo -> Bool in 
                             app[.Failed]; return false 
                         } 
-                    return .Alerting(alert) })
+                    return .Alerting(alerter) })
                 
             default: return nil
             }
