@@ -24,7 +24,8 @@ extension App {
         }  
     } 
 
-    func createPurchaseTask() -> PurchaseAccess {
+    func createPurchaseTask() -> PurchaseAccess 
+    {
         return PurchaseAccess { p, f, r, c in
             timer(dueTime: 1.0, MainScheduler.sharedInstance) 
                 >- subscribeNext { a in f(true) }        
@@ -32,7 +33,8 @@ extension App {
         }
     }
 
-    func createAlertTask() -> AlertMessage {
+    func createAlertTask() -> AlertMessage 
+    {
         return AlertMessage { p, f, r, c in
             timer(dueTime: 1.0, MainScheduler.sharedInstance) 
                 >- subscribeNext { a in f(true) }         
@@ -49,12 +51,14 @@ extension App {
         machine.handleEvent(event)
     }
 
-    subscript(state: AppState) -> AppState {
+    subscript(state: AppState) -> AppState 
+    {
         set { machine.state = state }
         get { return machine.state }
     }
     
-    func set(user: User) -> Bool {
+    func set(user: User) -> Bool 
+    {
         currentUser = user
         
         machine.addDidTransitionCallback { oldState, event, newState, app in 
@@ -74,7 +78,8 @@ extension AppState: DOTLabelable {
         }
     }
     
-    static var DOTLabelableItems: [AppState] {
+    static var DOTLabelableItems: [AppState] 
+    {
         return [ .Idle, .Saving(nil), .Purchasing(nil), .Alerting(nil)]
     }
     
@@ -90,8 +95,10 @@ extension AppState: DOTLabelable {
 }
 
 // MARK: AppEvent DOTLabelable extension
-extension AppEvent: DOTLabelable {
-    static var DOTLabelableItems: [AppEvent] {
+extension AppEvent: DOTLabelable 
+{
+    static var DOTLabelableItems: [AppEvent] 
+    {
         return [.Complete, .Failed, .Purchase, .Purchased, .Save, .Saved]
     }
     

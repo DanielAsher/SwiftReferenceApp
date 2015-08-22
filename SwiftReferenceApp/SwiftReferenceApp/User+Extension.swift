@@ -10,8 +10,10 @@ import Foundation
 import SwiftyStateMachine
 
 // MARK: StoryCharacterState DOTLabelable extension
-extension UserState: DOTLabelable {
-    static var DOTLabelableItems: [UserState] {
+extension UserState: DOTLabelable 
+{
+    static var DOTLabelableItems: [UserState] 
+    {
         return [.FullAccess, .Trial(count: 0)]
     }
     

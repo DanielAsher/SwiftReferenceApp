@@ -8,7 +8,8 @@
 
 import SwiftyStateMachine
 
-extension User {
+extension User 
+{
     static var schema = Schema(initialState: .Trial(count: 0)) 
     { 
         state, event in switch state 

@@ -11,7 +11,8 @@ import RxSwift
 import SwiftyStateMachine
 import SwiftTask
 
-enum UserState {
+enum UserState 
+{
     case FullAccess
     case Trial(count: Int)
 }

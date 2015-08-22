@@ -32,23 +32,27 @@ class App
 {
     static let sharedInstance = App()
 
-    let disposeBag = DisposeBag()
-    var machine : StateMachine<Schema>! 
     var currentUser: User!
-    var hsmTransitionState = Variable((AppEvent.Start, AppState.Initial, UserState.Trial(count: 0))) 
+    
+    var machine : StateMachine<Schema>!
+    
+    var hsmTransitionState = Variable((AppEvent.Start, AppState.Initial, UserState.Trial(count: 0)))
+     
     var appState : Observable<AppState>
     var appEvent: Observable<AppEvent>
     var userState : Observable<UserState>
     
+    let disposeBag = DisposeBag()
+    
     private init() 
     {
+        appEvent = self.hsmTransitionState >- map { (e, a, u) in return e } // FIXME: these maps are inefficient
         appState = self.hsmTransitionState >- map { (e, a, u) in return a }
-        appEvent = self.hsmTransitionState >- map { (e, a, u) in return e }
         userState = self.hsmTransitionState >- map { (e, a, u) in return u }
         
         machine  = StateMachine(schema: App.schema, subject: self)
         
-        machine.addDidTransitionCallback { o, event, newState, a in 
+        machine.addDidTransitionCallback { oldState, event, newState, app in 
             let hsmState = (event, newState, self.currentUser.machine.state)
             self.hsmTransitionState.next(hsmState)
         }

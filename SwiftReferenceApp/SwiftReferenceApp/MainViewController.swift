@@ -9,8 +9,8 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class MainViewController: UIViewController {
-
+class MainViewController: UIViewController 
+{
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var userStatusLabel: UILabel!
     @IBOutlet weak var saveButton: UIButton!
@@ -40,7 +40,8 @@ class MainViewController: UIViewController {
       
         // Set statusLabel.text to "event -> appState"
         app.hsmTransitionState 
-            >- subscribeNext { event, appState, userState in self.statusLabel.text = "\(event.DOTLabel) -> \(appState.DOTLabel)" }
+            >- subscribeNext { event, appState, userState in 
+                self.statusLabel.text = "\(event.DOTLabel) -> \(appState.DOTLabel)" }
        
         // Set userStateLabel.text to "userState"
         app.userState 

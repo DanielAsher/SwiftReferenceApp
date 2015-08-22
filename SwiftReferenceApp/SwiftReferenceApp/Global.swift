@@ -9,7 +9,8 @@
 import Foundation
 import SwiftyStateMachine
 
-extension GraphableStateMachineSchema { 
+extension GraphableStateMachineSchema 
+{ 
     func saveSchema(path: String) -> String? 
     { 
         var err: NSError?
