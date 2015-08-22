@@ -26,31 +26,22 @@ class User
         machine  = StateMachine(schema: User.schema, subject: self)
     }
     
-    static var schema = Schema(initialState: .Trial(count: 0)) 
-    { 
-        state, event in switch state 
-        {
-        case UserState.Trial(let count): switch event {
-            case AppEvent.Purchase:
-                return (UserState.FullAccess, nil)
-            case AppEvent.Saved:
-                return (UserState.Trial(count: count+1), nil)
-            default: return nil
-        }
-        
-        case .FullAccess: switch event 
-        {
-            case .Save:
-                return nil
-            case .Purchase:
-                return nil
-            default: return nil
-            }
-        }
-    }
-    
     func saveDocument() { println(__FUNCTION__) }
     func showAlert()        { println(__FUNCTION__) }
+    
+    // Helper functions
+    func handleEvent(event: AppEvent) { 
+        machine.handleEvent(event) 
+    }
+    
+    subscript(event: AppEvent) -> Void {
+        machine.handleEvent(event)
+    }
+    
+    subscript(state: UserState) -> UserState {
+        set { machine.state = state }
+        get { return machine.state }
+    }
 }
 
 

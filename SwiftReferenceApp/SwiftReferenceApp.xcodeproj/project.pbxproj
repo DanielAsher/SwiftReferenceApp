@@ -33,6 +33,8 @@
 		65FAA8BE1B877629000CC9D6 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FAA8BD1B877629000CC9D6 /* Global.swift */; };
 		65FAA8C01B879FE0000CC9D6 /* ApplicationSchema.svg in Resources */ = {isa = PBXBuildFile; fileRef = 65FAA8BF1B879FE0000CC9D6 /* ApplicationSchema.svg */; };
 		65FAA8C21B87A002000CC9D6 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 65FAA8C11B87A002000CC9D6 /* README.md */; };
+		65FAA8C51B87B52D000CC9D6 /* App+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FAA8C41B87B52D000CC9D6 /* App+Schema.swift */; };
+		65FAA8C71B87B606000CC9D6 /* User+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FAA8C61B87B606000CC9D6 /* User+Schema.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -329,6 +331,8 @@
 		65FAA8BD1B877629000CC9D6 /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		65FAA8BF1B879FE0000CC9D6 /* ApplicationSchema.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ApplicationSchema.svg; sourceTree = "<group>"; };
 		65FAA8C11B87A002000CC9D6 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		65FAA8C41B87B52D000CC9D6 /* App+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "App+Schema.swift"; sourceTree = "<group>"; };
+		65FAA8C61B87B606000CC9D6 /* User+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+Schema.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -380,6 +384,7 @@
 			children = (
 				65B227111B874578001A621D /* Models */,
 				65B227241B874584001A621D /* Views */,
+				65FAA8C31B87A56E000CC9D6 /* ViewModels */,
 				65B227251B87458B001A621D /* Controllers */,
 				656216271B87283E003F69C3 /* AppDelegate.swift */,
 				65FAA8BD1B877629000CC9D6 /* Global.swift */,
@@ -513,8 +518,10 @@
 			children = (
 				654F9FC21B875A5D0042F370 /* App.swift */,
 				654F9FC41B8765A30042F370 /* App+Extension.swift */,
+				65FAA8C41B87B52D000CC9D6 /* App+Schema.swift */,
 				654F9F941B8759B60042F370 /* User.swift */,
 				65FAA8BB1B877300000CC9D6 /* User+Extension.swift */,
+				65FAA8C61B87B606000CC9D6 /* User+Schema.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -543,6 +550,13 @@
 				65D837B51B8749E600B6D7D3 /* NimbleTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		65FAA8C31B87A56E000CC9D6 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -891,9 +905,11 @@
 				65FAA8BE1B877629000CC9D6 /* Global.swift in Sources */,
 				654F9F951B8759B60042F370 /* User.swift in Sources */,
 				6562162D1B87283E003F69C3 /* MainViewController.swift in Sources */,
+				65FAA8C71B87B606000CC9D6 /* User+Schema.swift in Sources */,
 				656216281B87283E003F69C3 /* AppDelegate.swift in Sources */,
 				65FAA8BA1B8767B6000CC9D6 /* App+Extension.swift in Sources */,
 				65FAA8B91B876789000CC9D6 /* App.swift in Sources */,
+				65FAA8C51B87B52D000CC9D6 /* App+Schema.swift in Sources */,
 				65FAA8C21B87A002000CC9D6 /* README.md in Sources */,
 				65FAA8BC1B877300000CC9D6 /* User+Extension.swift in Sources */,
 				6562162B1B87283E003F69C3 /* SwiftReferenceApp.xcdatamodeld in Sources */,

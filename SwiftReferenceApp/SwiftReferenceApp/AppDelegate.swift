@@ -8,19 +8,17 @@
 import UIKit
 import CoreData
 
+let app = App.sharedInstance
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    let app = App.sharedInstance
-    var currentUser : User!
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
-        
-        currentUser = User()
-        app.handleEvent(.Start)
-        return true
+
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool 
+    {
+        return app.set(User()) 
     }
 
     func applicationWillResignActive(application: UIApplication) {

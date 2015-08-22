@@ -16,19 +16,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zD1-se-mcf" userLabel="Status">
-                                <rect key="frame" x="258" y="110" width="84" height="36"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="App Status" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zD1-se-mcf" userLabel="Status">
+                                <rect key="frame" x="227" y="70" width="146" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jav-Zr-K1a" userLabel="Purchase">
-                                <rect key="frame" x="239" y="454" width="123" height="48"/>
+                                <rect key="frame" x="239" y="502" width="123" height="48"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <state key="normal" title="Purchase">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Status" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lGf-qQ-eqb">
+                                <rect key="frame" x="223" y="146" width="153.5" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QZa-cK-Ic2" userLabel="Save">
                                 <rect key="frame" x="267" y="276" width="66" height="48"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
@@ -40,17 +46,20 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerY" secondItem="QZa-cK-Ic2" secondAttribute="centerY" id="ALb-ba-VVb"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Jav-Zr-K1a" secondAttribute="bottom" constant="50" id="H7C-09-gdl"/>
                             <constraint firstAttribute="centerX" secondItem="zD1-se-mcf" secondAttribute="centerX" id="HVu-Ig-vK6"/>
-                            <constraint firstItem="Jav-Zr-K1a" firstAttribute="top" secondItem="QZa-cK-Ic2" secondAttribute="bottom" constant="130" id="Oxe-WX-ALn"/>
                             <constraint firstAttribute="centerX" secondItem="Jav-Zr-K1a" secondAttribute="centerX" id="YKC-xL-1RP"/>
                             <constraint firstAttribute="centerX" secondItem="QZa-cK-Ic2" secondAttribute="centerX" id="cw8-7b-WbX"/>
-                            <constraint firstItem="QZa-cK-Ic2" firstAttribute="top" secondItem="zD1-se-mcf" secondAttribute="bottom" constant="130" id="zeW-o1-WSW"/>
+                            <constraint firstItem="lGf-qQ-eqb" firstAttribute="top" secondItem="zD1-se-mcf" secondAttribute="bottom" constant="40" id="dj3-Bh-iIh"/>
+                            <constraint firstItem="lGf-qQ-eqb" firstAttribute="centerX" secondItem="zD1-se-mcf" secondAttribute="centerX" id="hos-21-6JT"/>
+                            <constraint firstItem="zD1-se-mcf" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="50" id="wXR-j7-M5u"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="purchaseButton" destination="Jav-Zr-K1a" id="fUZ-0S-FML"/>
                         <outlet property="saveButton" destination="QZa-cK-Ic2" id="ir8-AU-Cne"/>
                         <outlet property="statusLabel" destination="zD1-se-mcf" id="SUL-C3-jOx"/>
+                        <outlet property="userStatusLabel" destination="lGf-qQ-eqb" id="JW4-YF-p30"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

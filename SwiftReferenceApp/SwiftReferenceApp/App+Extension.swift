@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 StoryShare. All rights reserved.
 //
 
-import Foundation
 import RxSwift
 import SwiftTask
 import SwiftyStateMachine
@@ -15,13 +14,68 @@ typealias SaveDocument = Task<Void, String, NSError>
 typealias PurchaseAccess = Task<String, Bool, NSError> 
 typealias AlertMessage = Task<String, Bool, NSError>
 
+extension App {
+    func createSaveTask() -> SaveDocument 
+    {
+        return SaveDocument { p, fulfill, r, c in
+            timer(dueTime: 1.0, MainScheduler.sharedInstance) 
+                >- subscribeNext { a in fulfill("Saved") }
+                >- self.disposeBag.addDisposable // FIXME: Causes swiftc seg fault if removed!
+        }  
+    } 
+
+    func createPurchaseTask() -> PurchaseAccess {
+        return PurchaseAccess { p, f, r, c in
+            timer(dueTime: 1.0, MainScheduler.sharedInstance) 
+                >- subscribeNext { a in f(true) }        
+                >- self.disposeBag.addDisposable // FIXME: Causes swiftc seg fault if removed!
+        }
+    }
+
+    func createAlertTask() -> AlertMessage {
+        return AlertMessage { p, f, r, c in
+            timer(dueTime: 1.0, MainScheduler.sharedInstance) 
+                >- subscribeNext { a in f(true) }         
+                >- self.disposeBag.addDisposable // FIXME: Causes swiftc seg fault if removed!
+        }  
+    }  
+
+    // Helper functions
+    func handleEvent(event: AppEvent) { 
+        machine.handleEvent(event) 
+    }
+
+    subscript(event: AppEvent) -> Void {
+        machine.handleEvent(event)
+    }
+
+    subscript(state: AppState) -> AppState {
+        set { machine.state = state }
+        get { return machine.state }
+    }
+    
+    func set(user: User) -> Bool {
+        currentUser = user
+        
+        machine.addDidTransitionCallback { oldState, event, newState, app in 
+           self.currentUser[event] 
+        }
+        return true
+    }
+}
+
 // MARK: AppState DOTLabelable extension
 extension AppState: DOTLabelable {
+
+    func isSaving() -> Bool {
+        switch self {
+        case .Saving: return true
+        default: return false
+        }
+    }
+    
     static var DOTLabelableItems: [AppState] {
-        return [ .Idle, 
-            .Saving(nil), 
-            .Purchasing(nil), 
-            .Alerting(nil)]
+        return [ .Idle, .Saving(nil), .Purchasing(nil), .Alerting(nil)]
     }
     
     var DOTLabel: String {
@@ -35,7 +89,7 @@ extension AppState: DOTLabelable {
     }
 }
 
-// MARK: StoryCharacterState DOTLabelable extension
+// MARK: AppEvent DOTLabelable extension
 extension AppEvent: DOTLabelable {
     static var DOTLabelableItems: [AppEvent] {
         return [.Complete, .Failed, .Purchase, .Purchased, .Save, .Saved]
@@ -55,31 +109,5 @@ extension AppEvent: DOTLabelable {
     }
 }
 
-extension App {
-    
-    // FIXME: Causing swiftc seg fault!
-    //
-    //    static func createSaveTask() -> SaveDocument {
-    //        return SaveDocument(paused: true) { p, f, r, c in
-    //            timer(dueTime: 0.5, MainScheduler.sharedInstance) 
-    //                >- take(1)
-    //                >- subscribeNext { a in f("Saved") }
-    //        }  
-    //    }
-    //    
-    //    static func createPurchaseTask() -> PurchaseAccess {
-    //        return PurchaseAccess(paused: true) { p, f, r, c in
-    //            timer(dueTime: 0.5, MainScheduler.sharedInstance) 
-    //                >- take(1)
-    //                >- subscribeNext { a in f(true) }        
-    //        }
-    //    }
-    //    
-    //    static func createAlertTask() -> AlertMessage {
-    //        return AlertMessage(paused: true) { p, f, r, c in
-    //            timer(dueTime: 0.5, MainScheduler.sharedInstance) 
-    //                >- take(1)
-    //                >- subscribeNext { a in f(true) }         
-    //        }  
-    //    }
-}
+
+

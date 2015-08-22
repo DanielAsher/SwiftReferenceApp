@@ -9,7 +9,6 @@
 import Foundation
 import RxSwift
 import SwiftyStateMachine
-import SwiftTask
 
 enum AppState {
     case Initial
@@ -31,67 +30,28 @@ enum AppEvent {
 
 class App 
 {
-    typealias Schema = GraphableStateMachineSchema<AppState, AppEvent, App> 
-    
     static let sharedInstance = App()
-    
+
+    let disposeBag = DisposeBag()
     var machine : StateMachine<Schema>! 
+    var currentUser: User!
+    var hsmTransitionState = Variable((AppEvent.Start, AppState.Initial, UserState.Trial(count: 0))) 
+    var appState : Observable<AppState>
+    var appEvent: Observable<AppEvent>
+    var userState : Observable<UserState>
     
-    private init() {
+    private init() 
+    {
+        appState = self.hsmTransitionState >- map { (e, a, u) in return a }
+        appEvent = self.hsmTransitionState >- map { (e, a, u) in return e }
+        userState = self.hsmTransitionState >- map { (e, a, u) in return u }
+        
         machine  = StateMachine(schema: App.schema, subject: self)
-    }
-    
-    static var schema = Schema(initialState: .Idle) 
-    {   
-        state, event in switch state 
-        {
-        case AppState.Initial: switch event {
-            case AppEvent.Start:
-                return (AppState.Idle, nil)
-            default:
-                return nil
-            }
-        case AppState.Idle: switch event {
-            case AppEvent.Save:
-                return (AppState.Saving(nil), nil)
-        //        let saver = App.createSaveTask()
-        //        return (AppState.Saving(saver), { _ in 
-        //            return nil })
-            case AppEvent.Purchase:
-                return (AppState.Purchasing(nil), nil)
-        //        let purchase = App.createPurchaseTask()
-        //        return (.Purchasing(purchase), nil) 
-            default: return nil
-            }
-        case AppState.Saving(let saver): switch event {
-            case AppEvent.Saved:
-                return (AppState.Idle, nil)
-            case AppEvent.Failed:
-                return (AppState.Alerting(nil), nil)
-        //        let alert = App.createAlertTask()
-        //        return (.Alerting(alert), nil)
-            default: return nil
-            }
-        case AppState.Purchasing(let purchaser): switch event {
-            case AppEvent.Purchased: 
-                return (AppState.Idle, nil)
-            case AppEvent.Failed:
-                return (AppState.Alerting(nil), nil)
-            default: return nil
-            }
-            
-        case .Alerting(let alert): switch event {
-            case .Complete: 
-                return (.Idle, nil)
-            default: return nil
-            }
-        default: return nil
+        
+        machine.addDidTransitionCallback { o, event, newState, a in 
+            let hsmState = (event, newState, self.currentUser.machine.state)
+            self.hsmTransitionState.next(hsmState)
         }
-    } 
-    
-    // Helper functions
-    func handleEvent(event: AppEvent) { 
-        machine.handleEvent(event) 
     }
 }
 
