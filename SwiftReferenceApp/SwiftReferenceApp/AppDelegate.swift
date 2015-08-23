@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-let app = App.sharedInstance
+public let app = App.sharedInstance
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

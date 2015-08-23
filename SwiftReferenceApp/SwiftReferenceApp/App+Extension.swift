@@ -21,7 +21,7 @@ extension App
         return SaveDocument { p, fulfill, reject, c in
             timer(dueTime: 0.5, MainScheduler.sharedInstance) 
                 >- subscribeNext { tick in 
-                    if self.currentUser.machine.state.hasApplicationAccess() { fulfill("Saved") } // FIXME: Ugly. HSM needed!!
+                    if self.currentUser.hasApplicationAccess() { fulfill("Saved") } // FIXME: Ugly. HSM needed!!
                     else { reject(NSError()) }
                 }
                 >- self.disposeBag.addDisposable // FIXME: Causes swiftc seg fault if removed!
@@ -53,17 +53,17 @@ extension App
         machine.handleEvent(event) 
     }
 
-    subscript(event: AppEvent) -> Void {
+    public subscript(event: AppEvent) -> Void {
         machine.handleEvent(event)
     }
 
-    subscript(state: AppState) -> AppState 
+    public subscript(state: AppState) -> AppState 
     {
         set { machine.state = state }
         get { return machine.state }
     }
     
-    func set(user: User) -> Bool 
+    public func set(user: User) -> Bool 
     {
         currentUser = user
         

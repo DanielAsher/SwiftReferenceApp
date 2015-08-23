@@ -8,28 +8,24 @@
 
 import SwiftyStateMachine
 
-extension UserState 
-{
-    func hasApplicationAccess() -> Bool {
-        switch self {
-            case .Trial(let saveCount) where saveCount > 5: return false
-            default: return true
-        }
-    }
-}
-
 // MARK: UserState DOTLabelable extension
 extension UserState: DOTLabelable 
 {
-    static var DOTLabelableItems: [UserState] 
+    public static var DOTLabelableItems: [UserState] 
     {
         return [.FullAccess, .Trial(count: 0)]
     }
     
-    var DOTLabel: String {
+    public var DOTLabel: String {
         switch self {
         case .FullAccess: return "FullAccess"
-        case .Trial(let count): return "Trial"
+        case .Trial(let count): return "Trial (count: \(count))"
         }
     }
 }
+
+// MARK: Add printable conformance
+extension UserState : Printable {
+    public var description: String { return self.DOTLabel }
+}
+

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		65185A0E1B89C309001F85D5 /* StateMachineSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65185A0D1B89C309001F85D5 /* StateMachineSpecs.swift */; };
 		654F9F951B8759B60042F370 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654F9F941B8759B60042F370 /* User.swift */; };
 		656216281B87283E003F69C3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656216271B87283E003F69C3 /* AppDelegate.swift */; };
 		6562162B1B87283E003F69C3 /* SwiftReferenceApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 656216291B87283E003F69C3 /* SwiftReferenceApp.xcdatamodeld */; };
@@ -303,6 +304,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		65185A0D1B89C309001F85D5 /* StateMachineSpecs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateMachineSpecs.swift; sourceTree = "<group>"; };
 		654F9F941B8759B60042F370 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		654F9FC21B875A5D0042F370 /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		654F9FC41B8765A30042F370 /* App+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "App+Extension.swift"; sourceTree = "<group>"; };
@@ -411,8 +413,9 @@
 		6562163D1B87283E003F69C3 /* SwiftReferenceAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				656216401B87283E003F69C3 /* SwiftReferenceAppSpecs.swift */,
 				6562163E1B87283E003F69C3 /* Supporting Files */,
+				65185A0D1B89C309001F85D5 /* StateMachineSpecs.swift */,
+				656216401B87283E003F69C3 /* SwiftReferenceAppSpecs.swift */,
 			);
 			path = SwiftReferenceAppTests;
 			sourceTree = "<group>";
@@ -920,6 +923,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65185A0E1B89C309001F85D5 /* StateMachineSpecs.swift in Sources */,
 				656216411B87283E003F69C3 /* SwiftReferenceAppSpecs.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,7 +10,7 @@ import SwiftyStateMachine
 
 extension App 
 {    
-    typealias Schema = GraphableStateMachineSchema<AppState, AppEvent, App> 
+    public typealias Schema = GraphableStateMachineSchema<AppState, AppEvent, App> 
     
     static var schema = Schema(initialState: .Idle) 
     {   

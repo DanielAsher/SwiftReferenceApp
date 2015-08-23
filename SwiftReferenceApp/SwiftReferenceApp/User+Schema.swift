@@ -19,7 +19,9 @@ extension User
                 return (UserState.FullAccess, nil)
                 
             case AppEvent.Save:
-                return (UserState.Trial(count: count+1), nil)
+                return (state, { app in 
+                   return UserState.Trial(count: count+1) 
+                })
                 
             default: 
                 return nil

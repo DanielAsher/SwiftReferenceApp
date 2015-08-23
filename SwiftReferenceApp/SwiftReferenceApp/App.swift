@@ -29,19 +29,19 @@ public enum AppEvent {
 
 public class App 
 {
-    static let sharedInstance = App()
+    public static let sharedInstance = App()
 
-    var currentUser: User!
+    public var currentUser: User!
     
-    var machine : StateMachine<Schema>!
+    public var machine : StateMachine<Schema>!
     
-    var hsmTransitionState = Variable((AppEvent.Start, AppState.Initial, UserState.Trial(count: 0)))
+    public var hsmTransitionState = Variable((AppEvent.Start, AppState.Initial, UserState.Trial(count: 0)))
      
-    var appState : Observable<AppState>
-    var appEvent: Observable<AppEvent>
-    var userState : Observable<UserState>
+    public var appState : Observable<AppState>
+    public var appEvent: Observable<AppEvent>
+    public var userState : Observable<UserState>
     
-    let disposeBag = DisposeBag()
+    public let disposeBag = DisposeBag()
     
     private init() 
     {
