@@ -10,9 +10,9 @@ import RxSwift
 import SwiftTask
 import SwiftyStateMachine
 
-typealias SaveDocument = Task<Void, String, NSError>
-typealias PurchaseAccess = Task<String, Bool, NSError> 
-typealias AlertMessage = Task<String, Bool, NSError>
+public typealias SaveDocument = Task<Void, String, NSError>
+public typealias PurchaseAccess = Task<String, Bool, NSError> 
+public typealias AlertMessage = Task<String, Bool, NSError>
 
 extension App 
 {
@@ -84,12 +84,12 @@ extension AppState: DOTLabelable {
         }
     }
     
-    static var DOTLabelableItems: [AppState] 
+    public static var DOTLabelableItems: [AppState] 
     {
         return [ .Idle, .Saving(nil), .Purchasing(nil), .Alerting(nil)]
     }
     
-    var DOTLabel: String {
+    public var DOTLabel: String {
         switch self {
         case .Initial: return "Initial"
         case .Idle: return "Idle"
@@ -103,24 +103,74 @@ extension AppState: DOTLabelable {
 // MARK: AppEvent DOTLabelable extension
 extension AppEvent: DOTLabelable 
 {
-    static var DOTLabelableItems: [AppEvent] 
+    public static var DOTLabelableItems: [AppEvent] 
     {
         return [.Complete, .Failed, .Purchase, .Purchased, .Save, .Saved]
     }
     
-    var DOTLabel: String {
+    public var DOTLabel: String {
         switch self {
         case .Start: return "Start"
         case .Complete: return "Complete"
         case .Failed: return "Failed"
-        case .Purchase: return "Purchase "
+        case .Purchase: return "Purchase"
         case .Purchased: return "Purchased"
         case .Save: return "Save"
         case .Saved: return "Saved"
-
         }
     }
 }
 
+// MARK: Add printable conformance
+extension AppState : Printable {
+    public var description: String { return "AppState.\(self.DOTLabel)" }
+}
+
+extension AppEvent : Printable {
+    public var description: String { return self.DOTLabel }
+}
+
+protocol DOTLabelableEquality : DOTLabelable {
+    func ==(lhs: Self, rhs: Self) -> Bool 
+}
+
+// FIXME: No protocol extensions until swift 2.0.
+//extension DOTLabelableEquality {
+//    public func ==(lhs: Self, rhs: Self) -> Bool {
+//    return lhs.DOTLabel == rhs.DOTLabel
+//    } 
+//}
+//extension DOTLabelableEquality : Equatable {} 
+
+// MARK: Equality operator based on textual representation.
+public func ==(lhs: AppState, rhs: AppState) -> Bool {
+    return lhs.DOTLabel == rhs.DOTLabel
+}
+
+extension AppState: Equatable { }
+//extension AppEvent: Equatable { } // FIXME: Causes swicftc seg fault!!!
+public func ==(lhs: AppEvent, rhs: AppEvent) -> Bool {
+    return lhs.DOTLabel == rhs.DOTLabel
+}
+
+// MARK: CombinedComparable
+enum ComparisonOrdering: Int {
+    case Ascending = 1
+    case Descending = -1
+    case Same = 0
+}
+
+infix operator <=> { precedence 130 }
+protocol CombinedComparable: Comparable, Equatable {
+    func <=>(lhs: Self, rhs: Self) -> ComparisonOrdering
+}
+
+func <<T: CombinedComparable>(lhs: T, rhs: T) -> Bool {
+    return (lhs <=> rhs) == .Ascending
+}
+
+func ==<T: CombinedComparable>(lhs: T, rhs: T) -> Bool {
+    return (lhs <=> rhs) == .Same
+}
 
 

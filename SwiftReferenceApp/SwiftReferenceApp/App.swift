@@ -9,7 +9,7 @@
 import RxSwift
 import SwiftyStateMachine
 
-enum AppState {
+public enum AppState {
     case Initial
     case Idle
     case Saving(SaveDocument!)
@@ -17,7 +17,7 @@ enum AppState {
     case Alerting(AlertMessage!)
 }
 
-enum AppEvent {
+public enum AppEvent {
     case Start
     case Complete
     case Failed
@@ -27,7 +27,7 @@ enum AppEvent {
     case Saved
 }
 
-class App 
+public class App 
 {
     static let sharedInstance = App()
 

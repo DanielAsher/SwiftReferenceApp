@@ -13,45 +13,53 @@ import Quick
 import SwiftTask
 import SwiftyStateMachine
 import RxSwift
+import SwiftReferenceApp
 
 
 class SwiftReferenceAppSpecs: QuickSpec {
     
-    override func spec() {
+    override func spec() 
+    {
         describe("Framework dependencies") 
         {
            it("loads SwiftTask") 
            {
                 var str = "Started..."
-                let task = Task<Void, String, Void> { p, f, r, c in
-                    f("Finished!")
+                
+                let task = Task<Void, String, Void> { p, fulfill, r, c in
+                    
+                    fulfill("Finished!")
+                    
                 }.success { value -> String in
                     str = value
-                    return value
-                }
+                    return value }
                 
-                expect(str).toEventually(equal("Finished!"), timeout: 1)
+                expect(str).toEventually(equal("Finished!"))
             }
             
-            it("loads SwiftyStateMachine") {
+            it("loads SwiftyStateMachine") 
+            {
+                let schema = StateMachineSchema<AppState, AppEvent, String>(initialState: AppState.Initial) 
+                { state, event in
+                    switch (state, event) 
+                    {
+                        case (.Initial, .Start): 
+                            return (AppState.Idle, nil)
+                        default: 
+                            return nil
+                    }
+                }
                 
+                let machine = StateMachine(schema: schema, subject: "")
+                
+                machine.addDidTransitionCallback { oldState, event, newState, trace in println("\(oldState)  <- \(event) |-> \(newState)")
+                }
+                
+                machine.handleEventAsync(.Start, delay: 0.5)  
+                
+                expect ( machine.state ).toEventually ( equal ( AppState.Idle ))
             }
         }
-    }
-    
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
     }
     
     func testPerformanceExample() {
