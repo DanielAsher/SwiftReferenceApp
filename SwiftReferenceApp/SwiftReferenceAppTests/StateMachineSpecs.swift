@@ -103,7 +103,7 @@ class StateMachineSpecs: QuickSpec
                 // expect( app.userState ).toEventually(equal(UserState.FullAccess))
                 let currentUserState = Variable(UserState.Trial(count: 0))
                 app.userState >- subscribeNext { currentUserState.next($0) } 
-                expect( currentUserState.value).toEventually(equal(UserState.FullAccess))  
+                expect( currentUserState.value).toEventually(equal(UserState.FullAccess), timeout: 5)  
                 
                 // FIXME: This hangs too.
 //                var globalBackgroundQueue: dispatch_queue_t {
