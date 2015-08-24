@@ -36,16 +36,16 @@ public func <- (lhs: App, rhs: AppEvent) -> App {
     return lhs
 }
 
-// MARK: Equality operator based on textual representation.
-extension AppState: Equatable { }
-public func == (lhs: AppState, rhs: AppState) -> Bool {
-    return lhs.DOTLabel == rhs.DOTLabel
-}
+//// MARK: Equality operator based on textual representation.
+//extension AppState: Equatable { }
+//public func == (lhs: AppState, rhs: AppState) -> Bool {
+//    return lhs.DOTLabel == rhs.DOTLabel
+//}
 //
 //extension AppEvent: Equatable { } // FIXME: Causes swicftc seg fault!!!
-public func == (lhs: AppEvent, rhs: AppEvent) -> Bool {
-    return lhs.DOTLabel == rhs.DOTLabel
-}
+//public func == (lhs: AppEvent, rhs: AppEvent) -> Bool {
+//    return lhs.DOTLabel == rhs.DOTLabel
+//}
 //
 //public func == (lhs: AppTransitionState, rhs: AppTransitionState) -> Bool {
 //    let (lo, le, ln, lu) = lhs

@@ -33,7 +33,7 @@ class StateMachineSpecs: QuickSpec
             it("moves from Idle on Save to Saving then on Saved back to Idle") 
             {
                 app <- .Save
-                expect(app.state).toEventually(equal(AppState.Saving(nil)))
+                expect(app.state).toEventually(equal(AppState.Saving))
                 expect(app.state).toEventually(equal(AppState.Idle))
             }
             
@@ -76,7 +76,7 @@ class StateMachineSpecs: QuickSpec
                             >- subscribeNext { appState in app <- .Purchase }
                         }
 
-                expect(alertOnSixthSaveVariable.value).toEventually(beTrue(), timeout: 10)
+                expect(alertOnSixthSaveVariable.value).toEventually( beTrue(), timeout: 10)
                 expect( app.currentUser.state ).toEventually( equal ( UserState.FullAccess ), timeout: 10)   
                 
                 
@@ -85,8 +85,7 @@ class StateMachineSpecs: QuickSpec
                 expect(successfulSaved.value).toEventually( beTrue(), timeout: 10 )
             }
             
-            it("Trial User moves to FullAccess after Purchased") {
-                
+            it("Trial User moves to FullAccess after Purchased and to Altering if trys to Purchase again.") {
             }
         }
     }

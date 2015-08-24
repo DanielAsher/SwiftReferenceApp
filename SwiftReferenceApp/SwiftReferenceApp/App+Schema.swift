@@ -28,7 +28,7 @@ extension App
             }
         case AppState.Idle: switch event {
             case AppEvent.Save:
-                return (AppState.Saving(nil), { app in 
+                return (AppState.Saving, { app in 
                     let saver = app.createSaveTask()
                         .success { (str: String) -> String in 
                             app <- .Saved; return str 
@@ -36,10 +36,10 @@ extension App
                         .failure { errorInfo -> String in 
                             app <- .Failed; return "Error!" // FIXME: Unable to use $0  
                         } 
-                    return .Saving(saver) })
+                    return .Saving })
                 
             case AppEvent.Purchase:
-                return (AppState.Purchasing(nil), { app in 
+                return (AppState.Purchasing, { app in 
                     let purchaser = app.createPurchaseTask()
                         .success { isSaved -> Bool in 
                             app <- .Purchased; return isSaved 
@@ -47,7 +47,7 @@ extension App
                         .failure { errorInfo -> Bool in 
                             app <- .Failed; return false 
                         } 
-                    return .Purchasing(purchaser) })
+                    return .Purchasing})
                 
             default: return nil
             }
@@ -56,7 +56,7 @@ extension App
                 return (AppState.Idle, nil)
                 
             case AppEvent.Failed:
-                return (AppState.Alerting(nil), { app in 
+                return (AppState.Alerting, { app in 
                     let alerter = app.createAlertTask()
                         .success { saved in 
                             app <- .Complete; return saved 
@@ -64,7 +64,7 @@ extension App
                         .failure { errorInfo -> Bool in 
                             app <- .Failed; return false 
                         } 
-                    return .Alerting(alerter) })
+                    return .Alerting })
                 
             default: return nil
             }
@@ -74,7 +74,7 @@ extension App
                 return (AppState.Idle, nil)
                 
             case AppEvent.Failed:
-                return (AppState.Alerting(nil), nil)
+                return (AppState.Alerting, nil)
                 
             default: return nil
                 }

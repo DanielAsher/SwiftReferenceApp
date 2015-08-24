@@ -10,13 +10,13 @@ import SwiftyStateMachine
 public enum AppState {
     case Initial
     case Idle
-    case Saving(SaveDocument!)
-    case Purchasing(PurchaseAccess!)
-    case Alerting(AlertMessage!)
+    case Saving
+    case Purchasing
+    case Alerting
 }
 
 //extension AppEvent: Equatable { } // FIXME: Causes swicftc seg fault!!!
-public enum AppEvent : Equatable {
+public enum AppEvent  {
     case Start
     case Complete
     case Failed
@@ -38,7 +38,7 @@ extension AppState: DOTLabelable {
     
     public static var DOTLabelableItems: [AppState] 
     {
-        return [ .Idle, .Saving(nil), .Purchasing(nil), .Alerting(nil)]
+        return [ .Idle, .Saving, .Purchasing, .Alerting]
     }
     
     public var DOTLabel: String {
