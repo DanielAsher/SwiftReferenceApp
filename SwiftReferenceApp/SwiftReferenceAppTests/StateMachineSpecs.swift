@@ -105,6 +105,15 @@ class StateMachineSpecs: QuickSpec
                 app.userState >- subscribeNext { currentUserState.next($0) } 
                 expect( currentUserState.value).toEventually(equal(UserState.FullAccess))  
                 
+                // FIXME: This hangs too.
+//                var globalBackgroundQueue: dispatch_queue_t {
+//                    return dispatch_get_global_queue(Int(QOS_CLASS_BACKGROUND.value), 0)
+//                } 
+//                
+//                var backgroundScheduler = SerialDispatchQueueScheduler(queue: globalBackgroundQueue, internalSerialQueueName: "globalBackgroundQueue")
+//                
+//                expect( (app.userState >- subscribeOn(backgroundScheduler) >- last).get() ).to(equal(UserState.FullAccess))
+//                expect( (app.userState >- subscribeOn(backgroundScheduler) >- last).get() )               
                 
             }
         }
