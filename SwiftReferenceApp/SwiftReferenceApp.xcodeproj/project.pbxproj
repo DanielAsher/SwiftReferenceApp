@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		65185A0E1B89C309001F85D5 /* StateMachineSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65185A0D1B89C309001F85D5 /* StateMachineSpecs.swift */; };
 		654F9F951B8759B60042F370 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654F9F941B8759B60042F370 /* User.swift */; };
+		65541CE81B8B8CA100FECB63 /* RxBlocking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 657B2C8E1B873B0E001F6BC2 /* RxBlocking.framework */; };
 		656216281B87283E003F69C3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656216271B87283E003F69C3 /* AppDelegate.swift */; };
 		6562162B1B87283E003F69C3 /* SwiftReferenceApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 656216291B87283E003F69C3 /* SwiftReferenceApp.xcdatamodeld */; };
 		6562162D1B87283E003F69C3 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6562162C1B87283E003F69C3 /* MainViewController.swift */; };
@@ -357,6 +358,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65541CE81B8B8CA100FECB63 /* RxBlocking.framework in Frameworks */,
 				65D6BFE41B8752AB00FF7EAE /* Nimble.framework in Frameworks */,
 				65D6BFE31B8752A400FF7EAE /* Quick.framework in Frameworks */,
 			);

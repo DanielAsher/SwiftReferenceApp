@@ -11,6 +11,7 @@ import XCTest
 import Nimble
 import Quick
 import RxSwift
+import RxBlocking
 import SwiftReferenceApp
 
 class StateMachineSpecs: QuickSpec 
@@ -37,7 +38,7 @@ class StateMachineSpecs: QuickSpec
                 expect(app.state).toEventually(equal(AppState.Idle))
             }
             
-            fit("moves App to Alerting for Trial User on the sixth Saved then, on successful purchase enables Save") 
+            it("moves App to Alerting for Trial User on the sixth Saved then, on successful purchase enables Save") 
             {
                 
                 var alertOnSixthSaveVariable = Variable(false)
@@ -85,7 +86,26 @@ class StateMachineSpecs: QuickSpec
                 expect(successfulSaved.value).toEventually( beTrue(), timeout: 10 )
             }
             
-            it("Trial User moves to FullAccess after Purchased and to Altering if trys to Purchase again.") {
+            fit("Trial user moves to FullAccess after Purchased and to Alerting if they attempt to Purchase again.") {
+               
+               let purchased = app.appEvent 
+                    >- filter {  $0 == .Purchased }
+                    
+                app.appState >- take(1) >- subscribeNext 
+                    { expect($0).to(equal(AppState.Idle)) }
+                
+                app <- .Purchase
+             
+                // FIXME: Hangs the test runner!!
+                //expect( (app.userState >- last).get() == UserState.FullAccess).to(beTrue()) 
+                
+                // TODO: Get into one-liner. Perhaps:
+                // expect( app.userState ).toEventually(equal(UserState.FullAccess))
+                let currentUserState = Variable(UserState.Trial(count: 0))
+                app.userState >- subscribeNext { currentUserState.next($0) } 
+                expect( currentUserState.value).toEventually(equal(UserState.FullAccess))  
+                
+                
             }
         }
     }
