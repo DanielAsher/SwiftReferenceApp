@@ -16,9 +16,9 @@ public enum UserState
 
 public class User 
 {
-    typealias Schema = GraphableStateMachineSchema<UserState, AppEvent, User> 
+    public typealias Schema = GraphableStateMachineSchema<UserState, AppEvent, User> 
     
-    var machine : StateMachine<Schema>! 
+    public var machine : StateMachine<Schema>! 
     
     func hasApplicationAccess() -> Bool {
         switch machine.state {

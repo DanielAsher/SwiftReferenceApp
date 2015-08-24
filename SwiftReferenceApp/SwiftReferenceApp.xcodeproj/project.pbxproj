@@ -18,6 +18,8 @@
 		656216411B87283E003F69C3 /* SwiftReferenceAppSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656216401B87283E003F69C3 /* SwiftReferenceAppSpecs.swift */; };
 		6562164B1B87293D003F69C3 /* ApplicationSchema.dot in Resources */ = {isa = PBXBuildFile; fileRef = 6562164A1B87293D003F69C3 /* ApplicationSchema.dot */; };
 		6562164D1B872B03003F69C3 /* ApplicationSchema.png in Resources */ = {isa = PBXBuildFile; fileRef = 6562164C1B872B03003F69C3 /* ApplicationSchema.png */; };
+		65B23AE31B8B306E0049D2DF /* App+Tasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B23AE21B8B306E0049D2DF /* App+Tasks.swift */; };
+		65B23AFB1B8B31870049D2DF /* App+Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B23AFA1B8B31870049D2DF /* App+Metadata.swift */; };
 		65C024CD1B873C9A0037E325 /* SwiftyStateMachine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 657B2C601B873AB6001F6BC2 /* SwiftyStateMachine.framework */; };
 		65C024CE1B873C9A0037E325 /* SwiftyStateMachine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 657B2C601B873AB6001F6BC2 /* SwiftyStateMachine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		65D6BFE31B8752A400FF7EAE /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 657B2CB01B873B39001F6BC2 /* Quick.framework */; };
@@ -328,6 +330,8 @@
 		657B2C881B873B0E001F6BC2 /* RxBlocking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RxBlocking.xcodeproj; path = ../Modules/RxSwift/RxBlocking/RxBlocking.xcodeproj; sourceTree = "<group>"; };
 		657B2C911B873B23001F6BC2 /* Madness.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Madness.xcodeproj; path = ../Modules/Madness/Madness.xcodeproj; sourceTree = "<group>"; };
 		657B2CA01B873B39001F6BC2 /* Quick.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quick.xcodeproj; path = ../Modules/Quick/Quick.xcodeproj; sourceTree = "<group>"; };
+		65B23AE21B8B306E0049D2DF /* App+Tasks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "App+Tasks.swift"; sourceTree = "<group>"; };
+		65B23AFA1B8B31870049D2DF /* App+Metadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "App+Metadata.swift"; sourceTree = "<group>"; };
 		65D837A71B8749E600B6D7D3 /* Nimble.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nimble.xcodeproj; path = ../Modules/Quick/Externals/Nimble/Nimble.xcodeproj; sourceTree = "<group>"; };
 		65FAA8BB1B877300000CC9D6 /* User+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+Extension.swift"; sourceTree = "<group>"; };
 		65FAA8BD1B877629000CC9D6 /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
@@ -521,7 +525,9 @@
 			children = (
 				654F9FC21B875A5D0042F370 /* App.swift */,
 				654F9FC41B8765A30042F370 /* App+Extension.swift */,
+				65B23AFA1B8B31870049D2DF /* App+Metadata.swift */,
 				65FAA8C41B87B52D000CC9D6 /* App+Schema.swift */,
+				65B23AE21B8B306E0049D2DF /* App+Tasks.swift */,
 				654F9F941B8759B60042F370 /* User.swift */,
 				65FAA8BB1B877300000CC9D6 /* User+Extension.swift */,
 				65FAA8C61B87B606000CC9D6 /* User+Schema.swift */,
@@ -909,6 +915,7 @@
 				654F9F951B8759B60042F370 /* User.swift in Sources */,
 				6562162D1B87283E003F69C3 /* MainViewController.swift in Sources */,
 				65FAA8C71B87B606000CC9D6 /* User+Schema.swift in Sources */,
+				65B23AE31B8B306E0049D2DF /* App+Tasks.swift in Sources */,
 				656216281B87283E003F69C3 /* AppDelegate.swift in Sources */,
 				65FAA8BA1B8767B6000CC9D6 /* App+Extension.swift in Sources */,
 				65FAA8B91B876789000CC9D6 /* App.swift in Sources */,
@@ -916,6 +923,7 @@
 				65FAA8C21B87A002000CC9D6 /* README.md in Sources */,
 				65FAA8BC1B877300000CC9D6 /* User+Extension.swift in Sources */,
 				6562162B1B87283E003F69C3 /* SwiftReferenceApp.xcdatamodeld in Sources */,
+				65B23AFB1B8B31870049D2DF /* App+Metadata.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

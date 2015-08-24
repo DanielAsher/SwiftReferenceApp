@@ -4,13 +4,16 @@
 //
 //  Created by Daniel Asher on 21/08/2015.
 //  Copyright (c) 2015 StoryShare. All rights reserved.
-//
 
 import SwiftyStateMachine
+
+public typealias AppTransitionState = (AppState, AppEvent, AppState, UserState)
 
 extension App 
 {    
     public typealias Schema = GraphableStateMachineSchema<AppState, AppEvent, App> 
+
+    
     
     static var schema = Schema(initialState: .Idle) 
     {   
@@ -28,21 +31,21 @@ extension App
                 return (AppState.Saving(nil), { app in 
                     let saver = app.createSaveTask()
                         .success { (str: String) -> String in 
-                            app[.Saved]; return str 
-                            }
+                            app <- .Saved; return str 
+                        }
                         .failure { errorInfo -> String in 
-                            app[.Failed]; return "Error!"        // FIXME: Unable to use $0 
-                            } 
+                            app <- .Failed; return "Error!" // FIXME: Unable to use $0  
+                        } 
                     return .Saving(saver) })
                 
             case AppEvent.Purchase:
                 return (AppState.Purchasing(nil), { app in 
                     let purchaser = app.createPurchaseTask()
-                        .success { saved -> Bool in 
-                            app[.Purchased]; return saved 
+                        .success { isSaved -> Bool in 
+                            app <- .Purchased; return isSaved 
                         }
                         .failure { errorInfo -> Bool in 
-                            app[.Failed]; return false 
+                            app <- .Failed; return false 
                         } 
                     return .Purchasing(purchaser) })
                 
@@ -55,11 +58,11 @@ extension App
             case AppEvent.Failed:
                 return (AppState.Alerting(nil), { app in 
                     let alerter = app.createAlertTask()
-                        .success { saved -> Bool in 
-                            app[.Complete]; return saved 
+                        .success { saved in 
+                            app <- .Complete; return saved 
                         }
                         .failure { errorInfo -> Bool in 
-                            app[.Failed]; return false 
+                            app <- .Failed; return false 
                         } 
                     return .Alerting(alerter) })
                 

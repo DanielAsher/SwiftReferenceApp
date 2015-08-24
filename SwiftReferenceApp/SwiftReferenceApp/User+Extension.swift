@@ -8,6 +8,13 @@
 
 import SwiftyStateMachine
 
+extension User
+{
+    public var state : UserState {
+        return machine.state
+    } 
+}
+
 // MARK: UserState DOTLabelable extension
 extension UserState: DOTLabelable 
 {
@@ -29,3 +36,9 @@ extension UserState : Printable {
     public var description: String { return self.DOTLabel }
 }
 
+// MARK: Equality operator based on textual representation.
+public func == (lhs: UserState, rhs: UserState) -> Bool {
+    return lhs.DOTLabel == rhs.DOTLabel
+}
+
+extension UserState: Equatable { }

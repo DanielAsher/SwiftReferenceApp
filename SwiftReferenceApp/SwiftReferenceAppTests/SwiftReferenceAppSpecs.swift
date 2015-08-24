@@ -55,7 +55,7 @@ class SwiftReferenceAppSpecs: QuickSpec {
                 machine.addDidTransitionCallback { oldState, event, newState, trace in println("\(oldState)  <- \(event) |-> \(newState)")
                 }
                 
-                machine.handleEventAsync(.Start, delay: 0.5)  
+                machine.handleEventAsync(AppEvent.Start, delay: 0.5)  
                 
                 expect ( machine.state ).toEventually ( equal ( AppState.Idle ))
             }

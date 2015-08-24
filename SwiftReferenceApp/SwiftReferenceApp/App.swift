@@ -9,23 +9,7 @@
 import RxSwift
 import SwiftyStateMachine
 
-public enum AppState {
-    case Initial
-    case Idle
-    case Saving(SaveDocument!)
-    case Purchasing(PurchaseAccess!)
-    case Alerting(AlertMessage!)
-}
 
-public enum AppEvent {
-    case Start
-    case Complete
-    case Failed
-    case Purchase
-    case Purchased
-    case Save
-    case Saved
-}
 
 public class App 
 {
@@ -35,8 +19,16 @@ public class App
     
     public var machine : StateMachine<Schema>!
     
-    public var hsmTransitionState = Variable((AppEvent.Start, AppState.Initial, UserState.Trial(count: 0)))
+    // FIXME: This initialization is incorrect and needs to read state from App.machine.
+    private var _hsmTransitionState = 
+        Variable((AppState.Initial, AppEvent.Start, AppState.Idle, UserState.Trial(count: 0))) 
+    
+    public lazy var hsmTransitionState : ReadOnlySubject<AppTransitionState> = {
+        return self._hsmTransitionState >- readOnly 
+    }()
      
+    // TODO: Evaluate if appOldState is necessary
+    //public var appOldState : Observable<AppState>
     public var appState : Observable<AppState>
     public var appEvent: Observable<AppEvent>
     public var userState : Observable<UserState>
@@ -45,15 +37,20 @@ public class App
     
     private init() 
     {
-        appEvent = self.hsmTransitionState >- map { (e, a, u) in return e } // FIXME: these maps are inefficient
-        appState = self.hsmTransitionState >- map { (e, a, u) in return a }
-        userState = self.hsmTransitionState >- map { (e, a, u) in return u }
+        // TODO: Consider whether these maps are inefficient.
+
+        // TODO: Evaluate if appOldState is necessary
+        //appOldState = self._hsmTransitionState >- map { (oldState, event, n, u) in return oldState } 
+        appEvent = self._hsmTransitionState      >- map { (o, event, n, u)            in return event }         
+        appState = self._hsmTransitionState       >- map { (o, e, newState, u)      in return newState }
+        userState = self._hsmTransitionState      >- map { (o, e, n, userState)      in return userState }
         
+        // Create machine.
         machine  = StateMachine(schema: App.schema, subject: self)
         
         machine.addDidTransitionCallback { oldState, event, newState, app in 
-            let hsmState = (event, newState, self.currentUser.machine.state)
-            self.hsmTransitionState.next(hsmState)
+            let hsmState = (oldState, event, newState, self.currentUser.machine.state)
+            self._hsmTransitionState.next(hsmState)
         }
     }
 }

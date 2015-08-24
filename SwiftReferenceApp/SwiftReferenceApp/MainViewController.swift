@@ -21,40 +21,29 @@ class MainViewController: UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // saveButton triggers app[.Save]
+        let dispose = disposeBag.addDisposable 
+        // saveButton triggers app <- .Save
         saveButton.rx_tap 
-            >- subscribeNext { app[.Save] } 
+            >- subscribeNext { app <- .Save } 
             >- disposeBag.addDisposable
        
-        // disable saveButton while appState[.Saving]
+        // disable saveButton while appState = .Saving
         app.appState 
             >- map { $0.isSaving() == false }
-            >- debug("saveButton enabled")
-            >- saveButton.rx_subscribeEnabledTo
-            >- disposeBag.addDisposable    
+            >- saveButton.rx_subscribeEnabledTo >- dispose    
                       
-        // purchaseButton triggers app[.Purchase]
+        // purchaseButton triggers app <- .Purchase
         purchaseButton.rx_tap 
-            >- subscribeNext { app[.Purchase] } 
-            >- disposeBag.addDisposable
+            >- subscribeNext { app <- .Purchase } >- dispose
       
         // Set statusLabel.text to "event -> appState"
         app.hsmTransitionState 
-            >- subscribeNext { event, appState, userState in 
-                self.statusLabel.text = "\(event.DOTLabel) -> \(appState.DOTLabel)" }
-       
+            >- subscribeNext { oldState, event, appState, userState in 
+                self.statusLabel.text = "\(oldState.DOTLabel) <- \(event.DOTLabel) |-> \(appState.DOTLabel)" }
+                
         // Set userStateLabel.text to "userState"
         app.userState 
-            >- subscribeNext { userState in switch userState 
-                { 
-                case .Trial(let count): 
-                    self.userStatusLabel.text = "\(userState.DOTLabel): \(count)" 
-                default:                     
-                    self.userStatusLabel.text = "\(userState.DOTLabel)" 
-                }
-            }
-            >- disposeBag.addDisposable
-    }
+            >- subscribeNext { userState in self.userStatusLabel.text = "\(userState.DOTLabel)" } >- dispose    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

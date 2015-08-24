@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 import SwiftyStateMachine
 
 extension GraphableStateMachineSchema 
@@ -23,6 +24,52 @@ extension GraphableStateMachineSchema
             return nil
         }
     }
+}
+
+public func skip<E>(m: Int, take take_: Int) -> Observable<E> -> Observable<E> 
+{ 
+    return  { source in
+        return source
+            >- skip(m)
+            >- take(take_)
+        }
+}
+
+// FIXME: needs more thought!
+public func elementAt<E>(n: Int) -> Observable<E> -> Observable<E> 
+{
+    if n > 0 {
+        return  { source in
+            return source >- skip(n) >- take(1) 
+        } 
+    }
+    else {
+        return  { source in
+            return source >- take(1)      
+        }  
+    }
+} 
+
+public class ReadOnlySubject<Element> : Observable <Element>{
+
+    private let _subject: BehaviorSubject<Element> 
+    
+    public var value: Element { return _subject.value }
+    public var valueResult: RxResult<Element> { return _subject.valueResult }
+    
+    public var hasObservers: Bool { return _subject.hasObservers }
+   
+    public override func subscribe<O : ObserverType where O.Element == Element>(observer: O) -> Disposable { 
+            return _subject.subscribe(observer) 
+        }
+      
+    public init(subject: BehaviorSubject<Element>) {
+        _subject = subject
+    }
+}
+
+public func readOnly<E>(source:BehaviorSubject<E>) -> ReadOnlySubject<E> {
+    return ReadOnlySubject(subject: source)
 }
 
 
