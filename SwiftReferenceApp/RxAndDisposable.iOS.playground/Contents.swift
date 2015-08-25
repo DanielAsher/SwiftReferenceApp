@@ -1,4 +1,7 @@
-//: Playground - noun: a place where people can play
+//
+//  Created by Daniel Asher on 24/08/2015.
+//  Copyright (c) 2015 StoryShare. All rights reserved.
+//
 
 import UIKit
 //import RxSwift
@@ -45,7 +48,7 @@ let blue = ColorSet(color: UIColor.blueColor())
 let green = ColorSet(color: UIColor.greenColor())
 
 using(red) {
-    print("I want to change to blue, but how do I remember I used to be green?")
+    print("I want to change to blue, but how do I remember I used to be red?")
     using(blue) {
         print("ooh - nice in blue")
         using(green) {
