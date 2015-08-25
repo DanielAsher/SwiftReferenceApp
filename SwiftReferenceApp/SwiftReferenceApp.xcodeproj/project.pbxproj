@@ -332,6 +332,8 @@
 		657B2C881B873B0E001F6BC2 /* RxBlocking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RxBlocking.xcodeproj; path = ../Modules/RxSwift/RxBlocking/RxBlocking.xcodeproj; sourceTree = "<group>"; };
 		657B2C911B873B23001F6BC2 /* Madness.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Madness.xcodeproj; path = ../Modules/Madness/Madness.xcodeproj; sourceTree = "<group>"; };
 		657B2CA01B873B39001F6BC2 /* Quick.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quick.xcodeproj; path = ../Modules/Quick/Quick.xcodeproj; sourceTree = "<group>"; };
+		65B1BEFD1B8C37490064FF47 /* RxAndDisposable.iOS.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = RxAndDisposable.iOS.playground; sourceTree = "<group>"; };
+		65B1BEFE1B8C67B90064FF47 /* Co-and-Contravariance.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Co-and-Contravariance.playground"; sourceTree = "<group>"; };
 		65B1BEFF1B8CB2440064FF47 /* Test+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Test+Extensions.swift"; sourceTree = "<group>"; };
 		65B23AE21B8B306E0049D2DF /* App+Tasks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "App+Tasks.swift"; sourceTree = "<group>"; };
 		65B23AFA1B8B31870049D2DF /* App+Metadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "App+Metadata.swift"; sourceTree = "<group>"; };
@@ -373,6 +375,7 @@
 			isa = PBXGroup;
 			children = (
 				65FAA8C11B87A002000CC9D6 /* README.md */,
+				65B1BEE61B8C37170064FF47 /* Playgrounds */,
 				657B2C571B873AA0001F6BC2 /* Dependencies */,
 				656216241B87283E003F69C3 /* SwiftReferenceApp */,
 				6562163D1B87283E003F69C3 /* SwiftReferenceAppTests */,
@@ -523,6 +526,15 @@
 				657B2CB41B873B39001F6BC2 /* QuickFocused-iOSTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		65B1BEE61B8C37170064FF47 /* Playgrounds */ = {
+			isa = PBXGroup;
+			children = (
+				65B1BEFD1B8C37490064FF47 /* RxAndDisposable.iOS.playground */,
+				65B1BEFE1B8C67B90064FF47 /* Co-and-Contravariance.playground */,
+			);
+			name = Playgrounds;
 			sourceTree = "<group>";
 		};
 		65B227111B874578001A621D /* Models */ = {

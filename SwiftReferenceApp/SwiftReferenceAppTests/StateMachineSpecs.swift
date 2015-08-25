@@ -17,7 +17,7 @@ class StateMachineSpecs: QuickSpec
     {
         beforeSuite {
             app.hsmTransitionState >- subscribeNext { oldState, appEvent, appState, userState in
-                println("\(oldState) <- \(appEvent)  |-> \(appState) & \(userState)")
+                println("\(oldState) -> \(appEvent)  |-> \(appState) & \(userState)")
             } 
         }
                 
@@ -97,11 +97,11 @@ class StateMachineSpecs: QuickSpec
                 expect(app.appState.value).toEventually(equal(AppState.Alerting), timeout: 3)
                 
                 // Produces the following trace in the test log.
-                // AppState.Initial <- Start  |-> AppState.Idle & Trial (count: 0)
-                // AppState.Idle <- Purchase  |-> AppState.Purchasing & Trial (count: 0)
-                // AppState.Idle <- Purchase  |-> AppState.Purchasing & FullAccess
-                // AppState.Purchasing <- Purchased  |-> AppState.Idle & FullAccess
-                // AppState.Purchasing <- Failed  |-> AppState.Alerting & FullAccess
+                // > AppState.Initial          -> Start          |-> AppState.Idle & Trial (count: 0)
+                // > AppState.Idle             -> Purchase   |-> AppState.Purchasing & Trial (count: 0)
+                // > AppState.Idle             -> Purchase   |-> AppState.Purchasing & FullAccess
+                // > AppState.Purchasing  -> Purchased |-> AppState.Idle & FullAccess
+                // > AppState.Purchasing  -> Failed        |-> AppState.Alerting & FullAccess
             }
         }
     }
