@@ -16,10 +16,10 @@ extension App
 
     public func set(user: User) -> Bool 
     {
-        currentUser = user
+        self.user = user
         
         machine.addDidTransitionCallback { oldState, event, newState, app in 
-           self.currentUser[event] 
+           self.user[event] 
         }
         return true
     }
@@ -36,24 +36,7 @@ public func <- (lhs: App, rhs: AppEvent) -> App {
     return lhs
 }
 
-//// MARK: Equality operator based on textual representation.
-//extension AppState: Equatable { }
-//public func == (lhs: AppState, rhs: AppState) -> Bool {
-//    return lhs.DOTLabel == rhs.DOTLabel
-//}
-//
-//extension AppEvent: Equatable { } // FIXME: Causes swicftc seg fault!!!
-//public func == (lhs: AppEvent, rhs: AppEvent) -> Bool {
-//    return lhs.DOTLabel == rhs.DOTLabel
-//}
-//
-//public func == (lhs: AppTransitionState, rhs: AppTransitionState) -> Bool {
-//    let (lo, le, ln, lu) = lhs
-//    let (ro, re, rn, ru) = rhs
-//    return lo == ro && le == re && ln == rn && lu == ru
-//}
-
-
+// Tuple equality operators
 public func == <T:Equatable, U: Equatable> 
     (tuple1:(T,U),tuple2:(T,U)) -> Bool
 {

@@ -20,7 +20,7 @@ extension App
         return SaveDocument { p, fulfill, reject, c in
             timer(dueTime: 0.5, MainScheduler.sharedInstance) 
                 >- subscribeNext { tick in 
-                    if self.currentUser.hasApplicationAccess() { fulfill("Saved") } // FIXME: Ugly. HSM needed!!
+                    if self.user.hasApplicationAccess() { fulfill("Saved") } // FIXME: Ugly. HSM needed!!
                     else { reject(NSError()) }
                 }
                 >- self.disposeBag.addDisposable // FIXME: Causes swiftc seg fault if removed!
@@ -30,14 +30,28 @@ extension App
     func createPurchaseTask() -> PurchaseAccess 
     {
         return PurchaseAccess { p, fulfill, reject, c in
-            timer(dueTime: 1.0, MainScheduler.sharedInstance) 
+            timer(dueTime: 0.5, MainScheduler.sharedInstance) 
                 >- subscribeNext { a in 
-                    if arc4random_uniform(2) > 0 { fulfill(true) } else { reject(NSError()) }  // FIXME: Ugly. HSM needed!!
+                    if arc4random_uniform(2) > 0 { 
+                        fulfill(true) } else { 
+                        reject(NSError()) }  // FIXME: Ugly. HSM needed!!
                 }        
                 >- self.disposeBag.addDisposable // FIXME: Causes swiftc seg fault if removed!
         }
     }
-    
+   
+    func createPurchase() -> Observable<String>
+    {
+        return timer(dueTime: 0.5, MainScheduler.sharedInstance)  
+            >- take(1)
+            >- mapOrDie { tick in 
+            
+                if arc4random_uniform(2) > 0 
+                        { return .Success(RxBox("PurchaseToken: \(tick)")) } 
+                else  { return .Failure(NSError()) }
+                } 
+    }
+      
     func createAlertTask() -> AlertMessage 
     {
         return AlertMessage { p, f, r, c in

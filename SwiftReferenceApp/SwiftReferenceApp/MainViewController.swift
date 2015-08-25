@@ -22,6 +22,7 @@ class MainViewController: UIViewController
         super.viewDidLoad()
         
         let dispose = disposeBag.addDisposable 
+        
         // saveButton triggers app <- .Save
         saveButton.rx_tap 
             >- subscribeNext { app <- .Save } 

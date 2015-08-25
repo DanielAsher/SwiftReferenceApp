@@ -4,14 +4,11 @@
 //
 //  Created by Daniel Asher on 23/08/2015.
 //  Copyright (c) 2015 StoryShare. All rights reserved.
-//
 
 import UIKit
-import XCTest
 import Nimble
 import Quick
 import RxSwift
-import RxBlocking
 import SwiftReferenceApp
 
 class StateMachineSpecs: QuickSpec 
@@ -23,7 +20,7 @@ class StateMachineSpecs: QuickSpec
                 println("\(oldState) <- \(appEvent)  |-> \(appState) & \(userState)")
             } 
         }
-        
+                
         describe("App state machine") 
         {
             it("moves from Initial to Idle on app start") 
@@ -40,7 +37,7 @@ class StateMachineSpecs: QuickSpec
             
             it("moves App to Alerting for Trial User on the sixth Saved then, on successful purchase enables Save") 
             {
-                
+                // TODO: Refactor this monster !!
                 var alertOnSixthSaveVariable = Variable(false)
                 var successfulSaved = Variable(false)
             
@@ -78,8 +75,7 @@ class StateMachineSpecs: QuickSpec
                         }
 
                 expect(alertOnSixthSaveVariable.value).toEventually( beTrue(), timeout: 10)
-                expect( app.currentUser.state ).toEventually( equal ( UserState.FullAccess ), timeout: 10)   
-                
+                expect( app.user.state ).toEventually( equal ( UserState.FullAccess ), timeout: 10)   
                 
                 app <- .Save
                 
@@ -88,34 +84,39 @@ class StateMachineSpecs: QuickSpec
             
             fit("Trial user moves to FullAccess after Purchased and to Alerting if they attempt to Purchase again.") {
                
-               let purchased = app.appEvent 
-                    >- filter {  $0 == .Purchased }
-                    
-                app.appState >- take(1) >- subscribeNext 
-                    { expect($0).to(equal(AppState.Idle)) }
+                expect(app.appState.value).to(equal(AppState.Idle)) 
                 
                 app <- .Purchase
-             
-                // FIXME: Hangs the test runner!!
-                //expect( (app.userState >- last).get() == UserState.FullAccess).to(beTrue()) 
+               
+                app.appEvent >- takeOne(.Purchased) >- subscribeCompleted 
+                { 
+                    expect(app.userState.value).toEventually(equal(UserState.FullAccess))  
+                    app <- .Purchase
+                }
+                  
+                expect(app.appState.value).toEventually(equal(AppState.Alerting), timeout: 3)
                 
-                // TODO: Get into one-liner. Perhaps:
-                // expect( app.userState ).toEventually(equal(UserState.FullAccess))
-                let currentUserState = Variable(UserState.Trial(count: 0))
-                app.userState >- subscribeNext { currentUserState.next($0) } 
-                expect( currentUserState.value).toEventually(equal(UserState.FullAccess), timeout: 5)  
-                
-                // FIXME: This hangs too.
-//                var globalBackgroundQueue: dispatch_queue_t {
-//                    return dispatch_get_global_queue(Int(QOS_CLASS_BACKGROUND.value), 0)
-//                } 
-//                
-//                var backgroundScheduler = SerialDispatchQueueScheduler(queue: globalBackgroundQueue, internalSerialQueueName: "globalBackgroundQueue")
-//                
-//                expect( (app.userState >- subscribeOn(backgroundScheduler) >- last).get() ).to(equal(UserState.FullAccess))
-//                expect( (app.userState >- subscribeOn(backgroundScheduler) >- last).get() )               
-                
+                // Produces the following trace in the test log.
+                // AppState.Initial <- Start  |-> AppState.Idle & Trial (count: 0)
+                // AppState.Idle <- Purchase  |-> AppState.Purchasing & Trial (count: 0)
+                // AppState.Idle <- Purchase  |-> AppState.Purchasing & FullAccess
+                // AppState.Purchasing <- Purchased  |-> AppState.Idle & FullAccess
+                // AppState.Purchasing <- Failed  |-> AppState.Alerting & FullAccess
             }
         }
     }
 } 
+//extension Observable {
+func takeOne<T: Equatable>(ofValue: T) -> Observable<T> -> Observable<T> {
+    return { source in
+        return source >- filter { $0 == ofValue } >- take(1) 
+    }
+}
+//}
+
+// Awaiting protocol extensions.
+//extension Observable where Element is Equatable {
+//    func takeOne<T: Equatable>(ofValue: Element) -> Observable<Element> {
+//        return self //>- filter { $0 == ofValue } >- take(1) 
+//    }
+//}

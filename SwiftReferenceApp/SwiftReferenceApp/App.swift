@@ -15,7 +15,7 @@ public class App
 {
     public static let sharedInstance = App()
 
-    public var currentUser: User!
+    public var user: User!
     
     public var machine : StateMachine<Schema>!
     
@@ -27,20 +27,17 @@ public class App
         return self._hsmTransitionState >- readOnly 
     }()
      
-    // TODO: Evaluate if appOldState is necessary
-    //public var appOldState : Observable<AppState>
     public var appState : Observable<AppState>
     public var appEvent: Observable<AppEvent>
     public var userState : Observable<UserState>
     
     public let disposeBag = DisposeBag()
     
-    private init() 
+    public init() 
     {
+        user = User()
+        
         // TODO: Consider whether these maps are inefficient.
-
-        // TODO: Evaluate if appOldState is necessary
-        //appOldState = self._hsmTransitionState >- map { (oldState, event, n, u) in return oldState } 
         appEvent = self._hsmTransitionState      >- map { (o, event, n, u)            in return event }         
         appState = self._hsmTransitionState       >- map { (o, e, newState, u)      in return newState }
         userState = self._hsmTransitionState      >- map { (o, e, n, userState)      in return userState }
@@ -49,7 +46,7 @@ public class App
         machine  = StateMachine(schema: App.schema, subject: self)
         
         machine.addDidTransitionCallback { oldState, event, newState, app in 
-            let hsmState = (oldState, event, newState, self.currentUser.machine.state)
+            let hsmState = (oldState, event, newState, self.user.machine.state)
             self._hsmTransitionState.next(hsmState)
         }
     }
