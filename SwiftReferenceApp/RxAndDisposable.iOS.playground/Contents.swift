@@ -40,24 +40,17 @@ func using(disposable: Disposable, closure: () -> ())
    disposable.dispose() 
 }
 
-func using<T : Disposable>(disposable: T, closure: (T) -> Void) 
-{
-    closure(disposable)
-    disposable.dispose() 
-}
+let red = ColorSet(color: UIColor.redColor()) 
+let blue = ColorSet(color: UIColor.blueColor())
+let green = ColorSet(color: UIColor.greenColor())
 
-using(ColorSet(color: UIColor.redColor()) ) {
-    print("hello")
-    using(ColorSet(color: UIColor.blueColor())) {
-        print("goodbye")
-    }
-}
-
-using(ColorSet(color: UIColor.redColor()) ) { (color: ColorSet) in
-    print(color)
-    print("hello")
-    using(ColorSet(color: UIColor.blueColor())) {
-        print("goodbye")
+using(red) {
+    print("I want to change to blue, but how do I remember I used to be green?")
+    using(blue) {
+        print("ooh - nice in blue")
+        using(green) {
+            print("yikes! what color was I before blue? oh - I don't need to worry. `using` is taking care of it.")
+        }
     }
 }
 
