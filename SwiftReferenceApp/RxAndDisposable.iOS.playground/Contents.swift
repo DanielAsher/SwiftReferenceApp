@@ -1,11 +1,16 @@
 //: Playground - noun: a place where people can play
 
 import UIKit
-import RxSwift
+//import RxSwift
 
 var str = "Hello, playground"
 
 var envColor = UIColor.blackColor()
+
+// Straight from Rx
+protocol Disposable {
+    func dispose()
+}
 
 class ColorSet : Disposable {
     
