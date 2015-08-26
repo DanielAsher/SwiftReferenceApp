@@ -46,13 +46,13 @@ public func == <T:Equatable, U: Equatable>
 public func == <T:Equatable, U: Equatable, V: Equatable> 
     (tuple1:(T,U, V), tuple2:(T, U, V)) -> Bool
 {
-    return (tuple1.0 == tuple2.0) && (tuple1.1 == tuple2.1) && (tuple2.2 == tuple2.2)
+    return (tuple1.0 == tuple2.0) && (tuple1.1 == tuple2.1) && (tuple1.2 == tuple2.2)
 }
 
 public func == <T:Equatable, U: Equatable, V: Equatable, W: Equatable> (
     tuple1:(T,U,V,W), tuple2:(T,U,V,W)) -> Bool
 {
-    return (tuple1.0 == tuple2.0) && (tuple1.1 == tuple2.1) && (tuple2.2 == tuple2.2) && (tuple2.3 == tuple2.3)
+    return (tuple1.0 == tuple2.0) && (tuple1.1 == tuple2.1) && (tuple1.2 == tuple2.2) && (tuple1.3 == tuple2.3)
 }
 
 

@@ -33,7 +33,7 @@ public class App
     
     public let disposeBag = DisposeBag()
     
-    public init() 
+    public required init() 
     {
         user = User()
         
