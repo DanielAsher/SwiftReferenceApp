@@ -40,6 +40,7 @@
 		65FAA8C21B87A002000CC9D6 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 65FAA8C11B87A002000CC9D6 /* README.md */; };
 		65FAA8C51B87B52D000CC9D6 /* App+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FAA8C41B87B52D000CC9D6 /* App+Schema.swift */; };
 		65FAA8C71B87B606000CC9D6 /* User+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FAA8C61B87B606000CC9D6 /* User+Schema.swift */; };
+		65FE069F1B8DD9DF0095295E /* SimpleAsyncSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FE069E1B8DD9DF0095295E /* SimpleAsyncSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -344,6 +345,7 @@
 		65FAA8C11B87A002000CC9D6 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		65FAA8C41B87B52D000CC9D6 /* App+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "App+Schema.swift"; sourceTree = "<group>"; };
 		65FAA8C61B87B606000CC9D6 /* User+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+Schema.swift"; sourceTree = "<group>"; };
+		65FE069E1B8DD9DF0095295E /* SimpleAsyncSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleAsyncSpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -428,6 +430,7 @@
 				65185A0D1B89C309001F85D5 /* StateMachineSpecs.swift */,
 				656216401B87283E003F69C3 /* SwiftReferenceAppSpecs.swift */,
 				65B1BEFF1B8CB2440064FF47 /* Test+Extensions.swift */,
+				65FE069E1B8DD9DF0095295E /* SimpleAsyncSpec.swift */,
 			);
 			path = SwiftReferenceAppTests;
 			sourceTree = "<group>";
@@ -951,6 +954,7 @@
 				65185A0E1B89C309001F85D5 /* StateMachineSpecs.swift in Sources */,
 				65B1BF001B8CB2440064FF47 /* Test+Extensions.swift in Sources */,
 				656216411B87283E003F69C3 /* SwiftReferenceAppSpecs.swift in Sources */,
+				65FE069F1B8DD9DF0095295E /* SimpleAsyncSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
