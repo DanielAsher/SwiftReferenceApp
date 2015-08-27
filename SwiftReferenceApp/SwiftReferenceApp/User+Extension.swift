@@ -36,6 +36,10 @@ extension UserState : Printable {
     public var description: String { return self.DOTLabel }
 }
 
+extension UserState : DebugPrintable {
+    public var debugDescription: String { return "UserState.\(self.DOTLabel)" }
+}
+
 // MARK: Equality operator based on textual representation.
 public func == (lhs: UserState, rhs: UserState) -> Bool {
     return lhs.DOTLabel == rhs.DOTLabel

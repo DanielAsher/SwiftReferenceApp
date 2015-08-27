@@ -9,13 +9,15 @@ import Nimble
 import Quick
 import RxSwift
 
+// FIXME: the valueOrNil extension computed property causes constant subscribe, unsubscribe.
+// Change to using a ReplaySubject
 extension Observable 
 {
     var valueOrNil: Element? 
-        {
-            var element: Element?
-            self >-  take(1) >- subscribeNext { element = $0 }
-            return element
+    {
+        var element: Element?
+        self >-  take(1) >- subscribeNext { element = $0 }
+        return element
     }
 }
 
@@ -32,6 +34,20 @@ func on<T: Equatable>(element: T, closure: () -> Void) -> Observable<T> -> Dispo
     }
 }
 
+infix operator >+ { associativity left }
+
+func >+ <T>(lhs: Observable<T>, rhs: T -> ()) -> Disposable {
+    return lhs >- subscribeNext { value in rhs(value) }
+}
+
+func ticker(period: Double) -> Observable<Int64> {
+   return interval(period, MainScheduler.sharedInstance) 
+}
+
+func tickEvery(period: Double, #with: Int64 -> ()) -> Disposable {
+    return interval(period, MainScheduler.sharedInstance)
+        >- subscribeNext { value in with(value) }
+}
 // Awaiting protocol extensions.
 //extension Observable where Element is Equatable {
 //    func takeOne<T: Equatable>(ofValue: Element) -> Observable<Element> {
@@ -66,3 +82,6 @@ public func beforeEach<T>(closure: () -> T) -> Variable<T?> {
     
     return result
 }
+
+
+

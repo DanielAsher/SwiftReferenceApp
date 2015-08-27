@@ -75,9 +75,17 @@ extension AppEvent: DOTLabelable
 
 // MARK: Add printable conformance
 extension AppState : Printable {
-    public var description: String { return "AppState.\(self.DOTLabel)" }
+    public var description: String { return self.DOTLabel }
+}
+
+extension AppState : DebugPrintable {
+    public var debugDescription: String { return "AppState.\(self.DOTLabel)" }
 }
 
 extension AppEvent : Printable {
     public var description: String { return self.DOTLabel }
+}
+
+extension AppEvent : DebugPrintable {
+    public var debugDescription: String { return "AppEvent.\(self.DOTLabel)" }
 }

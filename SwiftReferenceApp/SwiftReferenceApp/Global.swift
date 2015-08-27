@@ -10,6 +10,13 @@ import Foundation
 import RxSwift
 import SwiftyStateMachine
 
+// .NET's `using` language construct in a two-line function!
+public func using(disposable: Disposable, closure: () -> ()) 
+{
+    closure()
+    disposable.dispose() 
+}
+
 extension GraphableStateMachineSchema 
 { 
     func saveSchema(path: String) -> String? 

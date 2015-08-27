@@ -430,7 +430,6 @@
 				65185A0D1B89C309001F85D5 /* StateMachineSpecs.swift */,
 				656216401B87283E003F69C3 /* SwiftReferenceAppSpecs.swift */,
 				65B1BEFF1B8CB2440064FF47 /* Test+Extensions.swift */,
-				65FE069E1B8DD9DF0095295E /* SimpleAsyncSpec.swift */,
 			);
 			path = SwiftReferenceAppTests;
 			sourceTree = "<group>";
@@ -438,6 +437,7 @@
 		6562163E1B87283E003F69C3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				65FE069E1B8DD9DF0095295E /* SimpleAsyncSpec.swift */,
 				6562163F1B87283E003F69C3 /* Info.plist */,
 			);
 			name = "Supporting Files";

@@ -15,32 +15,14 @@ class StateMachineSpecs: QuickSpec
 {    
     override func spec() 
     {
-        beforeSuite {
-            app.hsmTransitionState >- subscribeNext { oldState, appEvent, appState, userState in
-                println("\(oldState) -> \(appEvent)  |-> \(appState) & \(userState)")
-            } 
-        }
+        let printer = beforeSuite { return app.transition >+ { println($0) } }
                 
-        let greeting = 
-            beforeSuite { 
-                return "Hello"
-            }
-        
-        let newApp = 
-            beforeEach { 
-                return App() 
-            }
+        let newApp = beforeEach { return App() }
         
         describe("App state machine") 
         {
             it("moves from Initial to Idle on app start") 
             {
-                // Testing function `beforeEach`
-                expect( greeting.value ).toEventually( equal ("Hello") ) 
-                greeting >- subscribeNext {
-                    expect( $0 ).to(equal("Hello"))
-                }
-                
                 expect(app.state).toEventually(equal(AppState.Idle))
             }
             
@@ -54,34 +36,38 @@ class StateMachineSpecs: QuickSpec
             fit("moves App to Alerting for Trial User on the sixth Saved then, on successful purchase enables Save") 
             {
 
-                let signalState = (AppState.Saving, AppEvent.Failed, AppState.Alerting, UserState.Trial(count: 6)) 
-               
-                let manicSavePresser = interval(0.8, MainScheduler.sharedInstance)
-                    >- subscribeNext { tick in app <- .Save }
-
-                expect(app.hsmTransitionState.value == signalState ).toEventually(beTrue(), timeout: 10, pollInterval: 1) 
+                let signalTransition = AppTransition(
+                        oldState: .Saving, event:.Failed, 
+                        newState: .Alerting, userState: .Trial(count: 6)
+                        )
                 
-                manicSavePresser.dispose()
+                let buttonPusher = ticker(0.5) >+ { tick in app <- .Save }
+                
+                using( buttonPusher ) 
+                {
+                    expect(app.transition.value)
+                    .toEventually(equal(signalTransition), timeout: 10, pollInterval: 1) 
+                }
                  
-                app.appState >- on(.Idle) { app <- .Purchase }
+                app.appState >- on(.Idle) { app <- .Purchase } 
                 
-                expect(app.userState.valueOrNil).toEventually(equal(UserState.FullAccess))
-                
+                expect(app.user.machine.state).toEventually(equal(UserState.FullAccess), timeout: 2)
             }
             
             it("Trial user moves to FullAccess after Purchased and to Alerting if they attempt to Purchase again.") {
                
-                expect(app.appState.valueOrNil).to(equal(AppState.Idle)) 
+                expect(app.state).to(equal(AppState.Idle)) 
                 
                 app <- .Purchase
                
-                app.appEvent >- takeOne(.Purchased) >- subscribeCompleted 
+                app.appEvent >- on(.Purchased) 
                 { 
-                    expect(app.userState.valueOrNil).toEventually(equal(UserState.FullAccess))  
+                    expect(app.user.machine.state) .toEventually(equal(UserState.FullAccess))  
+                    
                     app <- .Purchase
                 }
                   
-                expect(app.appState.valueOrNil).toEventually(equal(AppState.Alerting), timeout: 3)
+                expect(app.state).toEventually(equal(AppState.Alerting), timeout: 3)
                 
                 // Produces the following trace in the test log.
                 // > AppState.Initial          -> Start          |-> AppState.Idle & Trial (count: 0)

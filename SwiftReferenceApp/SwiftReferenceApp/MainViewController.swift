@@ -37,10 +37,12 @@ class MainViewController: UIViewController
         purchaseButton.rx_tap 
             >- subscribeNext { app <- .Purchase } >- dispose
       
-        // Set statusLabel.text to "event -> appState"
-        app.hsmTransitionState 
-            >- subscribeNext { oldState, event, appState, userState in 
-                self.statusLabel.text = "\(oldState.DOTLabel) <- \(event.DOTLabel) |-> \(appState.DOTLabel)" }
+        // Set statusLabel.text to transition's description
+        app.transition >- subscribeNext { self.statusLabel.text = $0.description }
+        
+//        app.hsmTransitionState 
+//            >- subscribeNext { oldState, event, appState, userState in 
+//                self.statusLabel.text = "\(oldState.DOTLabel) <- \(event.DOTLabel) |-> \(appState.DOTLabel)" }
                 
         // Set userStateLabel.text to "userState"
         app.userState 
