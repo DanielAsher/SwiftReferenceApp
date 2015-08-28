@@ -334,6 +334,7 @@
 		657B2C881B873B0E001F6BC2 /* RxBlocking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RxBlocking.xcodeproj; path = ../Modules/RxSwift/RxBlocking/RxBlocking.xcodeproj; sourceTree = "<group>"; };
 		657B2C911B873B23001F6BC2 /* Madness.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Madness.xcodeproj; path = ../Modules/Madness/Madness.xcodeproj; sourceTree = "<group>"; };
 		657B2CA01B873B39001F6BC2 /* Quick.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quick.xcodeproj; path = ../Modules/Quick/Quick.xcodeproj; sourceTree = "<group>"; };
+		6586281E1B90FF7500107A04 /* Parser.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Parser.playground; sourceTree = "<group>"; };
 		65B1BEFD1B8C37490064FF47 /* RxAndDisposable.iOS.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = RxAndDisposable.iOS.playground; sourceTree = "<group>"; };
 		65B1BEFE1B8C67B90064FF47 /* Co-and-Contravariance.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Co-and-Contravariance.playground"; sourceTree = "<group>"; };
 		65B1BEFF1B8CB2440064FF47 /* Test+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Test+Extensions.swift"; sourceTree = "<group>"; };
@@ -538,6 +539,7 @@
 				65B1BEFD1B8C37490064FF47 /* RxAndDisposable.iOS.playground */,
 				65B1BEFE1B8C67B90064FF47 /* Co-and-Contravariance.playground */,
 				657456BC1B8F3FFE000512B6 /* RxSelectMany.playground */,
+				6586281E1B90FF7500107A04 /* Parser.playground */,
 			);
 			name = Playgrounds;
 			sourceTree = "<group>";

@@ -1,0 +1,58 @@
+digraph G 
+{
+    {rank=same 0 0}
+    compound=true
+    graph [rankdir=LR]
+    subgraph cluster0 
+    {
+
+        label=Application
+        color=slateblue2
+        fontcolor=slateblue4
+        margin=30
+        labeljust=l
+
+        appStart [label="", style=invis]
+        appStart -> 1 [label="Start", weight=2, color=darkgreen, fontcolor=darkgreen]
+
+        0 [label="Application Start", color=coral3, fontcolor=coral4]
+        0 -> 1 [xlabel="Start", lhead=cluster0, color=darkgreen, fontcolor=darkgreen]
+
+        1 [label="Idle", color=coral3, fontcolor=coral4]
+        2 [label="Saving", color=turquoise3, fontcolor=turquoise4]
+        3 [label="Purchasing", color=turquoise3, fontcolor=turquoise4]
+        4 [label="Alerting", color=turquoise3, fontcolor=turquoise4]
+
+        1 -> 3 [label="Purchase", color=blue, fontcolor=blue3]
+        1 -> 2 [label="Save", color=blue, fontcolor=blue3]
+
+        2 -> 1 [label="Saved", color=darkgreen, fontcolor=darkgreen]
+        3 -> 1 [label="Purchased", color=darkgreen, fontcolor=darkgreen]
+        4 -> 1 [label="Complete", color=darkgreen, fontcolor=darkgreen]
+
+        2 -> 4 [label="Failure", color=red, fontcolor=red]
+        3 -> 4 [label="Failure", color=red, fontcolor=red]
+    }
+
+    subgraph cluster1 
+    {
+        label=User
+        color=slateblue2
+        fontcolor=slateblue4
+        margin=15
+        labeljust=l
+
+        userStart [label="", style=invis]
+        userStart -> 7 [label="Start", weight=2, color=darkgreen, fontcolor=darkgreen]
+
+        0 -> 7 [xlabel="Start", lhead=cluster1, color=darkgreen, fontcolor=darkgreen]
+
+        6 [label="FullAccess", color=coral3, fontcolor=coral4]
+        7 [label="Trial(count: Int)", color=coral3, fontcolor=coral4]
+        7 -> 6 [label="Purchased", color=darkgreen, fontcolor=darkgreen]
+    }
+    
+    7 -> 1 [xlabel="Save", color=blue, fontcolor=blue3, lhead=cluster0, ltail=cluster1, weight=0.9, minlen=7]
+    2 -> 7 [xlabel="Saved", color=darkgreen, fontcolor=darkgreen, lhead=cluster1, ltail=cluster0, weight=0.9, minlen=7]
+    3 -> 7 [xlabel="Purchased", color=darkgreen, fontcolor=darkgreen, lhead=cluster1, ltail=cluster0, weight=0.9, minlen=7]
+}
