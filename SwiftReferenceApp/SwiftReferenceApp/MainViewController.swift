@@ -40,10 +40,6 @@ class MainViewController: UIViewController
         // Set statusLabel.text to transition's description
         app.transition >- subscribeNext { self.statusLabel.text = $0.description }
         
-//        app.hsmTransitionState 
-//            >- subscribeNext { oldState, event, appState, userState in 
-//                self.statusLabel.text = "\(oldState.DOTLabel) <- \(event.DOTLabel) |-> \(appState.DOTLabel)" }
-                
         // Set userStateLabel.text to "userState"
         app.userState 
             >- subscribeNext { userState in self.userStatusLabel.text = "\(userState.DOTLabel)" } >- dispose    }

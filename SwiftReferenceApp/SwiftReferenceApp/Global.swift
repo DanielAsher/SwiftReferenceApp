@@ -33,12 +33,18 @@ extension GraphableStateMachineSchema
     }
 }
 
-public func skip<E>(m: Int, take take_: Int) -> Observable<E> -> Observable<E> 
+public func toArray<T>(observable: Observable<T>) -> [T] {
+    var array = [T]()
+    observable >- subscribeNext  { array.append($0)  }
+    return array
+}  
+
+public func skip<E>(m: Int, take t: Int) -> Observable<E> -> Observable<E> 
 { 
     return  { source in
         return source
             >- skip(m)
-            >- take(take_)
+            >- take(t)
         }
 }
 

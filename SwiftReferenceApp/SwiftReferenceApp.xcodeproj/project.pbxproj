@@ -326,6 +326,7 @@
 		656216401B87283E003F69C3 /* SwiftReferenceAppSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftReferenceAppSpecs.swift; sourceTree = "<group>"; };
 		6562164A1B87293D003F69C3 /* ApplicationSchema.dot */ = {isa = PBXFileReference; explicitFileType = text.json; fileEncoding = 4; path = ApplicationSchema.dot; sourceTree = "<group>"; };
 		6562164C1B872B03003F69C3 /* ApplicationSchema.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ApplicationSchema.png; sourceTree = "<group>"; };
+		657456BC1B8F3FFE000512B6 /* RxSelectMany.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = RxSelectMany.playground; sourceTree = "<group>"; };
 		657B2C581B873AB6001F6BC2 /* SwiftyStateMachine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyStateMachine.xcodeproj; path = ../Modules/SwiftyStateMachine/SwiftyStateMachine.xcodeproj; sourceTree = "<group>"; };
 		657B2C671B873AD1001F6BC2 /* SwiftTask.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftTask.xcodeproj; path = ../Modules/SwiftTask/SwiftTask.xcodeproj; sourceTree = "<group>"; };
 		657B2C761B873AEB001F6BC2 /* RxSwift.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RxSwift.xcodeproj; path = ../Modules/RxSwift/RxSwift/RxSwift.xcodeproj; sourceTree = "<group>"; };
@@ -536,6 +537,7 @@
 			children = (
 				65B1BEFD1B8C37490064FF47 /* RxAndDisposable.iOS.playground */,
 				65B1BEFE1B8C67B90064FF47 /* Co-and-Contravariance.playground */,
+				657456BC1B8F3FFE000512B6 /* RxSelectMany.playground */,
 			);
 			name = Playgrounds;
 			sourceTree = "<group>";
