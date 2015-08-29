@@ -16,6 +16,9 @@ extension Either {
     }
 }
 
+typealias AttrListFunc = Parser<String, String>.Function
+typealias ALF = AttrListFunc
+
 let digit = %("0"..."9")
 let lower = %("a"..."z")
 let upper = %("A"..."Z")
@@ -30,35 +33,36 @@ let comma = ","
 let equal = "="
 
 let whitespace = ignore( %space | %linefeed )
-let spaces = whitespace+
+let spaces = ignore(whitespace*)
 let separator = (%semicolon | %comma)
+let sep     = (separator|? ++ spaces) |> map { $0 ?? "" }
 
+//: FIXME: This handles only the most trivial ID. Please fix me :)
+//: * _ID_
+//: * Any string of alphabetic ([a-zA-Z\200-\377]) characters, underscores ('_') or digits ([0-9]), not beginning with a digit
+//: * a numeral [-]?(.[0-9]+ | [0-9]+(.[0-9]*)? )
+//: * any double-quoted string ("...") possibly containing escaped quotes ('")1
+//: * an HTML string (<...>).
 let ID = (lower | upper | digit | %underscore)+ |> map { "".join($0) }
-
-// ID '=' ID
-let id_equal_id = ID ++ %equal ++ ID 
+//: * _id_stmt_ : ID '=' ID
+let id_stmt = ID ++ spaces ++ %equal ++ ignore(whitespace*) ++ ID ++ spaces
     |> map { (id1, rem) in "\(id1) \(rem.0) \(rem.1)" } // Render to string.
+//: * _a_list_ : _id_stmt_ [ (';' | ',') ] [ _a_list_ ]
+let a_list : ALF = fix { (a_list: ALF) -> ALF in
+
+    return id_stmt ++ sep ++ a_list*
+        |> map { (attr, rest) in "\(attr) \(rest.0) \(rest.1)" } // Render.
+    }
+
+let a_list_res = parse(a_list, "compound = true; fontcolor=coral3, a=b \n c =d").result
+a_list_res == "compound = true ; [fontcolor = coral3 , [a = b  [c = d  []]]]"
+//: * _attr_list_ : (graph | node | edge) _attr_list_
+
+
 
 let node_id = ID
 
-// TODO: Yikes! a recursive grammar rules. Can we `fix` it?
-// a_list : ID '=' ID [ (';' | ',') ] [ a_list ]
-
-typealias AttrListFunc = Parser<String, String>.Function
-typealias ALF = AttrListFunc
-
-let a_list : ALF = fix { (a_list: ALF) -> ALF in
-    let a = ignore(whitespace*) ++ separator|? ++ ignore(whitespace*)
-    return id_equal_id ++ separator* ++ a_list*
-        |> map { (attr, rest) in "\(attr) \(rest.0) \(rest.1)" }
-}
-
-parse(a_list, "compound=true;fontcolor=coral3").result
-
-
-
-
-let token = spaces ++ ID ++ spaces 
+let token = whitespace+ ++ ID ++ spaces 
 
 let digraph = %("digraph") ++ token 
     |> map { (graph, name) in "\(graph) \(name)" }
@@ -67,7 +71,7 @@ let node = token
 let edge = node ++ %arrow ++ node 
     |> map { (source, dest) in "\(source) \(dest.0) \(dest.1)" }
 
-let scope = ignore(%leftBrace) ++ (edge | token) ++ ignore(%rightBrace) ++ spaces*
+let scope = ignore(%leftBrace) ++ (edge | token) ++ ignore(%rightBrace) ++ whitespace*
 
 let dotParser = digraph ++ scope
 let output = parse(dotParser, simpleGraphDotString)
