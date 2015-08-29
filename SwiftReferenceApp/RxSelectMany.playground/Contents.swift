@@ -3,6 +3,7 @@
 //  Copyright (c) 2015 StoryShare. All rights reserved.
 
 import RxSwift
+import RxBlocking
 import XCPlayground
 
 //XCPSetExecutionShouldContinueIndefinitely(continueIndefinitely: true)
@@ -13,6 +14,22 @@ infix operator >+ { associativity left precedence 90 }
 func >+ <T>(lhs: Observable<T>, rhs: T -> ()) -> Disposable {
     return lhs >- subscribeNext { value in rhs(value) }
 }
+
+func toArray<T>(observable: Observable<T>) -> [T] {
+//    return observable >- 
+    var array = [T]()
+    observable >+  { array.append($0)  }
+    return array
+} 
+
+
+func toArray2<E>(observable: Observable<E>) -> [E] {
+    return (observable 
+    >- reduce( [E]() ) { (var arr, e) in
+        arr.append(e)
+        return arr
+    } >- last).get()!
+} 
 
 var count = 0
 func example<T>(of message: String, closure: () -> T) -> T  {
@@ -69,17 +86,19 @@ let flatMapped : Observable<Int> =
         print("\t[")
         xs >- take(1) >+ { x in print(x) }
         xs >- skip(1) >+  { x in print(", \(x)") } 
-        print("]")
+        println("]")
         let a = Array(arrayLiteral: xs)
         return xs
     }
 
-let concatSeq = seqOfSeq >- concat 
-    
-concatSeq >+  { 
-    $0
-    println($0)
-    }
+
+let concatSeq = example(of: "concatenation of a `seq` of `seq`") { 
+//    let 
+    return seqOfSeq >- concat
+//    println(s >- toArray)
+//   return s
+}
+
  
 func timedConcat() 
 {

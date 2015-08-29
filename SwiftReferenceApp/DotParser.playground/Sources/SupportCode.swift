@@ -5,7 +5,7 @@ let bundle = NSBundle.mainBundle()
 
 func getDotFileAsString(name: String) -> String 
 {
-    let dotFilePath = bundle.pathForResource(name, ofType: "dot")    
+    let dotFilePath = bundle.pathForResource(name, ofType: ".dot.txt")    
     var error:NSError?
     let string = String(
         contentsOfFile: dotFilePath!, 
