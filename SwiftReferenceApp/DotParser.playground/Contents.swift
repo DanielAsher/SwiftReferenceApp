@@ -124,7 +124,8 @@ output6 == "(PreviousState, (-> NextState, [[ label = Trigger  [] (], [])]))"
 */
 let stmt_list : Parser<String, String>.Function = 
     fix { stmt_list in
-        let subgraph = %("subgraph") ++ ID|? ++ %("{") ++ stmt_list ++ %("}") 
+        let subgraph_id = %("subgraph") ++ ignore(whitespace*) ++ ID|? ++ ignore(whitespace*)
+        let subgraph = subgraph_id ++ %("{") ++ ignore(whitespace*) ++ stmt_list ++ ignore(whitespace*) ++ %("}") 
             |> map { "\($0)" }  // Render.
         let stmt = node_stmt | edge_stmt | attr_stmt | id_stmt | subgraph
             |> map { "\($0)" }  // Render.
@@ -138,9 +139,7 @@ let stmt_list : Parser<String, String>.Function =
 We can now define the root of our grammar, **graph**
 */
 let graph_id = (%("strict"))|? ++ (%("graph") | %("digraph")) ++ ignore(whitespace*) ++ ID|? 
-let graph_id_test_parser = graph_id ++ any* |> map { (a, b) in "\(a)" }
-let output8 = parse(graph_id_test_parser, simpleGraphDotString).result
-output8 == "(nil, (digraph, Optional(\"G\")))"
+
 let graph = graph_id ++ spaces ++ %leftBrace ++ ignore(whitespace*) ++ stmt_list ++ ignore(whitespace*) ++ %rightBrace ++ spaces
 /*:
 ## DotParser Tests
@@ -148,31 +147,13 @@ let graph = graph_id ++ spaces ++ %leftBrace ++ ignore(whitespace*) ++ stmt_list
 println(simpleGraphDotString)
 simpleGraphDotString == "digraph G { \n    Hello -> World \n}\n"
 
+let graph_id_test_parser = graph_id ++ any* |> map { (a, b) in "\(a)" }
+let output8 = parse(graph_id_test_parser, simpleGraphDotString).result
+output8 == "(nil, (digraph, Optional(\"G\")))"
+
 let output9 = parse(graph, simpleGraphDotString).result
 
 output9 == "((nil, (digraph, Optional(\"G\"))), ({, (.Left(.Left(.Left(.Left((Hello, []))))) nil [], })))"
-
-let token = whitespace+ ++ ID ++ spaces 
-
-
-
-let firstID = digraph ++ token 
-    |> map { (graph, name) in "\(graph) \(name)" }
-     
-//let node = token
-let edge_p = ID ++ %arrow ++ ID 
-    |> map { (source, dest) in "\(source) \(dest.0) \(dest.1)" }
-
-let scope = ignore(%leftBrace) ++ (edge_p | token) ++ ignore(%rightBrace) ++ whitespace*
-
-let dotParser = digraph ++ scope
-let output = parse(dotParser, simpleGraphDotString)
-
-if let result = output.right {
-    "\(result)"
-} else {
-    let error = output.left?.description   
-}
 
 
 
