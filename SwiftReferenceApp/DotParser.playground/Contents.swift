@@ -15,6 +15,45 @@ extension Either {
         return self.either(ifLeft: {"\($0)"}, ifRight: {"\($0)"})
     }
 }
+
+/*:
+ Dot Abstract Syntax Tree
+ 
+*/
+
+typealias ID = String
+
+struct Attribute {
+    let name: String
+    let value: String
+}
+
+enum AttributeStatement {
+    case Graph([Attribute])
+    case Node([Attribute])
+    case Edge([Attribute])
+}
+
+enum EdgeOp {
+    case Directed
+    case Undirected
+}
+
+enum Statement {
+    case Node(id: ID, [Attribute])
+//: FIXME: Doesn't support `Source -> Next -> Target` sequences of node and edges.
+//: FIXME: `Edge` doesn't support `Subgraph` source and target
+    case Edge(source: ID, edgeop: EdgeOp, target: ID)
+    case Attr(AttributeStatement)
+    case Property(Attribute)
+    case Subgraph(id: ID?, stmt_list: [Statement])
+}
+
+enum Graph {
+    case Directed(id: String?, stmt_list: [Statement])
+    case Undirected(id: String?, stmt_list: [Statement])
+}
+
 //: Literal Characters and Strings
 let space = " "
 let underscore = "_"
@@ -47,11 +86,11 @@ let edgeop  = (%arrow | %link)
 4. an HTML string (<...>).
 > FIXME: This only partially implement case (1). Complete cases (2), (3) and (4).
 */
-let ID = (lower | upper | digit | %underscore)+ |> map { "".join($0) }
+let id = (lower | upper | digit | %underscore)+ |> map { "".join($0) }
 /*:
 ## _id_stmt_ : ID '=' ID
 */
-let id_stmt = ID ++ spaces ++ %equal ++ ignore(whitespace*) ++ ID ++ spaces
+let id_stmt = id ++ spaces ++ %equal ++ ignore(whitespace*) ++ id ++ spaces
     |> map { (id1, rem) in "\(id1) \(rem.0) \(rem.1)" } // Render to string.
 /*:
 ## _a_list_ : id_stmt [ (';' | ',') ] [ _a_list_ ]
@@ -88,7 +127,7 @@ output3 == "(graph, [ compound = true ; [fontcolor = coral3 , [a = b  [hello = w
 ## _node_id_     : ID [ port ]
 > FIXME: implement _[ port ]_
 */
-let node_id = ID
+let node_id = id
 /*: 
 ## _node_stmt_	: node_id [ attr_list ]
 */
@@ -124,10 +163,11 @@ output6 == "(PreviousState, (-> NextState, [[ label = Trigger  [] (], [])]))"
 */
 let stmt_list : Parser<String, String>.Function = 
     fix { stmt_list in
-        let subgraph_id = %("subgraph") ++ ignore(whitespace*) ++ ID|? ++ ignore(whitespace*)
-        let subgraph = subgraph_id ++ %("{") ++ ignore(whitespace*) ++ stmt_list ++ ignore(whitespace*) ++ %("}") 
+        let subgraph_id = %("subgraph") ++ ignore(whitespace*) ++ id|? ++ ignore(whitespace*)
+        let subgraph = subgraph_id|? ++ %("{") ++ ignore(whitespace*) ++ stmt_list ++ ignore(whitespace*) ++ %("}") 
             |> map { "\($0)" }  // Render.
         let stmt = node_stmt | edge_stmt | attr_stmt | id_stmt | subgraph
+//        let a = stmt.flatMap()
             |> map { "\($0)" }  // Render.
         let stmt_list = stmt ++ ignore(whitespace*) ++ (%(";"))|? ++ ignore(whitespace*) ++ stmt_list* 
             |> map { (stmt, rem) in "\(stmt) \(rem.0) \(rem.1)" }
@@ -138,14 +178,14 @@ let stmt_list : Parser<String, String>.Function =
 ## _graph_ : [ "strict" ] ("graph" | "digraph") [ ID ] '{' stmt_list '}'
 We can now define the root of our grammar, **graph**
 */
-let graph_id = (%("strict"))|? ++ (%("graph") | %("digraph")) ++ ignore(whitespace*) ++ ID|? 
+let graph_id = (%("strict"))|? ++ (%("graph") | %("digraph")) ++ ignore(whitespace*) ++ id|? 
 
 let graph = graph_id ++ spaces ++ %leftBrace ++ ignore(whitespace*) ++ stmt_list ++ ignore(whitespace*) ++ %rightBrace ++ spaces
 /*:
 ## DotParser Tests
 */
 println(simpleGraphDotString)
-simpleGraphDotString == "digraph G { \n    Hello -> World \n}\n"
+simpleGraphDotString == "digraph G { \n    Hello -> World\n}\n"
 
 let graph_id_test_parser = graph_id ++ any* |> map { (a, b) in "\(a)" }
 let output8 = parse(graph_id_test_parser, simpleGraphDotString).result
