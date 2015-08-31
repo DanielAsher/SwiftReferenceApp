@@ -8,6 +8,11 @@ To enable generation of the follow type of diagram.
 ![StateMachine](ApplicationSchema.png)
 */
 //: Syntax Tree
+import Prelude
+import Either
+import Madness
+import RxSwift
+
 typealias ID = String
 
 struct Attribute {
@@ -37,14 +42,19 @@ enum Statement {
     case Edge(source: ID, edgeRHS: [EdgeRHS], attributes: [Attribute])
     case Attr(target: TargetType, attributes: [Attribute])
     case Property(Attribute)
-    case Subgraph(id: ID?, stmt_list: [Statement])
+    case Subgraph(id: ID?, stmts: [Statement])
 }
 //: ## Root `Graph`
-enum Graph {
-    case Directed(id: String?, stmt_list: [Statement])
-    case Undirected(id: String?, stmt_list: [Statement])
+enum GraphType : String {
+    case Directed       = "digraph"
+    case Undirected     = "graph"
 }
 
+struct Graph {
+    let type        : GraphType
+    let id          : String?
+    let stmt_list   : [Statement]
+}
 //: Printable `extensions`
 extension Attribute : Printable {
     var description : String {
@@ -79,6 +89,12 @@ extension Statement : Printable {
             case Property(let attribute): return "Property ( \(attribute) )"
             case Subgraph(let id, let stmts): return "Subgraph ( \(id), \(stmts) )"
         }
+    }
+}
+
+extension Graph : Printable {
+    var description : String {
+        return "Graph ( \(self.type), \(self.id), \(self.stmt_list) )"
     }
 }
 
@@ -128,14 +144,14 @@ let id = (lower | upper | digit | %"_")+
 /*:
 ## _id_stmt_ : ID '=' ID
 */
-let id_stmt = id ++ ignore(equal) ++ id ++ ignore(sep)
+let id_equality = id ++ ignore(equal) ++ id ++ ignore(sep)
     |> map { Attribute(name: $0, value: $1) }
 /*:
 ## _a_list_ : id_stmt [ (';' | ',') ] [ _a_list_ ]
 */
 let a_list = 
     fix { a_list in
-        return id_stmt*
+        return id_equality*
     }
 /*: 
 ## _attr_list_ : '[' [ a_list ] ']' [ _attr_list_ ]
@@ -152,9 +168,7 @@ let attr_target = %("graph") | %("node") | %("edge")
     |> map { TargetType(rawValue: $0)! }
 
 let attr_stmt = attr_target ++ attr_list
-    |> map { t, xs in 
-        Statement.Attr(target: t, attributes: xs) }
-
+    |> map { t, xs in Statement.Attr(target: t, attributes: xs) }
 /*: 
 ## _node_id_     : ID [ port ]
 > FIXME: implement _[ port ]_
@@ -189,25 +203,37 @@ let edge_stmt = node_id ++ edgeRHS ++ opt_attr
 * _subgraph_    :       [ "subgraph" [ ID ] ] '{' stmt_list '}'
 > FIXME: Yikes! needs mutual recursion. Test! Also Render needs work.
 */
-//let stmt_list : Parser<String, String>.Function = 
-//    fix { stmt_list in
-//        let subgraph_id = %("subgraph") ++ ignore(whitespace*) ++ id|? ++ ignore(whitespace*)
-//        let subgraph = subgraph_id|? ++ %("{") ++ ignore(whitespace*) ++ stmt_list ++ ignore(whitespace*) ++ %("}") 
-//            |> map { "\($0)" }  // Render.
-//        let stmt = node_stmt | edge_stmt | attr_stmt | id_stmt | subgraph
-//            |> map { "\($0)" }  // Render.
-//        let stmt_list = stmt ++ ignore(whitespace*) ++ (%(";"))|? ++ ignore(whitespace*) ++ stmt_list* 
-//            |> map { (stmt, rem) in "\(stmt) \(rem.0) \(rem.1)" }
-//        return stmt_list
-//        }
-//        
+let stmt_list : Parser<String, [Statement]>.Function = 
+    fix { stmt_list in
+
+        let id_stmt = id_equality |> map { Statement.Property($0) }
+        
+        let subgraph_id = token (%("subgraph")) ++ id|? |> map { $1 }
+
+        let subgraph = 
+            subgraph_id ++ ignore(leftBrace) ++ stmt_list ++ ignore(rightBrace) 
+            |> map { Statement.Subgraph(id: $0, stmts: $1) }
+            
+        let stmt = node_stmt | edge_stmt | attr_stmt | id_stmt | subgraph
+
+        return stmt ++ ignore(semicolon) ++ stmt_list*
+            |> map { x, xs in [x] + xs.flatMap { $0 } }
+        }
 /*:
 ## _graph_ : [ "strict" ] ("graph" | "digraph") [ ID ] '{' stmt_list '}'
 We can now define the root of our grammar, **graph**
 */
-//let graph_id = (%("strict"))|? ++ (%("graph") | %("digraph")) ++ ignore(whitespace*) ++ id|? 
+//let strict = token ( (%("strict"))|? )
 //
-//let graph = graph_id ++ spaces ++ %leftBrace ++ ignore(whitespace*) ++ stmt_list ++ ignore(whitespace*) ++ %rightBrace ++ spaces
+let graph_type = 
+     ( %("graph") | %("digraph") ) 
+        |> token
+        |> map { GraphType(rawValue: $0)! }
+
+let graph_id = graph_type ++ id|?
+
+let graph = graph_id ++ ignore(leftBrace) ++ stmt_list ++ ignore(rightBrace)
+    |> map { id, ss in Graph(type: id.0, id: id.1, stmt_list: ss) }
 /*:
 ## DotParser Tests
 */
@@ -234,24 +260,14 @@ output5 == "[-> ReceiveNode, -> NextNode]"
 let input6 = "SourceState -> TargetState [label = Trigger]"
 let output6 = parse(edge_stmt, input6).result
 output6 == "Edge ( SourceState, [-> TargetState], [label = Trigger]"
-
-//println(simpleGraphDotString)
-//simpleGraphDotString == "digraph G { \n    Hello -> World\n}\n"
-//
-//let graph_id_test_parser = graph_id ++ any* |> map { (a, b) in "\(a)" }
-//let output8 = parse(graph_id_test_parser, simpleGraphDotString).result
-//output8 == "(nil, (digraph, Optional(\"G\")))"
-//
-//let output9 = parse(graph, simpleGraphDotString).result
-//
-//output9 == "((nil, (digraph, Optional(\"G\"))), ({, (.Left(.Left(.Left(.Left((Hello, []))))) nil [], })))"
+//let applicationSchemaString = "digraph G \n{\n    compound=true\n    graph [rankdir=LR]\n    subgraph cluster0 \n    {\n\n        label=Application\n        color=slateblue2\n        fontcolor=slateblue4\n        margin=30\n        labeljust=l\n\n        appStart [label="", style=invis]\n        appStart -> 1 [label=\"Start\", weight=2, color=darkgreen, fontcolor=darkgreen]\n\n        0 [label=\"Application Start\", color=coral3, fontcolor=coral4]\n        0 -> 1 [xlabel=\"Start\", lhead=cluster0, color=darkgreen, fontcolor=darkgreen]\n\n        1 [label=\"Idle\", color=coral3, fontcolor=coral4]\n        2 [label=\"Saving\", color=turquoise3, fontcolor=turquoise4]\n        3 [label=\"Purchasing\", color=turquoise3, fontcolor=turquoise4]\n        4 [label=\"Alerting\", color=turquoise3, fontcolor=turquoise4]\n\n        1 -> 3 [label=\"Purchase\", color=blue, fontcolor=blue3]\n        1 -> 2 [label=\"Save\", color=blue, fontcolor=blue3]\n\n        2 -> 1 [label=\"Saved\", color=darkgreen, fontcolor=darkgreen]\n        3 -> 1 [label=\"Purchased\", color=darkgreen, fontcolor=darkgreen]\n        4 -> 1 [label=\"Complete\", color=darkgreen, fontcolor=darkgreen]\n\n        2 -> 4 [label=\"Failure\", color=red, fontcolor=red]\n        3 -> 4 [label=\"Failure\", color=red, fontcolor=red]\n    }\n\n    subgraph cluster1 \n    {\n        label=User\n        color=slateblue2\n        fontcolor=slateblue4\n        margin=15\n        labeljust=l\n\n        userStart [label="", style=invis]\n        userStart -> 7 [label=\"Start\", weight=2, color=darkgreen, fontcolor=darkgreen]\n\n        0 -> 7 [xlabel=\"Start\", lhead=cluster1, color=darkgreen, fontcolor=darkgreen]\n\n        6 [label=\"FullAccess\", color=coral3, fontcolor=coral4]\n        7 [label=\"Trial(count: Int)\", color=coral3, fontcolor=coral4]\n        7 -> 6 [label=\"Purchased\", color=darkgreen, fontcolor=darkgreen]\n    }\n    \n    7 -> 1 [xlabel=\"Save\", color=blue, fontcolor=blue3, lhead=cluster0, ltail=cluster1, weight=0.9, minlen=7]\n    2 -> 7 [xlabel=\"Saved\", color=darkgreen, fontcolor=darkgreen, lhead=cluster1, ltail=cluster0, weight=0.9, minlen=7]\n    3 -> 7 [xlabel=\"Purchased\", color=darkgreen, fontcolor=darkgreen, lhead=cluster1, ltail=cluster0, weight=0.9, minlen=7]\n}"
+//applicationSchema == applicationSchemaString
+let inputFinal = applicationSchema
+let ouputFinal = parse(graph, applicationSchema).result
 
 
 //: # Imports
-import Prelude
-import Either
-import Madness
-import RxSwift
 
 
 
+ 
