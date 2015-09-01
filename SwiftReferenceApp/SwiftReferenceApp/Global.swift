@@ -88,8 +88,8 @@ public func readOnly<E>(source:BehaviorSubject<E>) -> ReadOnlySubject<E> {
 extension Observable {
     
     // stop flickering signal.
-    func lastFor(dueTime: MainScheduler.TimeInterval) -> Observable<E> {
-        let delay = just(0).delaySubscription(dueTime, MainScheduler.sharedInstance)
+    func lastFor(dueTime: MainScheduler.TimeInterval) -> Observable<Element> {
+        let delay = just(0) >- delaySubscription(dueTime, MainScheduler.sharedInstance)
         return combineLatest(delay, self) { $1 }
     }
     

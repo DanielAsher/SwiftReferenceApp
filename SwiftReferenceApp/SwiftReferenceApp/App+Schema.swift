@@ -7,43 +7,6 @@
 
 import SwiftyStateMachine
 
-public typealias AppTransitionState = (AppState, AppEvent, AppState, UserState)
-
-public struct AppTransition {
-    public let oldState : AppState
-    public let event : AppEvent
-    public let newState : AppState
-    public let userState : UserState
-    
-    public init(oldState: AppState, event: AppEvent, newState: AppState, userState: UserState) {
-        self.oldState = oldState
-        self.event = event
-        self.newState = newState
-        self.userState = userState
-    }
-}
-
-extension AppTransition : Equatable {}
-public func == (lhs: AppTransition, rhs: AppTransition) -> Bool {
-    let o = lhs.oldState == rhs.oldState
-    let e = lhs.event == rhs.event 
-    let n = lhs.newState == rhs.newState 
-    let u = lhs.userState == rhs.userState 
-    return o && e && n && u
-}
-
-extension AppTransition : Printable {
-    public var description: String {
-        return "AppTransition(oldState:\(self.oldState), event: \(self.event), newState: \(self.newState), userState: \(self.userState)"
-    }
-}
-
-extension AppTransition :DebugPrintable {
-    public var debugDescription : String {
-        return  "AppTransition(oldState:\(self.oldState), event: \(self.event), newState: \(self.newState), userState: \(self.userState)" 
-    }
-}
-
 extension App 
 {    
     public typealias Schema = GraphableStateMachineSchema<AppState, AppEvent, App> 
