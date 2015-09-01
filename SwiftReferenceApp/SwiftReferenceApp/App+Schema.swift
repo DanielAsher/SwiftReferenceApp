@@ -11,8 +11,6 @@ extension App
 {    
     public typealias Schema = GraphableStateMachineSchema<AppState, AppEvent, App> 
 
-    
-    
     static var schema = Schema(initialState: .Idle) 
     {   
         state, event in switch state 
