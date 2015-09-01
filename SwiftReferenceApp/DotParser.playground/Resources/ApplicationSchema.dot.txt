@@ -1,8 +1,12 @@
-digraph G 
+digraph ApplicationSchema 
 {
-    {rank=same 0 0}
     compound=true
     graph [rankdir=LR]
+    
+    7 -> 1 [xlabel="Save", color=blue, fontcolor=blue3, lhead=cluster0, ltail=cluster1, weight=1, minlen=7]
+    2 -> 7 [xlabel="Saved", color=darkgreen, fontcolor=darkgreen, lhead=cluster1, ltail=cluster0, weight=1, minlen=7]
+    3 -> 7 [xlabel="Purchased", color=darkgreen, fontcolor=darkgreen, lhead=cluster1, ltail=cluster0, weight=1, minlen=7]
+    
     subgraph cluster0 
     {
 
@@ -15,7 +19,7 @@ digraph G
         appStart [label="", style=invis]
         appStart -> 1 [label="Start", weight=2, color=darkgreen, fontcolor=darkgreen]
 
-        0 [label="Application Start", color=coral3, fontcolor=coral4]
+        0 [label="ApplicationStart", color=coral3, fontcolor=coral4]
         0 -> 1 [xlabel="Start", lhead=cluster0, color=darkgreen, fontcolor=darkgreen]
 
         1 [label="Idle", color=coral3, fontcolor=coral4]
@@ -48,11 +52,9 @@ digraph G
         0 -> 7 [xlabel="Start", lhead=cluster1, color=darkgreen, fontcolor=darkgreen]
 
         6 [label="FullAccess", color=coral3, fontcolor=coral4]
-        7 [label="Trial(count: Int)", color=coral3, fontcolor=coral4]
+        7 [label="Trial", color=coral3, fontcolor=coral4]
         7 -> 6 [label="Purchased", color=darkgreen, fontcolor=darkgreen]
     }
     
-    7 -> 1 [xlabel="Save", color=blue, fontcolor=blue3, lhead=cluster0, ltail=cluster1, weight=0.9, minlen=7]
-    2 -> 7 [xlabel="Saved", color=darkgreen, fontcolor=darkgreen, lhead=cluster1, ltail=cluster0, weight=0.9, minlen=7]
-    3 -> 7 [xlabel="Purchased", color=darkgreen, fontcolor=darkgreen, lhead=cluster1, ltail=cluster0, weight=0.9, minlen=7]
+
 }

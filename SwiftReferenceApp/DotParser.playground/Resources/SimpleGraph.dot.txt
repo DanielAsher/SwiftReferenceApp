@@ -1,3 +1,15 @@
-digraph G { 
-    Hello -> World
+digraph SimpleGraph { 
+    
+    appStart [label="", style=invis]
+    compound=true
+    graph [rankdir=LR]
+    
+    subgraph user 
+    {
+        InitialState -> FinalState [label=Purchased]
+    }
+    
+    InitialState [fontcolor = coral3]
+    Hello -> World [label=Trigger]
+    FirstState -> SecondState -> ThirdState [label=Process, fontcolor=green]
 }
