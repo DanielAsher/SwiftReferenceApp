@@ -82,10 +82,10 @@ extension EdgeRHS : Printable {
 extension Statement : Printable {
     var description : String {
         switch self {
-            case Node(let id, let xs): return "Node ( \(id), \(xs) )\n\t"
-            case Edge(let src, let es, let xs): return "Edge ( \(src), \(es), \(xs) )\n\t"
-            case Attr(let tgt, let xs): return "Attr ( \(tgt), \(xs) )\n\t"
-            case Property(let attribute): return "Property ( \(attribute) )\n\t"
+            case Node(let id, let xs): return "Node ( \(id), \(xs) )\n"
+            case Edge(let src, let es, let xs): return "Edge ( \(src), \(es), \(xs) )\n"
+            case Attr(let tgt, let xs): return "Attr ( \(tgt), \(xs) )\n"
+            case Property(let attribute): return "Property ( \(attribute) )\n"
             case Subgraph(let id, let stmts):
                 return "Subgraph ( id: \"" + (id ?? "") + "\", stmts: \(stmts))"
         }
@@ -263,11 +263,11 @@ output2 == "[compound = true, fontcolor = coral3, a = b, hello = world]"
 
 let input3 = "graph " + input2
 let output3 = parse(attr_stmt, input3).result
-output3 == "Attr ( graph, [compound = true, fontcolor = coral3, a = b, hello = world] )"
+output3 == "Attr ( graph, [compound = true, fontcolor = coral3, a = b, hello = world] )\n"
 
 let input4 = "StartNode [xlabel = Start]"
 let output4 = parse(node_stmt, input4).result
-output4 == "Node ( StartNode, [xlabel = Start] )"
+output4 == "Node ( StartNode, [xlabel = Start] )\n"
 
 let input5 = "-> ReceiveNode -> NextNode "
 let output5 = parse(edgeRHS, input5).result
@@ -275,7 +275,7 @@ output5 == "[-> ReceiveNode, -> NextNode]"
 
 let input6 = "SourceState -> TargetState [label = Trigger]"
 let output6 = parse(edge_stmt, input6).result
-output6 == "Edge ( SourceState, [-> TargetState], [label = Trigger]"
+output6 == "Edge ( SourceState, [-> TargetState], [label = Trigger] )\n"
 
 
 
