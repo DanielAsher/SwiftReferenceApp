@@ -55,6 +55,35 @@ struct Graph {
     let stmt_list   : [Statement]
 }
 //: Printable `extensions`
+
+extension Statement {
+    var toString : String {
+        switch self {
+        case let Node(id, attrs): 
+            return "\(self)"
+        case let Edge(source, edgeRHS, attributes):
+            return "\(self)"
+        case let Attr(target, attributes):
+            return "\(self)"
+        case let Property(attr):
+            return "\(self)"
+        case let Subgraph(id, stmts):
+            return "\(self)"
+         }
+    }
+}
+
+extension Graph {
+    var toString : String {
+        let id = self.id ?? ""
+        let stmts_render = self.stmt_list.reduce("") 
+        { str, stmt -> String in
+            return str + stmt.toString
+        }
+        return "\(type) \(id) { \(stmts_render) }"
+    }
+}
+
 extension Attribute : Printable {
     var description : String {
         return "\(name) = \(value)"
@@ -198,8 +227,8 @@ let node_stmt = node_id ++ attr_list*
 */
 let edgeRHS : Parser<String, [EdgeRHS]>.Function = fix { edgeRHS in
     // TODO: Get rid of nested tuples and the maps they require to unfold them.
-    let edgeSpec = edgeop ++ node_id    |> map { [EdgeRHS(edgeOp: $0, target: $1)] }
-    return edgeSpec ++ edgeRHS*         |> map { $0 + $1.flatMap { $0 } }
+    let edgeSpec = edgeop ++ node_id    |> map { EdgeRHS(edgeOp: $0, target: $1) }
+    return edgeSpec ++ edgeRHS*         |> map { [$0] + $1.flatMap { $0 } }
     }
 /*: 
 ## _edge_stmt_ : (node_id | subgraph) edgeRHS [ attr_list ]
@@ -249,33 +278,49 @@ let graph = graph_id ++ ignore(leftBrace) ++ stmt_list ++ ignore(rightBrace)
 */
 
 
-let output = parse(graph, applicationSchema)
-println(output.result)
+let output = parse(graph, simpleGraphDotString)
+let result = output.right!
+
+println(result.toString)
+
+typealias Renderer = Parser<[Statement], String>.Function
+//(C, C.Index) -> Either.Either<Madness.Error<C.Index>, (Tree, C.Index)
+let renderParser : Renderer = {
+    stmts, index in
+    return Either.left(Error.leaf("Unimplemented", index))
+}
+let stmts = result.stmt_list
+
+//let render
 
 
-let input1 = "compound = true; fontcolor=coral3, a=b \n \t\t hello = world "
-let output1 = parse(a_list, input1).result
-output1 == "[compound = true, fontcolor = coral3, a = b, hello = world]"
 
-let input2 = "[ compound = true; fontcolor=coral3] [a=b \n \t\t hello = world ]"
-let output2 = parse(attr_list, input2).result
-output2 == "[compound = true, fontcolor = coral3, a = b, hello = world]"
+//println(output.result)
 
-let input3 = "graph " + input2
-let output3 = parse(attr_stmt, input3).result
-output3 == "Attr ( graph, [compound = true, fontcolor = coral3, a = b, hello = world] )\n"
-
-let input4 = "StartNode [xlabel = Start]"
-let output4 = parse(node_stmt, input4).result
-output4 == "Node ( StartNode, [xlabel = Start] )\n"
-
-let input5 = "-> ReceiveNode -> NextNode "
-let output5 = parse(edgeRHS, input5).result
-output5 == "[-> ReceiveNode, -> NextNode]"
-
-let input6 = "SourceState -> TargetState [label = Trigger]"
-let output6 = parse(edge_stmt, input6).result
-output6 == "Edge ( SourceState, [-> TargetState], [label = Trigger] )\n"
+//
+//let input1 = "compound = true; fontcolor=coral3, a=b \n \t\t hello = world "
+//let output1 = parse(a_list, input1).result
+//output1 == "[compound = true, fontcolor = coral3, a = b, hello = world]"
+//
+//let input2 = "[ compound = true; fontcolor=coral3] [a=b \n \t\t hello = world ]"
+//let output2 = parse(attr_list, input2).result
+//output2 == "[compound = true, fontcolor = coral3, a = b, hello = world]"
+//
+//let input3 = "graph " + input2
+//let output3 = parse(attr_stmt, input3).result
+//output3 == "Attr ( graph, [compound = true, fontcolor = coral3, a = b, hello = world] )\n"
+//
+//let input4 = "StartNode [xlabel = Start]"
+//let output4 = parse(node_stmt, input4).result
+//output4 == "Node ( StartNode, [xlabel = Start] )\n"
+//
+//let input5 = "-> ReceiveNode -> NextNode "
+//let output5 = parse(edgeRHS, input5).result
+//output5 == "[-> ReceiveNode, -> NextNode]"
+//
+//let input6 = "SourceState -> TargetState [label = Trigger]"
+//let output6 = parse(edge_stmt, input6).result
+//output6 == "Edge ( SourceState, [-> TargetState], [label = Trigger] )\n"
 
 
 
