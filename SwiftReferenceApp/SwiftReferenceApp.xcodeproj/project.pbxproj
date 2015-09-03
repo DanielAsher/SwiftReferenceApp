@@ -335,6 +335,7 @@
 		657B2C881B873B0E001F6BC2 /* RxBlocking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RxBlocking.xcodeproj; path = ../Modules/RxSwift/RxBlocking/RxBlocking.xcodeproj; sourceTree = "<group>"; };
 		657B2C911B873B23001F6BC2 /* Madness.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Madness.xcodeproj; path = ../Modules/Madness/Madness.xcodeproj; sourceTree = "<group>"; };
 		657B2CA01B873B39001F6BC2 /* Quick.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quick.xcodeproj; path = ../Modules/Quick/Quick.xcodeproj; sourceTree = "<group>"; };
+		658049911B9812F4001E7F21 /* PatternMatchingOperator.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = PatternMatchingOperator.playground; path = Playgrounds/PatternMatchingOperator.playground; sourceTree = "<group>"; };
 		6586281E1B90FF7500107A04 /* Parser.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Parser.playground; path = Playgrounds/Parser.playground; sourceTree = "<group>"; };
 		65A7404B1B94467D0026DB72 /* Scratch.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Scratch.playground; path = Playgrounds/Scratch.playground; sourceTree = "<group>"; };
 		65B1BEFD1B8C37490064FF47 /* RxAndDisposable.iOS.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = RxAndDisposable.iOS.playground; path = Playgrounds/RxAndDisposable.iOS.playground; sourceTree = "<group>"; };
@@ -544,6 +545,7 @@
 				657456BC1B8F3FFE000512B6 /* RxSelectMany.playground */,
 				6586281E1B90FF7500107A04 /* Parser.playground */,
 				65A7404B1B94467D0026DB72 /* Scratch.playground */,
+				658049911B9812F4001E7F21 /* PatternMatchingOperator.playground */,
 			);
 			name = Playgrounds;
 			sourceTree = "<group>";
