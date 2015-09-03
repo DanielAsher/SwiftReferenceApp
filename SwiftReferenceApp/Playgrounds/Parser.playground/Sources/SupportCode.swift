@@ -5,14 +5,13 @@ let bundle = NSBundle.mainBundle()
 
 func getDotFileAsString(name: String) -> String 
 {
-    let dotFilePath = bundle.pathForResource(name, ofType: "dot")    
+    let dotFilePath = bundle.pathForResource(name, ofType: "dot")!    
     
     let string = try! String (
-        contentsOfFile: dotFilePath!, 
+        contentsOfFile: dotFilePath, 
         encoding:NSUTF8StringEncoding)
     return string
 }
-
 
 
 public var simpleGraphDotString = getDotFileAsString("SimpleGraph")

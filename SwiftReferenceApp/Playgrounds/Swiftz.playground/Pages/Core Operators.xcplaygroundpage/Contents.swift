@@ -23,7 +23,7 @@ let greeting =
     { "Hi \($0)!" } <^> sam 
 //: use `Functor` `fmap` to lift `(Character) -> Character` over Optional
 let toLower = 
-    greeting?.fmap { $0.toLower() } 
+    greeting?.fmap { $0.toLower } 
 
 let longerGreeting1 = 
     { a in { b in 
@@ -33,7 +33,6 @@ let longerGreeting1 =
 let longerGreeting2 = curry 
     { "Hello " + $0 + ", my name is " + $1 + ". Pleased to meet you" } 
     <^> sam <*> daniel
-
 /*: Different ways to create curried functions
     let multiply_a : Int -> Int -> Int = curry { $0 * $1 } 
     let multiply_b = curry { (a:Int, b) in a * b }
@@ -42,14 +41,10 @@ let longerGreeting2 = curry
 */
 
 //: type-inference seems to flow backwards to allow swift to infer the correct `-` operator
-
 let result = 
     curry { x, y in x-y } <^> [3, 4] <*> [1,2,3]
 
-
-
-
-
+print(result)
 
 
 

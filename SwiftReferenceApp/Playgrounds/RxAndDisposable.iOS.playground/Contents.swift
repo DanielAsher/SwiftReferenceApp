@@ -52,4 +52,7 @@ using(red) {
     using(blue) {
         print("ooh - nice in blue", terminator: "")
         using(green) {
-            print("yikes! what color was I before blue? oh - I don't need to worry. `using` is taking care of it.",
+            print("yikes! what color was I before blue? oh - I don't need to worry. `using` is taking care of it.")
+        }
+    }
+}
