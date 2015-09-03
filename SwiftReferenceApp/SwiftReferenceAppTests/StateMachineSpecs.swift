@@ -36,7 +36,7 @@ class StateMachineSpecs: QuickSpec
             fit("moves App to Alerting for Trial User on the sixth Saved then, on successful purchase enables Save") 
             {
 
-                let signalTransition = AppTransition(
+                let sixthSaveTransition = AppTransition(
                         oldState: .Saving, event:.Failed, 
                         newState: .Alerting, userState: .Trial(count: 6)
                         )
@@ -46,7 +46,7 @@ class StateMachineSpecs: QuickSpec
                 using( buttonPusher ) 
                 {
                     expect(app.transition.value)
-                    .toEventually(equal(signalTransition), timeout: 10, pollInterval: 1) 
+                    .toEventually(equal(sixthSaveTransition), timeout: 10, pollInterval: 1) 
                 }
                  
                 app.appState >- on(.Idle) { app <- .Purchase } 

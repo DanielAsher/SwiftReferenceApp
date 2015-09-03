@@ -278,7 +278,7 @@ let graph = graph_id ++ ignore(leftBrace) ++ stmt_list ++ ignore(rightBrace)
 */
 
 
-let output = parse(graph, simpleGraphDotString)
+let output = parse(graph, applicationSchema)
 let result = output.right!
 
 println(result.toString)

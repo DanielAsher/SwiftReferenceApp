@@ -219,6 +219,34 @@
 			remoteGlobalIDString = DA9876B21A4C70EB0004AA17;
 			remoteInfo = "QuickFocused-iOSTests";
 		};
+		658049B01B9816C1001E7F21 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 658049A81B9816C0001E7F21 /* Swiftz.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 84A88F981A71DF7F003D53CF;
+			remoteInfo = Swiftz;
+		};
+		658049B21B9816C1001E7F21 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 658049A81B9816C0001E7F21 /* Swiftz.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 84A88FA31A71DF7F003D53CF;
+			remoteInfo = SwiftzTests;
+		};
+		658049B41B9816C1001E7F21 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 658049A81B9816C0001E7F21 /* Swiftz.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 84DF751E1B0BD17700C912B0;
+			remoteInfo = "Swiftz-iOS";
+		};
+		658049B61B9816C1001E7F21 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 658049A81B9816C0001E7F21 /* Swiftz.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 84DF75281B0BD17700C912B0;
+			remoteInfo = "Swiftz-iOSTests";
+		};
 		65C024CF1B873C9A0037E325 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 657B2C581B873AB6001F6BC2 /* SwiftyStateMachine.xcodeproj */;
@@ -336,6 +364,8 @@
 		657B2C911B873B23001F6BC2 /* Madness.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Madness.xcodeproj; path = ../Modules/Madness/Madness.xcodeproj; sourceTree = "<group>"; };
 		657B2CA01B873B39001F6BC2 /* Quick.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quick.xcodeproj; path = ../Modules/Quick/Quick.xcodeproj; sourceTree = "<group>"; };
 		658049911B9812F4001E7F21 /* PatternMatchingOperator.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = PatternMatchingOperator.playground; path = Playgrounds/PatternMatchingOperator.playground; sourceTree = "<group>"; };
+		658049A81B9816C0001E7F21 /* Swiftz.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Swiftz.xcodeproj; path = ../Modules/Swiftz/Swiftz.xcodeproj; sourceTree = "<group>"; };
+		658049B81B986E71001E7F21 /* Swiftz.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Swiftz.playground; path = Playgrounds/Swiftz.playground; sourceTree = "<group>"; };
 		6586281E1B90FF7500107A04 /* Parser.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Parser.playground; path = Playgrounds/Parser.playground; sourceTree = "<group>"; };
 		65A7404B1B94467D0026DB72 /* Scratch.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Scratch.playground; path = Playgrounds/Scratch.playground; sourceTree = "<group>"; };
 		65B1BEFD1B8C37490064FF47 /* RxAndDisposable.iOS.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = RxAndDisposable.iOS.playground; path = Playgrounds/RxAndDisposable.iOS.playground; sourceTree = "<group>"; };
@@ -459,6 +489,7 @@
 				657B2C761B873AEB001F6BC2 /* RxSwift.xcodeproj */,
 				657B2C581B873AB6001F6BC2 /* SwiftyStateMachine.xcodeproj */,
 				657B2C671B873AD1001F6BC2 /* SwiftTask.xcodeproj */,
+				658049A81B9816C0001E7F21 /* Swiftz.xcodeproj */,
 			);
 			name = Dependencies;
 			sourceTree = "<group>";
@@ -536,6 +567,17 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		658049A91B9816C0001E7F21 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				658049B11B9816C1001E7F21 /* Swiftz.framework */,
+				658049B31B9816C1001E7F21 /* SwiftzTests.xctest */,
+				658049B51B9816C1001E7F21 /* Swiftz.framework */,
+				658049B71B9816C1001E7F21 /* Swiftz-iOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		65B1BEE61B8C37170064FF47 /* Playgrounds */ = {
 			isa = PBXGroup;
 			children = (
@@ -546,6 +588,7 @@
 				6586281E1B90FF7500107A04 /* Parser.playground */,
 				65A7404B1B94467D0026DB72 /* Scratch.playground */,
 				658049911B9812F4001E7F21 /* PatternMatchingOperator.playground */,
+				658049B81B986E71001E7F21 /* Swiftz.playground */,
 			);
 			name = Playgrounds;
 			sourceTree = "<group>";
@@ -704,6 +747,10 @@
 				{
 					ProductGroup = 657B2C591B873AB6001F6BC2 /* Products */;
 					ProjectRef = 657B2C581B873AB6001F6BC2 /* SwiftyStateMachine.xcodeproj */;
+				},
+				{
+					ProductGroup = 658049A91B9816C0001E7F21 /* Products */;
+					ProjectRef = 658049A81B9816C0001E7F21 /* Swiftz.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -881,6 +928,34 @@
 			fileType = wrapper.cfbundle;
 			path = "QuickFocused-iOSTests.xctest";
 			remoteRef = 657B2CB31B873B39001F6BC2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		658049B11B9816C1001E7F21 /* Swiftz.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Swiftz.framework;
+			remoteRef = 658049B01B9816C1001E7F21 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		658049B31B9816C1001E7F21 /* SwiftzTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SwiftzTests.xctest;
+			remoteRef = 658049B21B9816C1001E7F21 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		658049B51B9816C1001E7F21 /* Swiftz.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Swiftz.framework;
+			remoteRef = 658049B41B9816C1001E7F21 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		658049B71B9816C1001E7F21 /* Swiftz-iOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Swiftz-iOSTests.xctest";
+			remoteRef = 658049B61B9816C1001E7F21 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		65D837AF1B8749E600B6D7D3 /* Nimble.framework */ = {

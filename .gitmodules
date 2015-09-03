@@ -13,3 +13,6 @@
 [submodule "Modules/Madness"]
 	path = Modules/Madness
 	url = https://github.com/DanielAsher/Madness.git
+[submodule "Modules/Swiftz"]
+	path = Modules/Swiftz
+	url = https://github.com/DanielAsher/Swiftz.git
