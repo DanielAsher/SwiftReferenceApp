@@ -6,11 +6,10 @@ let bundle = NSBundle.mainBundle()
 func getDotFileAsString(name: String) -> String 
 {
     let dotFilePath = bundle.pathForResource(name, ofType: "dot")    
-    var error:NSError?
-    let string = String(
+    
+    let string = try! String (
         contentsOfFile: dotFilePath!, 
-        encoding:NSUTF8StringEncoding, 
-        error: &error)!
+        encoding:NSUTF8StringEncoding)
     return string
 }
 

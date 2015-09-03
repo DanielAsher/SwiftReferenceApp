@@ -48,24 +48,8 @@ let blue = ColorSet(color: UIColor.blueColor())
 let green = ColorSet(color: UIColor.greenColor())
 
 using(red) {
-    print("I want to change to blue, but how do I remember I used to be red?")
+    print("I want to change to blue, but how do I remember I used to be red?", terminator: "")
     using(blue) {
-        print("ooh - nice in blue")
+        print("ooh - nice in blue", terminator: "")
         using(green) {
-            print("yikes! what color was I before blue? oh - I don't need to worry. `using` is taking care of it.")
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
+            print("yikes! what color was I before blue? oh - I don't need to worry. `using` is taking care of it.",

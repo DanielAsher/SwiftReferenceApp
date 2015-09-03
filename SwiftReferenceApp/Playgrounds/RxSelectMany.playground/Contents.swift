@@ -6,7 +6,7 @@ import RxSwift
 //import RxBlocking
 import XCPlayground
 
-XCPSetExecutionShouldContinueIndefinitely(continueIndefinitely: true)
+XCPSetExecutionShouldContinueIndefinitely(true)
 
 infix operator >+ { associativity left precedence 90 }
 
@@ -40,7 +40,7 @@ func example<T>(of message: String, closure: () -> T) -> T  {
         { v in println("\t \(v)") }
     
     let result = closure() 
-    println("")
+    print("")
     return result 
 }
 

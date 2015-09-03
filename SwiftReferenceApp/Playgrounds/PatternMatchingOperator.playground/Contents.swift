@@ -14,7 +14,7 @@ enum Either {
     case Left, Right
 }
 
-extension Either : Printable {
+extension Either : CustomStringConvertible {
     var description : String {
         switch self {
         case .Left: return "Left"
@@ -35,4 +35,4 @@ let either : Either -> Bool = { either in
 }
 
 
-either(Either.Left)
+either
