@@ -5,7 +5,6 @@
 ### Created by Daniel Asher on 5/08/2015.
 ### Copyright (c) 2015 StoryShare. All rights reserved.
 */
-import Swiftz
 /*: 
  ## Bind 
  `>>-` defines `𝐏<C, *>.𝒇` as monadic

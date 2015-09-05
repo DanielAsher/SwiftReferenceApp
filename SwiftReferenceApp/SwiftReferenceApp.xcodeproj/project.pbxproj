@@ -316,7 +316,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6506B3451B99914B00607FC8 /* SwiftStrings.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = SwiftStrings.playground; path = Playgrounds/SwiftStrings.playground; sourceTree = "<group>"; };
+		6506B3451B99914B00607FC8 /* Swiftx.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Swiftx.playground; path = Playgrounds/Swiftx.playground; sourceTree = "<group>"; };
 		65185A0D1B89C309001F85D5 /* StateMachineSpecs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateMachineSpecs.swift; sourceTree = "<group>"; };
 		654F9F941B8759B60042F370 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		654F9FC21B875A5D0042F370 /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
@@ -548,7 +548,7 @@
 				65A7404B1B94467D0026DB72 /* Scratch.playground */,
 				658049911B9812F4001E7F21 /* PatternMatchingOperator.playground */,
 				658049B81B986E71001E7F21 /* Swiftz.playground */,
-				6506B3451B99914B00607FC8 /* SwiftStrings.playground */,
+				6506B3451B99914B00607FC8 /* Swiftx.playground */,
 			);
 			name = Playgrounds;
 			sourceTree = "<group>";
