@@ -49,4 +49,10 @@ public func parse <C: CollectionType, Tree> (parser: 𝐏 <C, Tree>.𝒇, input:
     }
 }
 
+/// The type of trees to drop from the input.
+public struct Ignore {
+    public init() {}
+}
 
+/// Map operator. Lower precedence than |.
+infix operator --> { associativity left precedence 100 }
