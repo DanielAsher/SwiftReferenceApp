@@ -88,8 +88,19 @@ public func |> <A, B>(a : A, f : A -> B) -> B {
 /// point at which further application of x to a function is the same x.
 ///
 ///     x = f(x)
-public func fix<A>(f : ((A -> A) -> A -> A)) -> A -> A {
-	return { x in f(fix(f))(x) }
+//public func fix<A>(f : ((A -> A) -> A -> A)) -> A -> A {
+//	return { x in f(fix(f))(x) }
+//}
+
+/// Returns the least fixed point of the function returned by `f`.
+///
+/// This is useful for e.g. making recursive closures without using the two-step assignment dance.
+///
+/// \param f  - A function which takes a parameter function, and returns a result function. The result function may recur by calling the parameter function.
+///
+/// \return  A recursive function.
+public func fix<T, U>(f: (T -> U) -> T -> U) -> T -> U {
+    return { x in f(fix(f))(x) }
 }
 
 /// On | Applies the function on its right to both its arguments, then applies the function on its

@@ -12,12 +12,7 @@ import func Swiftz.>>-
 let str : String? = .Some("Sam")
 
 let greeting = { "Hello \($0)!" } <^> str 
-println(greeting)
-
-
-
-
-
+print(greeting)
 
 //greeting("hi")
 //
