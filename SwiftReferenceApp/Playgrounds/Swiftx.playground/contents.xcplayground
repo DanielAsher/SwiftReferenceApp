@@ -3,5 +3,6 @@
     <pages>
         <page name='Parser Combinators from Scratch'/>
         <page name='ParserType'/>
+        <page name='ParserTests'/>
     </pages>
 </playground>

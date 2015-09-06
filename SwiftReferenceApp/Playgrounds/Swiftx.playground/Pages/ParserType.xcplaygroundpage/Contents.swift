@@ -19,18 +19,18 @@ enum Parser<C: CollectionType, T> : ParserType {
     typealias Error = ParserError
 }
 
-prefix func % <Input: CollectionType where Input.Generator.Element: Equatable>
-    (literal: Input) 
-        -> Parser<Input, Input>.Function 
-{
-    literal.count
-    return { inp, index in
-        return (literal, literal.startIndex) 
-        }
-}
-
-extension String : CollectionType {
-}
+//prefix func % <Input: CollectionType where Input.Generator.Element: Equatable>
+//    (literal: Input) 
+//        -> Parser<Input, Input>.Function 
+//{
+//    literal.count
+//    return { inp, index in
+//        return (literal, literal.startIndex) 
+//        }
+//}
+//
+//extension String : CollectionType {
+//}
 
 //extension String.Index {
 //    func a() {
@@ -38,10 +38,10 @@ extension String : CollectionType {
 //    }
 //}
 
-let helloParser = %"Hello"
-let str = "Hello again"
-let result = try! helloParser(str, str.startIndex)
-
-print("> Complete :) ")
+//let helloParser = %"Hello"
+//let str = "Hello again"
+//let result = try! helloParser(str, str.startIndex)
+//
+//print("> Complete :) ")
 
 //: [Next](@next)
