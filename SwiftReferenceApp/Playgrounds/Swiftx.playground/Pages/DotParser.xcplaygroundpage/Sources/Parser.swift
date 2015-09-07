@@ -225,7 +225,7 @@ public func *
     <I: CollectionType, T> 
     (parser:    𝐏<I, T >.𝒇, 
     interval:   HalfOpenInterval<Int>) 
-    -> 𝐏<I,[T]>.𝒇 
+             -> 𝐏<I,[T]>.𝒇 
 {
     return interval.isEmpty ? { throw ParserError<I>.Error(
         message: "cannot parse an empty interval of repetitions", 
@@ -235,7 +235,7 @@ public func *
 //: Parses `parser` 0 or more times.
 public postfix func * <I: CollectionType, T> 
     (parser: 𝐏<I, T >.𝒇) 
-    -> 𝐏<I,[T]>.𝒇 
+          -> 𝐏<I,[T]>.𝒇 
 {
     return parser * (0..<Int.max)
 }
@@ -301,7 +301,7 @@ infix operator --> { associativity left precedence 100 }
 public func --> <I: CollectionType, T, U>(
     parser:    𝐏<I, T>.𝒇, 
     transform: (I, Range<I.Index>, T) -> U) 
-    -> 𝐏<I, U>.𝒇 
+            -> 𝐏<I, U>.𝒇 
 {
     // TODO: Consider implementing with `map`. Broke compiler first time I tried :)
     return { 
@@ -312,8 +312,9 @@ public func --> <I: CollectionType, T, U>(
     }
 }
 //: Ignores any parse trees produced by `parser`.
-public func ignore<I: CollectionType, T>(
-    parser: 𝐏<I, T>.𝒇) -> 𝐏<I, Ignore>.𝒇 
+public func ignore<I: CollectionType, T>
+   (parser: 𝐏<I, T>.𝒇) 
+         -> 𝐏<I, Ignore>.𝒇 
 {
     return parser --> const(Ignore())
 }
@@ -324,7 +325,8 @@ public func ignore(string: String) -> 𝐏<String, Ignore>.𝒇 {
 //: `parse` function. takes a `parser` and `input` and produces a `Tree?`
 public func parse <Input: CollectionType, Tree> (
     parser: 𝐏 <Input, Tree>.𝒇, 
-    input:  Input) -> (Tree?, String?)
+    input:  Input) 
+        -> (Tree?, String?)
 {
     do {
         let (result, _) = try parser(input, input.startIndex)
@@ -337,3 +339,4 @@ public func parse <Input: CollectionType, Tree> (
         return (nil, "Undefined Error! \(error)")
     }
 }
+//: End of Parser Combinators. Phew!

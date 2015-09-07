@@ -55,7 +55,10 @@ public func • <A, B, C>(f : B -> C, g : A -> B) -> A -> C {
 public func § <A, B>(f : A -> B, a : A) -> B {
 	return f(a)
 }
-
+/// Key Chord: ⌥ + 6
+public func § <A, B>(f : A throws -> B, a : A) throws -> B {
+    return try f(a)
+}
 /// Pipe Backward | Applies the function to its left to an argument on its right.
 ///
 /// Because of this operator's extremely low precedence it can be used to elide parenthesis in
@@ -88,7 +91,7 @@ public func |> <A, B>(a : A, f : A -> B) -> B {
 /// point at which further application of x to a function is the same x.
 ///
 ///     x = f(x)
-//public func fix<A>(f : ((A -> A) -> A -> A)) -> A -> A {
+//public func fix<A, B>(f : ((A -> B) -> A -> B)) -> A -> B {
 //	return { x in f(fix(f))(x) }
 //}
 
@@ -99,8 +102,28 @@ public func |> <A, B>(a : A, f : A -> B) -> B {
 /// \param f  - A function which takes a parameter function, and returns a result function. The result function may recur by calling the parameter function.
 ///
 /// \return  A recursive function.
-public func fix<T, U>(f: (T -> U) -> T -> U) -> T -> U {
+public func fix<A, B>(f: (A -> B) -> A -> B) -> A -> B {
     return { x in f(fix(f))(x) }
+}
+
+/// The fixpoint (or Y) combinator computes the least fixed point of an equation. That is, the first
+/// point at which further application of x to a function is the same x.
+/// fixt is the exception enabled version of fix.
+///     x = f(x)
+//public func fixt<A, B>(f : ((A throws -> B) -> A throws -> B)) -> A throws -> A {
+//	return { x in try f(fixt(f))(x) }
+//}
+
+/// Returns the least fixed point of the function returned by `f`.
+///
+/// This is useful for e.g. making recursive closures without using the two-step assignment dance.
+///
+/// \param f  - A function which takes a parameter function, and returns a result function. The result function may recur by calling the parameter function.
+///
+/// \return  A recursive function.
+
+public func fixt<A, B>(f : (A throws -> B) throws -> (A throws -> B)) rethrows -> A throws -> B {
+    return { x in try f(fixt(f))(x) }
 }
 
 /// On | Applies the function on its right to both its arguments, then applies the function on its

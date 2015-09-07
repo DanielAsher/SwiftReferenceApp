@@ -66,6 +66,49 @@ let id_equality2 = id ++ ignore(equal) ++ ignore(quote|?) ++ id|? ++ ignore(quot
     
 let p1 = (id_equality ++ sep)*
 
+
+let rId = parse(id, input: "InitialState")
+
+
+let f  = 
+    fix { f in
+        return { x in x > 0 ? f(x - 1): 0 }
+    }
+
+let x1 = f(3)
+
+enum Error : ErrorType { case InvalidArgument }
+
+let g : Int throws -> Int = 
+    fixt { g in
+        return { x in 
+            guard x > 0 else {
+                throw Error.InvalidArgument
+            }
+            return try x == 0 ? g(x - 1): 0
+        }
+    }
+
+func run() -> Int {
+    do {
+        let a = try g(2)
+        print(a)
+        return a
+    } catch let e {
+        print(e)
+        return Int.max
+    }
+}
+
+
+let a = run()
+
+
+    
+
+
+
+
 /*:
 
 

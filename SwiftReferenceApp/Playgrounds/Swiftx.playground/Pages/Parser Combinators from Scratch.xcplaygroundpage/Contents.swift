@@ -14,68 +14,104 @@ public enum 𝐏 < Input: CollectionType, Tree> {
     public typealias 𝒇 = (Input, Input.Index) throws -> Result
     public typealias Result = (Tree, Input.Index)
 }
+public func debug<I: CollectionType, T>
+    (callingFunction: String)
+    (_ parser: 𝐏<I, T>.𝒇)
+    -> 𝐏<I, T>.𝒇
+{
+    return { xs, xi in 
+        print(callingFunction, "before:", "\"\(xs)\"", ";", xi)
+        let (ys, yi) = try parser(xs, xi) 
+        print(callingFunction, "after:", "\"\(xs)\"", "->", "\"\(ys)\"", ";", xi, "->", yi)
+        return (ys, yi) 
+    }
+}
 /*: 
 ## `>>-` : The fundamental operator `bind`
 */
 infix operator >>- {  associativity left precedence 130 }
 /*: 
- ## Bind: 
- `>>-` defines `𝐏<I, *>.𝒇` as monadic
+## Bind: 
+`>>-` defines `𝐏<I, *>.𝒇` as monadic
 */
 public func >>- <I: CollectionType, T, U> 
-(
+    (
     parser:          𝐏<I, T>.𝒇, 
     transform:  T -> 𝐏<I, U>.𝒇) -> 𝐏<I, U>.𝒇 
 {
-    return { input, index in 
-        let (result, newIndex) = try parser(input, index) 
-        return try transform(result)(input, newIndex)
+    return { input, index in
+        let (result, newIndex) = try debug(">>- \t\t:")(parser)(input, index) 
+        return try debug(">>- trans\t:") (transform(result)) (input, newIndex)
     }
 }
 /*: 
- `pure` returns a parser which always ignores its input and produces a constant value.
+`pure` returns a parser which always ignores its input and produces a constant value.
 */
-public func pure<I: CollectionType, T>(value: T) -> 𝐏<I, T>.𝒇 {
-    return { _, index in (value, index) }
+public func pure<I: CollectionType, T>
+    (value: T) -> 𝐏<I, T>.𝒇 
+{
+    return { _, index in (value, index) } |> debug("pure \t\t:") 
 }
 //: `apply` returns a parser which applies `f` to transform the output of `parser`.
 //: notice how `f` is _injected_ into parser's monadic context.
-public func <^> <I: CollectionType, T, U> (
-    transform: T -> U, 
-    parser:    𝐏<I, T>.𝒇) -> 𝐏<I, U>.𝒇 
+public func <^> <I: CollectionType, T, U> 
+    (transform: T -> U, 
+    parser:    𝐏<I, T>.𝒇) 
+            -> 𝐏<I, U>.𝒇 
 {
-    return parser >>- { pure(transform($0)) }
+    return debug("<^> \t\t:")(parser) >>- { pure(transform($0)) } 
 }
 //: map is a curried form of ` <^> `, to be used with `|>`
 public func map<I: CollectionType, T, U>
     (transform: T -> U)
-    (_ parser:  𝐏<I, T>.𝒇) -> 𝐏<I, U>.𝒇 
+    (_ parser:  𝐏<I, T>.𝒇) 
+             -> 𝐏<I, U>.𝒇 
 {
-    return transform <^> parser
+    return transform <^> parser |> debug("map\t\t:") 
 }
 //: `ParserError`
 public enum ParserError<Input: CollectionType> : ErrorType {
     case Error(message: String, index: Input.Index)
 }
+
+//: # Optionality
 //: The type of trees to drop from the input.
 public struct Ignore {
     public init() {}
 }
+//: `|?` is the optionality operator.
+postfix operator |? {}
+//: `|?` parses T zero or one time to return T?
+public postfix func |? <I: CollectionType, T> 
+    (parser: 𝐏<I, T>.𝒇) 
+          -> 𝐏<I, T?>.𝒇 
+{
+    return first <^> parser * (0...1)
+}
+//: `|?` parses T zero or one time to return an `Ignore`, dropping the parse tree.
+public postfix func |? <I: CollectionType> 
+    (parser: 𝐏<I, Ignore>.𝒇) 
+          -> 𝐏<I, Ignore>.𝒇 
+{
+    return ignore(parser * (0...1))
+}
+
+
 //: Parser algebras need `OR` and `AND` operators to map over their domain.
 //: ## Alternation:
 //: `alternate` takes two parsers, `(lhs: T)` and `(rhs: U)` and produces a tuple `(T, U)` 
-func alternate<Input: CollectionType, T, U> 
-    (  leftParser:  𝐏<Input, T>.𝒇, 
-     _ rightParser: 𝐏<Input, U>.𝒇)
+public func alternate<Input: CollectionType, T, U> 
+    ( leftParser:  𝐏<Input, T>.𝒇, 
+    _ rightParser: 𝐏<Input, U>.𝒇)
     (input: Input, index: Input.Index) throws -> 𝐏<Input, Either<T, U>>.Result
 {
     do {
-        let (result, newIndex) = try leftParser(input, index)
-        return ( Either<T,U>.Left(result), newIndex )
+        let (result, newIndex) = try debug("alt left\t:") (leftParser) (input, index) 
+        return ( Either<T,U>.Left(result), newIndex ) 
     } 
     catch ParserError<Input>.Error(_, _) {
         do {
-            let (result, newIndex) = try rightParser(input, index)   
+            let (result, newIndex) = try debug("alt right\t:") (rightParser) (input, index)   
             return ( Either<T,U>.Right(result), newIndex ) 
         } 
         catch ParserError<Input>.Error(let m, let i) {
@@ -86,16 +122,23 @@ func alternate<Input: CollectionType, T, U>
 //: `|` parses either `(lhs: U)` or `(rhs: T)` and creates a parser that returns `Either<T, U>`
 public func | <I: CollectionType, T, U> (
     lhs: 𝐏<I, T>.𝒇, 
-    rhs: 𝐏<I, U>.𝒇) -> 𝐏<I, Either<T, U>>.𝒇 
+    rhs: 𝐏<I, U>.𝒇) 
+      -> 𝐏<I, Either<T, U>>.𝒇 
 {
-    return alternate(lhs, rhs)
+    return debug("| <T,U> \t:")(alternate(lhs, rhs)) // |> debug("| <T,U> \tOut:")
 }
 //: `|` parses either `(lhs: T)` or `(rhs: T)` and creates a parser that **coalesces** their `T`s
 public func | <I: CollectionType, T> (
     lhs: 𝐏<I, T>.𝒇, 
-    rhs: 𝐏<I, T>.𝒇) -> 𝐏<I, T>.𝒇 
+    rhs: 𝐏<I, T>.𝒇) 
+      -> 𝐏<I, T>.𝒇 
 {
-    return alternate(lhs, rhs) |> map { $0.either(onLeft: identity, onRight: identity) }
+    return debug("| <T,T> \t:") (alternate(lhs, rhs)) 
+        |> map { $0.either(onLeft: identity, onRight: identity) }
+}
+//: `first` helper function.
+func first<I: CollectionType>(input: I) -> I.Generator.Element? {
+    return input.first
 }
 //: ## Concatenation:
 //: Concatenation operator. 
@@ -107,7 +150,8 @@ public func ++ <I: CollectionType, T, U> (
     rhs: 𝐏<I, U     >.𝒇) 
       -> 𝐏<I, (T, U)>.𝒇 
 {
-    return lhs >>- { x in { y in (x, y) } <^> rhs }
+    return lhs >>- { x in { y in (x, y) } <^> rhs } 
+        |> debug("++ (T,U)\t:")
 }
 //: `++` parses the concatenation of `lhs` and `rhs`, dropping `rhs`’s parse tree to generate `T`
 public func ++ <I: CollectionType, T> (
@@ -115,7 +159,8 @@ public func ++ <I: CollectionType, T> (
     rhs: 𝐏<I, Ignore>.𝒇) 
       -> 𝐏<I, T     >.𝒇 
 {
-    return lhs >>- { x in const(x) <^> rhs }
+    return lhs >>- { x in const(x) <^> rhs } 
+        |> debug("++ (T, Ignore)\t:")
 }
 //: Parses the concatenation of `lhs` and `rhs`, dropping `lhs`’s parse tree generating `T`
 public func ++ <I: CollectionType, T> (
@@ -123,13 +168,23 @@ public func ++ <I: CollectionType, T> (
     rhs: 𝐏<I, T     >.𝒇) 
       -> 𝐏<I, T     >.𝒇 
 {
-    return lhs >>- const(rhs)
+    return lhs >>- const(rhs) 
+        |> debug("++ (Ignore, T)\t:")
+}
+
+infix operator +- { associativity right precedence 160 }
+public func +- <I: CollectionType, T, U> (
+    lhs: 𝐏<I, T     >.𝒇,
+    rhs: 𝐏<I, U     >.𝒇)
+      -> 𝐏<I, T     >.𝒇
+{
+    return lhs >>- { x in { y in x } <^> rhs }
 }
 
 public protocol Addable { func +(lhs: Self, rhs: Self) -> Self }
 extension String : Addable {}
-//infix operator +=+ { associativity right precedence 160}
-public func ++ <I: CollectionType, T where T: Addable> (
+infix operator +=+ { associativity right precedence 160}
+public func +=+ <I: CollectionType, T where T: Addable> (
     lhs: 𝐏<I, T >.𝒇,
     rhs: 𝐏<I, T >.𝒇)
       -> 𝐏<I, T >.𝒇 
@@ -138,44 +193,53 @@ public func ++ <I: CollectionType, T where T: Addable> (
 }
 //: Helpers decrements `x` iff it is not equal to `Int.max`.
 private func decrement(x: Int) -> Int {
-    return (x == Int.max ? Int.max : x - 1)
+    return (x != Int.max ? x - 1 : Int.max )
 }
 private func decrement(x: ClosedInterval<Int>) -> ClosedInterval<Int> {
     return decrement(x.start)...decrement(x.end)
 }
 /*: 
 # Repetition
- `*` is the cardinality combinator, taking a `𝐏<I, T>.𝒇` and producing `𝐏<I, [T]>.𝒇` 
+`*` is the cardinality combinator, taking a `𝐏<I, T>.𝒇` and producing `𝐏<I, [T]>.𝒇` 
 
 An interval specifying the number of repetitions to perform 
 * `0...n` means at most `n` repetitions; 
 * `m...Int.max` means at least `m` repetitions; 
 * and `m...n` means between `m` and `n` repetitions (inclusive).
 */
-public func * <I: CollectionType, T> 
-(
-    parser:     𝐏<I, T>.𝒇, 
-    interval:   ClosedInterval<Int>) 
-             -> 𝐏<I, [T]>.𝒇 
+public func * 
+    <I: CollectionType, T>
+    (parser:    𝐏<I, T >.𝒇, 
+     interval:  ClosedInterval<Int>) 
+             -> 𝐏<I,[T]>.𝒇 
 {
-    if interval.end <= 0 { return { _, index in ([], index) } }
+    if interval.end <= 0 { 
+        return { input, index in 
+            input
+            index
+            return ([], index) 
+        } 
+    }
     
-    let next = parser >>- { x in { [x] + $0 } <^> (parser * decrement(interval)) }
+    let next = debug("* \(interval)") (parser) >>- 
+        { x in { 
+            [x] + $0 } 
+                <^> (parser * decrement(interval)) }
     
     let error : 𝐏<I, [T]>.𝒇 = 
+    
+    { input, index in
         
-        { input, index in
-     
-            if interval.start <= 0 { 
-                return ([], index) 
-            } else {
-                throw ParserError<I>.Error(
-                    message: "expected at least \(interval.start) matches", 
-                    index: index) 
-            }
+        if interval.start <= 0 { 
+            return ([], index) 
+        } else {
+            throw ParserError<I>.Error(
+                message: "expected at least \(interval.start) matches", 
+                index: index) 
         }
-        
-    return next | error	
+    }
+    
+    return debug("* : next | error") (next | error)	
 }
 /*: 
 Parses `parser` the number of times specified in `interval`.
@@ -191,10 +255,16 @@ public func *
     interval:   HalfOpenInterval<Int>) 
              -> 𝐏<I,[T]>.𝒇 
 {
-    return interval.isEmpty ? { throw ParserError<I>.Error(
-            message: "cannot parse an empty interval of repetitions", 
-            index: $1) } 
-    : parser * (interval.start...decrement(interval.end))
+    guard not <| interval.isEmpty else 
+    { 
+        return 
+            { throw ParserError<I>.Error(
+                message: "cannot parse an empty interval of repetitions", 
+                index: $1) 
+            } 
+    }
+     
+     return parser * (interval.start...decrement(interval.end))
 }
 //: Parses `parser` 0 or more times.
 public postfix func * <I: CollectionType, T> 
@@ -203,26 +273,41 @@ public postfix func * <I: CollectionType, T>
 {
     return parser * (0..<Int.max)
 }
-
-public postfix func * 
-    (string: String) -> 𝐏<String, [String]>.𝒇 
+// `*` parses a `literal: String` zero or more times
+public postfix func * (literal: String) -> 𝐏<String, [String]>.𝒇 
 {
-    return %(string) * (0..<Int.max)
+    return %(literal) * (0..<Int.max)
+}
+//: Parses `parser` 1 or more times.
+public postfix func + <C: CollectionType, T> 
+    (parser: 𝐏<C, T>.𝒇) 
+          -> 𝐏<C,[T]>.𝒇 
+{
+    return parser * (1..<Int.max)
+}
+//: Creates a parser from `string`, and parses it 1 or more times.
+public postfix func + (string: String) -> 𝐏<String, [String]>.𝒇 {
+    return %(string) * (1..<Int.max)
+}
+//: Parses `parser` 1 or more times and drops its parse trees.
+public postfix func + <C: CollectionType> (parser: 𝐏<C, Ignore>.𝒇) -> 𝐏<C, Ignore>.𝒇 {
+    return ignore(parser * (1..<Int.max))
 }
 //: Creates a parser from `string`, and parses it 0 or more times.
 prefix operator % { }
 public prefix func %
     <I: CollectionType where 
-        I.Generator.Element : Equatable,
-        I.SubSequence.Generator.Element : Equatable>
+    I.Generator.Element : Equatable,
+    I.SubSequence.Generator.Element : Equatable>
     (literal: I) 
     (collection: I, index: I.Index) throws -> (match: I, forwardIndex: I.Index)
 {
     let literalRange = literal.startIndex ..< literal.endIndex
     
     let matchEnd = index.advancedBy(literalRange.count, limit: collection.endIndex)
-
+    
     if collection[index ..< matchEnd].elementsEqual(literal[literalRange]) {
+        print("% \t\t:", literal, matchEnd)
         return (literal, matchEnd) 
     } else {
         throw ParserError<I>.Error(message: "expected \"\(literal)\" at offset:\(index)", index: index)
@@ -242,7 +327,7 @@ public prefix func %
                 message: "expected an element in interval \(interval)", 
                 index: index) 
         }
-    }
+    } |> debug("% :")
 }
 //: Map operator. Lower precedence than |.
 infix operator --> { associativity left precedence 100 }
@@ -250,151 +335,74 @@ infix operator --> { associativity left precedence 100 }
 public func --> <I: CollectionType, T, U>(
     parser:    𝐏<I, T>.𝒇, 
     transform: (I, Range<I.Index>, T) -> U) 
-        -> 𝐏<I, U>.𝒇 
+            -> 𝐏<I, U>.𝒇 
 {
     // TODO: Consider implementing with `map`. Broke compiler first time I tried :)
     return { 
         input, index in // (input: I, index: C.Index) -> (U, C.Index)
-            let (result, newIndex) = try parser(input, index) 
-            let transformedResult = transform(input, (index ..< newIndex), result)
-            return (transformedResult,  newIndex)
+        let (result, newIndex) = try parser(input, index) 
+        let transformedResult = transform(input, (index ..< newIndex), result)
+        return (transformedResult,  newIndex)
     }
 }
 //: Ignores any parse trees produced by `parser`.
-public func ignore<I: CollectionType, T>(
-    parser: 𝐏<I, T>.𝒇) -> 𝐏<I, Ignore>.𝒇 
+public func ignore<I: CollectionType, T>
+    (parser: 𝐏<I, T>.𝒇) 
+          -> 𝐏<I, Ignore>.𝒇 
 {
     return parser --> const(Ignore())
+}
+//: Ignores any parse trees produced by a parser which parses `string`.
+public func ignore(string: String) -> 𝐏<String, Ignore>.𝒇 {
+    return ignore(%string)
 }
 //: `parse` function. takes a `parser` and `input` and produces a `Tree?`
 public func parse <Input: CollectionType, Tree> (
     parser: 𝐏 <Input, Tree>.𝒇, 
-    input:  Input) -> (Tree?, String?)
+    input:  Input) 
+         -> (Tree?, String)
 {
     do {
-        let (result, _) = try parser(input, input.startIndex)
-        return (result, nil)
-    } catch ParserError<Input>.Error(let msg, _) {
-//        print("\(msg) \(idx)")
-        return (nil, msg)
+        let (result, idx) = try debug("parse\t\t:")(parser)(input, input.startIndex)
+        return (result, "lastIndex: \(idx); input.endIndex: \(input.endIndex)")
+    } catch ParserError<Input>.Error(let msg, let idx) {
+        return (nil, "\(idx): \(msg) ")
     } 
     catch let error {
         return (nil, "Undefined Error! \(error)")
     }
 }
+//: End of Parser Combinators. Phew!
+
+
 //: # Let's use our new parser combinators :)
-let helloParser     = %"Hello"
-let helloOrGoodbyeParser    = %"Hello" | %"Goodbye"
-let p2 = parse(%"Hello" | %"Goodbye",    input: "Hello, playground.")
-let p3 = parse(%"Hello" | %"Goodbye",    input: "Goodbye, playground")
+let lower   = %"a" ++ %"b" //| %" "
+ //let upper   = %("A"..."Z")
+//let digit   = %("0"..."9")
+let str = "1a a1 1a a1 11"
+let start = str.startIndex
 
-let p4 = %"Hello" ++ %", " ++ %"playground."
-
-let r4 = parse(p4, input: "Hello, playground.")
-//let (hello, (comma, playground)) = r4!
-//print(hello + comma + playground)
-let p5 = %"Hello" ++ %", " ++ %"playground."
-let r5 = parse(p5, input: "Hello, playground.")
-
-let p6 = "Hello"*
-
-let r6 = parse(p6, input: "HelloHello")
-
-let lower   = %("a"..."z")
-let upper   = %("A"..."Z")
-let digit   = %("0"..."9")
-
-let whitespace = %" " | %"\t" | %"\n"
-let spaces = ignore(whitespace*)
-
-func token(parser: 𝐏<String, String>.𝒇 ) -> 𝐏<String, String>.𝒇 {
-    return parser ++ spaces 
-}
-
-let id = (lower | upper | digit | %"_")+
-    |> map { "".join($0) }
-    |> token
-
-//let r2 = parse(%"Hello" + %"," + %" " + %"playground.", input: "Hello, playground.")
-
-//let r5 = parse(%"Hello" ++ %"."     ,    input: "Hello.")
-
-
-
-
-
+let result = parse(%"a" ++ %"b", input: "ab a1 1a a1 11")
+print(result)
+//let whitespace = %" " | %"\t" | %"\n"
+//let spaces = ignore(whitespace*)
 //
-//let whitespace = ignore( %" " | %"\t" | %"\n" )
-//let spaces = whitespace*
-
-//func token<C: CollectionType, T>(parser: 𝐏<I, T>.𝒇 ) -> 𝐏<I, T>.𝒇 {
-//    return parser ++ spaces 
-//}
-
-
-//func a() -> (String, String.Index) {
-//    
-//    let helloStr = "Hello."
-//    let simpleAndParser = %"Hello" ++ %"."
-//    do {
-//        let (output, nextIndex) = try simpleAndParser(helloStr, helloStr.startIndex)
-//        return ("\(output)", nextIndex)
-//    } catch ParserError<String>.Error(let msg, let idx) {
-//        return (msg, idx)
-//    } catch {
-//        print("Undefined Error")
-//        return ("Undefined Error", "Undefined Error".startIndex)
-//    }
-//}
-//
-//let r7 = a()
-//: Let's run the raw parser function on some input. It's output is (.0 "Hello", .1 5)
-//let greetingString = "Hello, playground."
-//let result = try (%"Hello")(collection: greetingString, index: greetingString.startIndex)
-//: Here we use our parse method to control the I/O
-//let p = parse(%"Hello" | %"Goodbye", input: "Goodbye, playground")
-
-
-//: Scratch section
-//Optional.Some(1).map(3*)
-
-//: Goodbye for now...
-print("Our run was successful! \n\n Goodbye for now...")
-
-
-
-
-///// Returns a parser which maps parse results.
-/////
-///// This enables e.g. adding identifiers for error handling.
-//public func --> <C: CollectionType, T, U> (parser: 𝐏<I, T>.𝒇, transform: 𝐏<I, T>.Result -> 𝐏<I, U>.Result) -> 𝐏<I, U>.𝒇 {
-//    return parser >>> transform
-//}
-
-
-
-///// Ignores any parse trees produced by a parser which parses `string`.
-//public func ignore(string: String) -> 𝐏<String, Ignore>.𝒇 {
-//    return ignore(%string)
-//}
-
-//let whitespace = ignore( %" " | %"\t" | %"\n" )
-//let spaces = whitespace*
-
 //func token(parser: 𝐏<String, String>.𝒇 ) -> 𝐏<String, String>.𝒇 {
 //    return parser ++ spaces 
 //}
 
-//let r4 = parse(lower, input: "t")
+//: test repetition
+//let result = parse((%"a" | %"b")+, input: "abab")
 
-/// Parses either `left` or `right` and coalesces their trees.
-//public func |||| <C: CollectionType, T> (lhs: 𝐏< I, T >.𝒇, rhs: 𝐏<I, T>.𝒇) -> 𝐏<I, T>.𝒇 {
-//    // TODO: Use `>>-` binding here.
-//    return { input, index in
-//        let (result, index) = try alternate(leftParser: lhs, rightParser: rhs)(input: input, index: index)
-//        return (result.either(onLeft: identity, onRight: identity), index)
-//    }
-//}
-//infix operator |||| {}
+//let id = (lower | upper | digit | %"_")*
+//    |> map { $0.joinWithSeparator("") }
+//    |> token
+
+
+
+
+//: Goodbye for now...
+print("\nOur run was successful! \n\n Goodbye for now...")
+
 
 
