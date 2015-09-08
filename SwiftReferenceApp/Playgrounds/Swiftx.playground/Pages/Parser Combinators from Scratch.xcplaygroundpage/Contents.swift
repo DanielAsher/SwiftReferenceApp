@@ -18,11 +18,17 @@ public enum 𝐏 < Input: CollectionType, Tree> {
 var indentCount = 0
 let indent :  () -> String = { String(count: indentCount, repeatedValue: Character("\t")) }
 let padCount : () -> Int = { 50 - indentCount * 3 }
-public func debugStr(message: String, caller: String = __FUNCTION__, line: Int = __LINE__) -> String {
-    return ("\(line)".padding(6) + caller + indent()).padding(padCount()) + message
-}
 
-public func debug<I: CollectionType, T>
+var traceOn = false
+
+public func tracePrint(message: String, caller: String = __FUNCTION__, line: Int = __LINE__) {
+    if traceOn {
+        let line = "\(line)".padding(6)
+        let str = (line + caller + indent()).padding(padCount()) + message
+        print(str)
+    }
+}
+public func trace<I: CollectionType, T>
     (caller: String = __FUNCTION__, line: Int = __LINE__)
     (_ parser: 𝐏<I, T>.𝒇)
     -> 𝐏<I, T>.𝒇
@@ -30,11 +36,15 @@ public func debug<I: CollectionType, T>
     let line = "\(line)".padding(6)
     
     return { xs, xi in
-        print((line + ": \"\(xs)\" ; \(xi)".padding(40) + indent() + "🔜  " + caller))
+        if traceOn {
+            print((line + ": \"\(xs)\" ; \(xi)".padding(40) + indent() + "🔜  " + caller))
+        }
         indentCount++
         let (ys, yi) = try parser(xs, xi) 
         indentCount--
-        print((line + ": \"\(xs)\" -> \"\(ys)\"; \(xi) ->  \(yi)".padding(40) + indent() + "🔚  " + caller))
+        if traceOn {
+            print((line + ": \"\(xs)\" -> \"\(ys)\"; \(xi) ->  \(yi)".padding(40) + indent() + "🔚  " + caller))
+        }
         return (ys, yi) 
     }
 }
@@ -44,7 +54,7 @@ public func debug<I: CollectionType, T>
 public func pure<I: CollectionType, T>
     (value: T) -> 𝐏<I, T>.𝒇 
 {
-    return { _, index in (value, index) } |> debug() 
+    return { _, index in (value, index) } |> trace() 
 }
 /*: 
 ## `>>-` : The fundamental operator `bind`
@@ -60,8 +70,8 @@ public func >>- <I: CollectionType, T, U>
     transform:  T -> 𝐏<I, U>.𝒇) -> 𝐏<I, U>.𝒇 
 {
     return { input, index in
-        let (result, newIndex) = try debug(">>- p(\"\(input)\", \(index)) ")(parser)(input, index) 
-        return try debug(">>- f(\"\(result)\")(\"\(input)\", \(newIndex))") (transform(result)) (input, newIndex)
+        let (result, newIndex) = try trace(">>- p(\"\(input)\", \(index)) ")(parser)(input, index) 
+        return try trace(">>- f(\"\(result)\")(\"\(input)\", \(newIndex))") (transform(result)) (input, newIndex)
     }
 }
 //: `apply` returns a parser which applies `transform: T -> U` to transform the output, `T`, of `parser`.
@@ -73,11 +83,11 @@ public func <^> <I: CollectionType, T, U>
 {
     return { input, index in 
         
-        let dbg1  = { (p: 𝐏<I, T>.𝒇) in debug("<^> p(\"\(input)\", \(index)) ")(p) }
+        let dbg1  = { (p: 𝐏<I, T>.𝒇) in trace("<^> p(\"\(input)\", \(index)) ")(p) }
         
         let (result, newIndex) = try dbg1(parser)(input, index)
         
-        let dbg2 =  { (p: 𝐏<I, U>.𝒇) in debug("<^> pure(f(\"\(result)\"))(\"\(input)\", \(newIndex))")(p) }
+        let dbg2 =  { (p: 𝐏<I, U>.𝒇) in trace("<^> pure(f(\"\(result)\"))(\"\(input)\", \(newIndex))")(p) }
         
         return try dbg2 (pure(transform(result))) (input, newIndex)
     }
@@ -89,7 +99,7 @@ public func map<I: CollectionType, T, U>
     (_ parser:  𝐏<I, T>.𝒇) 
              -> 𝐏<I, U>.𝒇 
 {
-    return transform <^> parser |> debug("map\t\t:") 
+    return transform <^> parser |> trace() 
 }
 //: `ParserError`
 public enum ParserError<Input: CollectionType> : ErrorType {
@@ -128,12 +138,12 @@ public func alternate<Input: CollectionType, T, U>
     (input: Input, index: Input.Index) throws -> 𝐏<Input, Either<T, U>>.Result
 {
     do {
-        let (result, newIndex) = try debug("alt left\t:") (leftParser) (input, index) 
+        let (result, newIndex) = try trace("alt left\t:") (leftParser) (input, index) 
         return ( Either<T,U>.Left(result), newIndex ) 
     } 
     catch ParserError<Input>.Error(_, _) {
         do {
-            let (result, newIndex) = try debug("alt right\t:") (rightParser) (input, index)   
+            let (result, newIndex) = try trace("alt right\t:") (rightParser) (input, index)   
             return ( Either<T,U>.Right(result), newIndex ) 
         } 
         catch ParserError<Input>.Error(let m, let i) {
@@ -147,7 +157,7 @@ public func | <I: CollectionType, T, U> (
     rhs: 𝐏<I, U>.𝒇) 
       -> 𝐏<I, Either<T, U>>.𝒇 
 {
-    return debug("| <T,U> \t:")(alternate(lhs, rhs)) // |> debug("| <T,U> \tOut:")
+    return trace("| <T,U> \t:")(alternate(lhs, rhs)) // |> trace("| <T,U> \tOut:")
 }
 //: `|` parses either `(lhs: T)` or `(rhs: T)` and creates a parser that **coalesces** their `T`s
 public func | <I: CollectionType, T> (
@@ -155,8 +165,9 @@ public func | <I: CollectionType, T> (
     rhs: 𝐏<I, T>.𝒇) 
       -> 𝐏<I, T>.𝒇 
 {
-    return debug("| <T,T> \t:") (alternate(lhs, rhs)) 
+    return alternate(lhs, rhs)
         |> map { $0.either(onLeft: identity, onRight: identity) }
+        |> trace("| <T,T> \t:") 
 }
 //: `first` helper function.
 func first<I: CollectionType>(input: I) -> I.Generator.Element? {
@@ -173,7 +184,7 @@ public func ++ <I: CollectionType, T, U> (
       -> 𝐏<I,(T, U)>.𝒇 
 {
     return lhs >>- { x in { y in (x, y) } <^> rhs } 
-                |> debug("++ (T,U)")
+                |> trace("++ (T,U)")
 }
 //: `++` parses the concatenation of `lhs` and `rhs`, dropping `rhs`’s parse tree to generate `T`
 public func ++ <I: CollectionType, T> (
@@ -182,7 +193,7 @@ public func ++ <I: CollectionType, T> (
       -> 𝐏<I, T     >.𝒇 
 {
     return lhs >>- { x in const(x) <^> rhs } 
-        |> debug("++ (T, Ignore)\t:")
+        |> trace("++ (T, Ignore)\t:")
 }
 //: Parses the concatenation of `lhs` and `rhs`, dropping `lhs`’s parse tree generating `T`
 public func ++ <I: CollectionType, T> (
@@ -191,7 +202,7 @@ public func ++ <I: CollectionType, T> (
       -> 𝐏<I, T     >.𝒇 
 {
     return lhs >>- const(rhs) 
-        |> debug("++ (Ignore, T)\t:")
+        |> trace("++ (Ignore, T)\t:")
 }
 
 infix operator +- { associativity right precedence 160 }
@@ -242,7 +253,7 @@ public func * <I: CollectionType, T>
         } 
     }
     
-    let next = debug("* \(interval)") (parser) >>- 
+    let next = trace("* \(interval)") (parser) >>- 
         { x in { 
             [x] + $0 } 
                 <^> (parser * decrement(interval)) }
@@ -260,7 +271,7 @@ public func * <I: CollectionType, T>
         }
     }
     
-    return debug("* : next | error") (next | error)	
+    return trace("* : next | error") (next | error)	
 }
 /*: 
 Parses `parser` the number of times specified in `interval`.
@@ -327,7 +338,7 @@ public prefix func %
     let matchEnd = index.advancedBy(literalRange.count, limit: collection.endIndex)
     
     if collection[index ..< matchEnd].elementsEqual(literal[literalRange]) {
-        print(debugStr("\t\t❗️ \"\(literal)\" \(matchEnd)"))
+        tracePrint("\t\t❗️ \"\(literal)\" \(matchEnd)")
         return (literal, matchEnd) 
     } else {
         throw ParserError<I>.Error(message: "expected \"\(literal)\" at offset:\(index)", index: index)
@@ -340,13 +351,13 @@ public prefix func % <I: IntervalType where I.Bound == Character>
 {
     return { input, index in
         if (index < input.endIndex && interval.contains(input[index])) {
-            return (input, index.successor())
+            return (String(input[index]), index.successor())
         } else {
             throw ParserError<String>.Error(
-                message: "expected an element in interval \(interval)", 
+                message: "Failed: \"\(input[index])\" not found in interval (\(interval))", 
                 index: index) 
         }
-    } |> debug("% \(interval):")
+    } |> trace("% \(interval):")
 }
 //: Map operator. Lower precedence than |.
 infix operator --> { associativity left precedence 100 }
@@ -382,7 +393,7 @@ public func parse <Input: CollectionType, Tree> (
          -> (Tree?, String)
 {
     do {
-        let (result, idx) = try debug() (parser)(input, input.startIndex)
+        let (result, idx) = try trace() (parser)(input, input.startIndex)
         return (result, "result: \(result); lastIndex: \(idx); input.endIndex: \(input.endIndex)")
     } catch ParserError<Input>.Error(let msg, let idx) {
         return (nil, "\(idx): \(msg) ")
@@ -395,27 +406,29 @@ public func parse <Input: CollectionType, Tree> (
 
 
 //: # Let's use our new parser combinators :)
-let lower   = %"a" ++ %"b"  //| %" "
-//let upper   = %("A"..."Z")
-//let digit   = %("0"..."9")
+let lower   = %("a"..."z")
+let upper   = %("A"..."Z")
+let digit   = %("0"..."9")
+traceOn = false
+let r1 = parse(%("a"..."b") * (1...3), input: "basdf")
+//print("\n==", r1.1, "==")
 
-let result = parse(%"a" ++ %"b", input: "ab ")
-print("\n==", result.1, "==")
-//let whitespace = %" " | %"\t" | %"\n"
-//let spaces = ignore(whitespace*)
-//
-//func token(parser: 𝐏<String, String>.𝒇 ) -> 𝐏<String, String>.𝒇 {
-//    return parser ++ spaces 
-//}
+let whitespace = %" " | %"\t" | %"\n"
+let spaces = ignore(whitespace*)
+
+func token(parser: 𝐏<String, String>.𝒇 ) -> 𝐏<String, String>.𝒇 {
+    return parser ++ spaces 
+}
 
 //: test repetition
-//let result = parse((%"a" | %"b")+, input: "abab")
+let result = parse((%"a" | %"b")+, input: "abab")
 
-//let id = (lower | upper | digit | %"_")*
-//    |> map { $0.joinWithSeparator("") }
-//    |> token
+let id = (lower | upper | digit | %"_")*
+    |> map { $0.joinWithSeparator("") }
+    |> token
 
-
+let r3 = parse(id, input: "abab    ")
+print("\n==", r3.1, "==")
 
 
 //: Goodbye for now...
