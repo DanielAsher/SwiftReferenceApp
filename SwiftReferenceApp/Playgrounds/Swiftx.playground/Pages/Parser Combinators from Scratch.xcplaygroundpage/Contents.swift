@@ -14,17 +14,37 @@ public enum 𝐏 < Input: CollectionType, Tree> {
     public typealias 𝒇 = (Input, Input.Index) throws -> Result
     public typealias Result = (Tree, Input.Index)
 }
+
+var indentCount = 0
+let indent :  () -> String = { String(count: indentCount, repeatedValue: Character("\t")) }
+let padCount : () -> Int = { 50 - indentCount * 3 }
+public func debugStr(message: String, caller: String = __FUNCTION__, line: Int = __LINE__) -> String {
+    return ("\(line)".padding(6) + caller + indent()).padding(padCount()) + message
+}
+
 public func debug<I: CollectionType, T>
-    (callingFunction: String)
+    (caller: String = __FUNCTION__, line: Int = __LINE__)
     (_ parser: 𝐏<I, T>.𝒇)
     -> 𝐏<I, T>.𝒇
 {
-    return { xs, xi in 
-        print(callingFunction, "before:", "\"\(xs)\"", ";", xi)
+    let line = "\(line)".padding(6)
+    
+    return { xs, xi in
+        print((line + ": \"\(xs)\" ; \(xi)".padding(40) + indent() + "🔜  " + caller))
+        indentCount++
         let (ys, yi) = try parser(xs, xi) 
-        print(callingFunction, "after:", "\"\(xs)\"", "->", "\"\(ys)\"", ";", xi, "->", yi)
+        indentCount--
+        print((line + ": \"\(xs)\" -> \"\(ys)\"; \(xi) ->  \(yi)".padding(40) + indent() + "🔚  " + caller))
         return (ys, yi) 
     }
+}
+/*: 
+`pure` returns a parser which always ignores its input and produces a constant value.
+*/
+public func pure<I: CollectionType, T>
+    (value: T) -> 𝐏<I, T>.𝒇 
+{
+    return { _, index in (value, index) } |> debug() 
 }
 /*: 
 ## `>>-` : The fundamental operator `bind`
@@ -40,26 +60,28 @@ public func >>- <I: CollectionType, T, U>
     transform:  T -> 𝐏<I, U>.𝒇) -> 𝐏<I, U>.𝒇 
 {
     return { input, index in
-        let (result, newIndex) = try debug(">>- \t\t:")(parser)(input, index) 
-        return try debug(">>- trans\t:") (transform(result)) (input, newIndex)
+        let (result, newIndex) = try debug(">>- p(\"\(input)\", \(index)) ")(parser)(input, index) 
+        return try debug(">>- f(\"\(result)\")(\"\(input)\", \(newIndex))") (transform(result)) (input, newIndex)
     }
 }
-/*: 
-`pure` returns a parser which always ignores its input and produces a constant value.
-*/
-public func pure<I: CollectionType, T>
-    (value: T) -> 𝐏<I, T>.𝒇 
-{
-    return { _, index in (value, index) } |> debug("pure \t\t:") 
-}
-//: `apply` returns a parser which applies `f` to transform the output of `parser`.
-//: notice how `f` is _injected_ into parser's monadic context.
+//: `apply` returns a parser which applies `transform: T -> U` to transform the output, `T`, of `parser`.
+//: notice how `transform` is _injected_ into parser's monadic context.
 public func <^> <I: CollectionType, T, U> 
     (transform: T -> U, 
-    parser:    𝐏<I, T>.𝒇) 
-            -> 𝐏<I, U>.𝒇 
+     parser:    𝐏<I, T>.𝒇) 
+             -> 𝐏<I, U>.𝒇 
 {
-    return debug("<^> \t\t:")(parser) >>- { pure(transform($0)) } 
+    return { input, index in 
+        
+        let dbg1  = { (p: 𝐏<I, T>.𝒇) in debug("<^> p(\"\(input)\", \(index)) ")(p) }
+        
+        let (result, newIndex) = try dbg1(parser)(input, index)
+        
+        let dbg2 =  { (p: 𝐏<I, U>.𝒇) in debug("<^> pure(f(\"\(result)\"))(\"\(input)\", \(newIndex))")(p) }
+        
+        return try dbg2 (pure(transform(result))) (input, newIndex)
+    }
+    //return parser >>- { pure(transform($0)) }  // Elegant, but increases call stack size.
 }
 //: map is a curried form of ` <^> `, to be used with `|>`
 public func map<I: CollectionType, T, U>
@@ -146,12 +168,12 @@ func first<I: CollectionType>(input: I) -> I.Generator.Element? {
 infix operator ++ { associativity right precedence 160 }
 //: `++` parses the concatenation of `lhs` and `rhs`, pairing their parse trees in tuples of `(T, U)`
 public func ++ <I: CollectionType, T, U> (
-    lhs: 𝐏<I, T     >.𝒇, 
-    rhs: 𝐏<I, U     >.𝒇) 
-      -> 𝐏<I, (T, U)>.𝒇 
+    lhs: 𝐏<I, T    >.𝒇, 
+    rhs: 𝐏<I, U    >.𝒇) 
+      -> 𝐏<I,(T, U)>.𝒇 
 {
     return lhs >>- { x in { y in (x, y) } <^> rhs } 
-        |> debug("++ (T,U)\t:")
+                |> debug("++ (T,U)")
 }
 //: `++` parses the concatenation of `lhs` and `rhs`, dropping `rhs`’s parse tree to generate `T`
 public func ++ <I: CollectionType, T> (
@@ -207,8 +229,7 @@ An interval specifying the number of repetitions to perform
 * `m...Int.max` means at least `m` repetitions; 
 * and `m...n` means between `m` and `n` repetitions (inclusive).
 */
-public func * 
-    <I: CollectionType, T>
+public func * <I: CollectionType, T>
     (parser:    𝐏<I, T >.𝒇, 
      interval:  ClosedInterval<Int>) 
              -> 𝐏<I,[T]>.𝒇 
@@ -249,8 +270,7 @@ An `interval` specifys the number of repetitions to perform.
 * and `m..<n` means at least `m` and fewer than `n` repetitions; 
 * `n..<n` is an error.
 */
-public func * 
-    <I: CollectionType, T> 
+public func * <I: CollectionType, T> 
     (parser:    𝐏<I, T >.𝒇, 
     interval:   HalfOpenInterval<Int>) 
              -> 𝐏<I,[T]>.𝒇 
@@ -307,7 +327,7 @@ public prefix func %
     let matchEnd = index.advancedBy(literalRange.count, limit: collection.endIndex)
     
     if collection[index ..< matchEnd].elementsEqual(literal[literalRange]) {
-        print("% \t\t:", literal, matchEnd)
+        print(debugStr("\t\t❗️ \"\(literal)\" \(matchEnd)"))
         return (literal, matchEnd) 
     } else {
         throw ParserError<I>.Error(message: "expected \"\(literal)\" at offset:\(index)", index: index)
@@ -315,8 +335,7 @@ public prefix func %
 }
 extension String : CollectionType {}
 //: Returns a parser which parses any character in `interval`.
-public prefix func % 
-    <I: IntervalType where I.Bound == Character>
+public prefix func % <I: IntervalType where I.Bound == Character>
     (interval: I) -> 𝐏<String, String>.𝒇 
 {
     return { input, index in
@@ -327,7 +346,7 @@ public prefix func %
                 message: "expected an element in interval \(interval)", 
                 index: index) 
         }
-    } |> debug("% :")
+    } |> debug("% \(interval):")
 }
 //: Map operator. Lower precedence than |.
 infix operator --> { associativity left precedence 100 }
@@ -363,8 +382,8 @@ public func parse <Input: CollectionType, Tree> (
          -> (Tree?, String)
 {
     do {
-        let (result, idx) = try debug("parse\t\t:")(parser)(input, input.startIndex)
-        return (result, "lastIndex: \(idx); input.endIndex: \(input.endIndex)")
+        let (result, idx) = try debug() (parser)(input, input.startIndex)
+        return (result, "result: \(result); lastIndex: \(idx); input.endIndex: \(input.endIndex)")
     } catch ParserError<Input>.Error(let msg, let idx) {
         return (nil, "\(idx): \(msg) ")
     } 
@@ -376,14 +395,12 @@ public func parse <Input: CollectionType, Tree> (
 
 
 //: # Let's use our new parser combinators :)
-let lower   = %"a" ++ %"b" //| %" "
- //let upper   = %("A"..."Z")
+let lower   = %"a" ++ %"b"  //| %" "
+//let upper   = %("A"..."Z")
 //let digit   = %("0"..."9")
-let str = "1a a1 1a a1 11"
-let start = str.startIndex
 
-let result = parse(%"a" ++ %"b", input: "ab a1 1a a1 11")
-print(result)
+let result = parse(%"a" ++ %"b", input: "ab ")
+print("\n==", result.1, "==")
 //let whitespace = %" " | %"\t" | %"\n"
 //let spaces = ignore(whitespace*)
 //

@@ -345,6 +345,7 @@
 		658049A81B9816C0001E7F21 /* Swiftz.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Swiftz.xcodeproj; path = ../Modules/Swiftz/Swiftz.xcodeproj; sourceTree = "<group>"; };
 		658049B81B986E71001E7F21 /* Swiftz.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Swiftz.playground; path = Playgrounds/Swiftz.playground; sourceTree = "<group>"; };
 		6586281E1B90FF7500107A04 /* Parser.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Parser.playground; path = Playgrounds/Parser.playground; sourceTree = "<group>"; };
+		659791681B9EB6E90081166A /* Functional.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Functional.playground; sourceTree = "<group>"; };
 		65A7404B1B94467D0026DB72 /* Scratch.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Scratch.playground; path = Playgrounds/Scratch.playground; sourceTree = "<group>"; };
 		65B1BEFD1B8C37490064FF47 /* RxAndDisposable.iOS.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = RxAndDisposable.iOS.playground; path = Playgrounds/RxAndDisposable.iOS.playground; sourceTree = "<group>"; };
 		65B1BEFE1B8C67B90064FF47 /* Co-and-Contravariance.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = "Co-and-Contravariance.playground"; path = "Playgrounds/Co-and-Contravariance.playground"; sourceTree = "<group>"; };
@@ -549,6 +550,7 @@
 				658049911B9812F4001E7F21 /* PatternMatchingOperator.playground */,
 				658049B81B986E71001E7F21 /* Swiftz.playground */,
 				6506B3451B99914B00607FC8 /* Swiftx.playground */,
+				659791681B9EB6E90081166A /* Functional.playground */,
 			);
 			name = Playgrounds;
 			sourceTree = "<group>";
