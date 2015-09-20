@@ -28,6 +28,8 @@
 		65B23AFB1B8B31870049D2DF /* App+Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B23AFA1B8B31870049D2DF /* App+Metadata.swift */; };
 		65C024CD1B873C9A0037E325 /* SwiftyStateMachine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 657B2C601B873AB6001F6BC2 /* SwiftyStateMachine.framework */; };
 		65C024CE1B873C9A0037E325 /* SwiftyStateMachine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 657B2C601B873AB6001F6BC2 /* SwiftyStateMachine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		65CD7D031BAF0E78001DF33F /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6580CFCF1B98BFDE00488DBB /* RxSwift.framework */; };
+		65CD7D1A1BAF0E9D001DF33F /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6580CFD31B98BFDE00488DBB /* RxCocoa.framework */; };
 		65D6BFE31B8752A400FF7EAE /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 657B2CB01B873B39001F6BC2 /* Quick.framework */; };
 		65D6BFE41B8752AB00FF7EAE /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D837AF1B8749E600B6D7D3 /* Nimble.framework */; };
 		65D837BA1B874AAD00B6D7D3 /* SwiftTask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 657B2C731B873AD1001F6BC2 /* SwiftTask.framework */; };
@@ -319,6 +321,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65CD7D1A1BAF0E9D001DF33F /* RxCocoa.framework in Frameworks */,
+				65CD7D031BAF0E78001DF33F /* RxSwift.framework in Frameworks */,
 				65C024CD1B873C9A0037E325 /* SwiftyStateMachine.framework in Frameworks */,
 				65D837BA1B874AAD00B6D7D3 /* SwiftTask.framework in Frameworks */,
 			);
