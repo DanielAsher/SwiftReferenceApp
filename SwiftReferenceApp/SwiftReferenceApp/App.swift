@@ -56,7 +56,7 @@ public class App
         machine.addDidTransitionCallback { oldState, event, newState, trace in 
 //            let hsmState = (oldState, event, newState, self.user.machine.state)
             let appTransition = AppTransition( oldState: oldState, event:event, newState: newState, userState: self.user.machine.state ) 
-            self.transition.sendNext(appTransition)
+            self.transition.value = appTransition
 //            self._hsmTransitionState.next(hsmState)
         }
     }
