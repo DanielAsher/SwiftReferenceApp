@@ -6,4 +6,4 @@ before_install:
 - git submodule update --init --recursive
 
 script:
-- set -o pipefail && xcodebuild -project SwiftReferenceApp/SwiftReferenceApp.xcodeproj -scheme SwiftReferenceApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO clean build test | xcpretty -c -f `xcpretty-travis-formatter`
+- set -o pipefail && xcodebuild -project SwiftReferenceApp/SwiftReferenceApp.xcodeproj -scheme SwiftReferenceApp -sdk iphonesimulator9.0 -destination "OS=9.0,name=iPhone 6" ONLY_ACTIVE_ARCH=NO clean build test | xcpretty -c -f `xcpretty-travis-formatter`
