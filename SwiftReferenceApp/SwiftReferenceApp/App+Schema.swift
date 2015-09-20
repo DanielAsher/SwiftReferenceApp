@@ -81,7 +81,6 @@ extension App
                 
             default: return nil
             }
-        default: return nil
         }
     } 
 }
