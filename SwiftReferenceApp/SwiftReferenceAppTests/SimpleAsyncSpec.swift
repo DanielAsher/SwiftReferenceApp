@@ -18,17 +18,17 @@ class AsyncSpec: QuickSpec
             
             let machineState = Variable("Initial")
             
-            machineState >- debug("machineState:") >- subscribeNext { _ in return }
+            machineState.debug("machineState:").subscribeNext { _ in return }
             
             let createService = { (resultState: String) -> Disposable in
                 
-                machineState.next("Awaiting")
+                machineState.value = "Awaiting"
                 
                 return interval(3.0, MainScheduler.sharedInstance) 
-                    >- take(1) // take only the next async `result`. 
+                    .take(1) // take only the next async `result`. 
                     // Here we ignore that and simply set to `modified`.
-                    >- debug("service:")                 
-                    >- subscribeNext { result in machineState.next(resultState) } 
+                    .debug("service:")                 
+                    .subscribeNext { result in machineState.value = resultState } 
             }
             
             beforeSuite {
@@ -37,7 +37,7 @@ class AsyncSpec: QuickSpec
             
             beforeEach { createService("Modified") }
             
-            afterEach { machineState.next("Idle") }
+            afterEach { machineState.value = "Idle" }
             
             it("should do some async operation") {
                 

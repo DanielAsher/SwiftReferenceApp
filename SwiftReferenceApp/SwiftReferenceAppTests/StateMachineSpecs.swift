@@ -10,12 +10,13 @@ import Nimble
 import Quick
 import RxSwift
 import SwiftReferenceApp
+import Swiftz
 
 class StateMachineSpecs: QuickSpec 
 {    
     override func spec() 
     {
-        let printer = beforeSuite { return app.transition >+ { println($0) } }
+        let printer = beforeSuite { return app.transition.subscribeNext { print($0) }  }
                 
         let newApp = beforeEach { return App() }
         
@@ -49,7 +50,7 @@ class StateMachineSpecs: QuickSpec
                     .toEventually(equal(sixthSaveTransition), timeout: 10, pollInterval: 1) 
                 }
                  
-                app.appState >- on(.Idle) { app <- .Purchase } 
+                app.appState |> on(.Idle) { app <- .Purchase } 
                 
                 expect(app.user.machine.state).toEventually(equal(UserState.FullAccess), timeout: 2)
             }
@@ -60,7 +61,7 @@ class StateMachineSpecs: QuickSpec
                 
                 app <- .Purchase
                
-                app.appEvent >- on(.Purchased) 
+                app.appEvent |> on(.Purchased) 
                 { 
                     expect(app.user.machine.state) .toEventually(equal(UserState.FullAccess))  
                     

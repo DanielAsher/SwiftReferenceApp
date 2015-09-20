@@ -29,11 +29,13 @@
 		65C024CD1B873C9A0037E325 /* SwiftyStateMachine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 657B2C601B873AB6001F6BC2 /* SwiftyStateMachine.framework */; };
 		65C024CE1B873C9A0037E325 /* SwiftyStateMachine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 657B2C601B873AB6001F6BC2 /* SwiftyStateMachine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		65CD7D031BAF0E78001DF33F /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6580CFCF1B98BFDE00488DBB /* RxSwift.framework */; };
-		65CD7D1A1BAF0E9D001DF33F /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6580CFD31B98BFDE00488DBB /* RxCocoa.framework */; };
 		65D6BFE31B8752A400FF7EAE /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 657B2CB01B873B39001F6BC2 /* Quick.framework */; };
 		65D6BFE41B8752AB00FF7EAE /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D837AF1B8749E600B6D7D3 /* Nimble.framework */; };
 		65D837BA1B874AAD00B6D7D3 /* SwiftTask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 657B2C731B873AD1001F6BC2 /* SwiftTask.framework */; };
 		65D837BB1B874AAD00B6D7D3 /* SwiftTask.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 657B2C731B873AD1001F6BC2 /* SwiftTask.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		65E6E6A71BAF2A92005140DA /* Swiftz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 658049B51B9816C1001E7F21 /* Swiftz.framework */; };
+		65E6E6C01BAF2D8A005140DA /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6580CFD31B98BFDE00488DBB /* RxCocoa.framework */; };
+		65E6E6C11BAF2D8A005140DA /* RxCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6580CFD31B98BFDE00488DBB /* RxCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		65FAA8B91B876789000CC9D6 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654F9FC21B875A5D0042F370 /* App.swift */; };
 		65FAA8BA1B8767B6000CC9D6 /* App+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654F9FC41B8765A30042F370 /* App+Extension.swift */; };
 		65FAA8BC1B877300000CC9D6 /* User+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FAA8BB1B877300000CC9D6 /* User+Extension.swift */; };
@@ -248,6 +250,13 @@
 			remoteGlobalIDString = 1F925EB7195C0D6300ED456B;
 			remoteInfo = "Nimble-OSXTests";
 		};
+		65E6E6C21BAF2D8A005140DA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 657B2C761B873AEB001F6BC2 /* Rx.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C80938F51B8A71760088E94D;
+			remoteInfo = "RxCocoa-iOS";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -257,6 +266,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				65E6E6C11BAF2D8A005140DA /* RxCocoa.framework in Embed Frameworks */,
 				65C024CE1B873C9A0037E325 /* SwiftyStateMachine.framework in Embed Frameworks */,
 				65D837BB1B874AAD00B6D7D3 /* SwiftTask.framework in Embed Frameworks */,
 			);
@@ -321,9 +331,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65CD7D1A1BAF0E9D001DF33F /* RxCocoa.framework in Frameworks */,
+				65E6E6A71BAF2A92005140DA /* Swiftz.framework in Frameworks */,
 				65CD7D031BAF0E78001DF33F /* RxSwift.framework in Frameworks */,
 				65C024CD1B873C9A0037E325 /* SwiftyStateMachine.framework in Frameworks */,
+				65E6E6C01BAF2D8A005140DA /* RxCocoa.framework in Frameworks */,
 				65D837BA1B874AAD00B6D7D3 /* SwiftTask.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -576,6 +587,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				65E6E6C31BAF2D8A005140DA /* PBXTargetDependency */,
 			);
 			name = SwiftReferenceApp;
 			productName = SwiftReferenceApp;
@@ -930,6 +942,11 @@
 			target = 656216211B87283E003F69C3 /* SwiftReferenceApp */;
 			targetProxy = 6562163B1B87283E003F69C3 /* PBXContainerItemProxy */;
 		};
+		65E6E6C31BAF2D8A005140DA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "RxCocoa-iOS";
+			targetProxy = 65E6E6C21BAF2D8A005140DA /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -1042,6 +1059,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEFINES_MODULE = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = SwiftReferenceApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1053,6 +1071,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEFINES_MODULE = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = SwiftReferenceApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

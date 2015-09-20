@@ -52,7 +52,7 @@ class SwiftReferenceAppSpecs: QuickSpec {
                 
                 let machine = StateMachine(schema: schema, subject: "")
                 
-                machine.addDidTransitionCallback { oldState, event, newState, trace in println("\(oldState)  <- \(event) |-> \(newState)")
+                machine.addDidTransitionCallback { oldState, event, newState, trace in print("\(oldState)  <- \(event) |-> \(newState)")
                 }
                 
                 machine.handleEventAsync(AppEvent.Start, delay: 0.5)  
