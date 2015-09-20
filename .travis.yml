@@ -1,0 +1,9 @@
+language: objective-c
+osx_image: xcode7
+
+before_install:
+- gem install xcpretty-travis-formatter --no-rdoc --no-ri --no-document --quiet
+- git submodule update --init --recursive
+
+script:
+- set -o pipefail && xcodebuild -project SwiftReferenceApp/SwiftReferenceApp.xcodeproj -scheme SwiftReferenceApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO clean build test | xcpretty -c -f `xcpretty-travis-formatter`
