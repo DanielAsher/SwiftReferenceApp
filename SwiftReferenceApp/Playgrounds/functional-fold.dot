@@ -1,0 +1,56 @@
+digraph Fold
+{
+  node [shape=none]
+  subgraph {
+    rank=same
+    Cons1 [label=":"]
+    f1 [label="f"]
+    Cons1 -> f1 [label = "foldr f z", minlen=4]
+  }
+  subgraph {
+    ordering=out
+    Cons1 -> 1
+    Cons2 [label=":"]
+    Cons1 -> Cons2
+  }
+
+  Cons2 -> 2
+  Cons3 [label=":"]
+  Cons2 -> Cons3
+
+  Cons3 -> 3
+  Cons4 [label=":"]
+  Cons3 -> Cons4
+
+  Cons4 -> 4
+  Cons5 [label=":"]
+  Cons4 -> Cons5
+
+  Cons5 -> 5
+  Nil1 [label="[]"]
+  Cons5 -> Nil1
+
+  L1 [label="1"]
+  L2 [label="2"]
+  L3 [label="3"]
+  L4 [label="4"]
+  L5 [label="5"]
+
+  f2 [label="f"]
+  f3 [label="f"]
+  f4 [label="f"]
+  f5 [label="f"]
+  z [label="z"]
+
+  f1 -> L1
+  f1 -> f2
+  f2 -> L2
+  f2 -> f3
+  f3 -> L3
+  f3 -> f4
+  f4 -> L4
+  f4 -> f5
+  f5 -> L5
+  f5 -> z
+
+}

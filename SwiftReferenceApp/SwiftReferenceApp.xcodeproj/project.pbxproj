@@ -317,6 +317,7 @@
 
 /* Begin PBXFileReference section */
 		6506B3451B99914B00607FC8 /* Swiftx.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Swiftx.playground; path = Playgrounds/Swiftx.playground; sourceTree = "<group>"; };
+		6507225B1B9F65B500214138 /* Parsing.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Parsing.playground; path = Playgrounds/Parsing.playground; sourceTree = "<group>"; };
 		65185A0D1B89C309001F85D5 /* StateMachineSpecs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateMachineSpecs.swift; sourceTree = "<group>"; };
 		654F9F941B8759B60042F370 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		654F9FC21B875A5D0042F370 /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
@@ -541,6 +542,7 @@
 		65B1BEE61B8C37170064FF47 /* Playgrounds */ = {
 			isa = PBXGroup;
 			children = (
+				6507225B1B9F65B500214138 /* Parsing.playground */,
 				656504591B91FA8500144982 /* DotParser.playground */,
 				65B1BEFD1B8C37490064FF47 /* RxAndDisposable.iOS.playground */,
 				65B1BEFE1B8C67B90064FF47 /* Co-and-Contravariance.playground */,

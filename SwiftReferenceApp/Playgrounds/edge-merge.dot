@@ -1,0 +1,6 @@
+digraph G {
+yourvirtualnode [shape=circle,width=.01,height=.01,label=""]
+a -> yourvirtualnode [arrowhead=none]
+yourvirtualnode -> {b;c}
+
+}
