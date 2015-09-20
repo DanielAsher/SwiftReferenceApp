@@ -1,4 +1,4 @@
-[!Build Status](https://travis-ci.org/DanielAsher/SwiftReferenceApp.svg?branch=feature%2Fswift-2.0)
+[![Build Status](https://travis-ci.org/DanielAsher/SwiftReferenceApp.svg?branch=feature%2Fswift-2.0)](https://travis-ci.org/DanielAsher/SwiftReferenceApp)
 
 # SwiftReferenceApp
 
