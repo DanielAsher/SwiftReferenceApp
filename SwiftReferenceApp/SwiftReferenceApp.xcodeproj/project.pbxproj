@@ -106,34 +106,6 @@
 			remoteGlobalIDString = 4822F0D019D00ABF00F5F572;
 			remoteInfo = "SwiftTask-iOSTests";
 		};
-		657B2C981B873B23001F6BC2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 657B2C911B873B23001F6BC2 /* Madness.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D4FC47B11A37E47C00D23A6F;
-			remoteInfo = "Madness-iOS";
-		};
-		657B2C9A1B873B23001F6BC2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 657B2C911B873B23001F6BC2 /* Madness.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D4FC47BC1A37E47C00D23A6F;
-			remoteInfo = "Madness-iOSTests";
-		};
-		657B2C9C1B873B23001F6BC2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 657B2C911B873B23001F6BC2 /* Madness.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D4BC5DF71A98C8B4008C6851;
-			remoteInfo = "Madness-iOS";
-		};
-		657B2C9E1B873B23001F6BC2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 657B2C911B873B23001F6BC2 /* Madness.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D4BC5E011A98C8B4008C6851;
-			remoteInfo = "Madness-iOSTests";
-		};
 		657B2CA91B873B39001F6BC2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 657B2CA01B873B39001F6BC2 /* Quick.xcodeproj */;
@@ -321,7 +293,6 @@
 		657B2C581B873AB6001F6BC2 /* SwiftyStateMachine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyStateMachine.xcodeproj; path = ../Modules/SwiftyStateMachine/SwiftyStateMachine.xcodeproj; sourceTree = "<group>"; };
 		657B2C671B873AD1001F6BC2 /* SwiftTask.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftTask.xcodeproj; path = ../Modules/SwiftTask/SwiftTask.xcodeproj; sourceTree = "<group>"; };
 		657B2C761B873AEB001F6BC2 /* Rx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Rx.xcodeproj; path = ../Modules/RxSwift/Rx.xcodeproj; sourceTree = "<group>"; };
-		657B2C911B873B23001F6BC2 /* Madness.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Madness.xcodeproj; path = ../Modules/Madness/Madness.xcodeproj; sourceTree = "<group>"; };
 		657B2CA01B873B39001F6BC2 /* Quick.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quick.xcodeproj; path = ../Modules/Quick/Quick.xcodeproj; sourceTree = "<group>"; };
 		658049911B9812F4001E7F21 /* PatternMatchingOperator.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = PatternMatchingOperator.playground; path = Playgrounds/PatternMatchingOperator.playground; sourceTree = "<group>"; };
 		658049A81B9816C0001E7F21 /* Swiftz.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Swiftz.xcodeproj; path = ../Modules/Swiftz/Swiftz.xcodeproj; sourceTree = "<group>"; };
@@ -451,7 +422,6 @@
 		657B2C571B873AA0001F6BC2 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				657B2C911B873B23001F6BC2 /* Madness.xcodeproj */,
 				65D837A71B8749E600B6D7D3 /* Nimble.xcodeproj */,
 				657B2CA01B873B39001F6BC2 /* Quick.xcodeproj */,
 				657B2C761B873AEB001F6BC2 /* Rx.xcodeproj */,
@@ -480,17 +450,6 @@
 				657B2C711B873AD1001F6BC2 /* SwiftTask-OSXTests.xctest */,
 				657B2C731B873AD1001F6BC2 /* SwiftTask.framework */,
 				657B2C751B873AD1001F6BC2 /* SwiftTask-iOSTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		657B2C921B873B23001F6BC2 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				657B2C991B873B23001F6BC2 /* Madness.framework */,
-				657B2C9B1B873B23001F6BC2 /* Madness-MacTests.xctest */,
-				657B2C9D1B873B23001F6BC2 /* Madness.framework */,
-				657B2C9F1B873B23001F6BC2 /* Madness-iOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -669,10 +628,6 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 657B2C921B873B23001F6BC2 /* Products */;
-					ProjectRef = 657B2C911B873B23001F6BC2 /* Madness.xcodeproj */;
-				},
-				{
 					ProductGroup = 65D837A81B8749E600B6D7D3 /* Products */;
 					ProjectRef = 65D837A71B8749E600B6D7D3 /* Nimble.xcodeproj */;
 				},
@@ -760,34 +715,6 @@
 			fileType = wrapper.cfbundle;
 			path = "SwiftTask-iOSTests.xctest";
 			remoteRef = 657B2C741B873AD1001F6BC2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		657B2C991B873B23001F6BC2 /* Madness.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Madness.framework;
-			remoteRef = 657B2C981B873B23001F6BC2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		657B2C9B1B873B23001F6BC2 /* Madness-MacTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "Madness-MacTests.xctest";
-			remoteRef = 657B2C9A1B873B23001F6BC2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		657B2C9D1B873B23001F6BC2 /* Madness.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Madness.framework;
-			remoteRef = 657B2C9C1B873B23001F6BC2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		657B2C9F1B873B23001F6BC2 /* Madness-iOSTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "Madness-iOSTests.xctest";
-			remoteRef = 657B2C9E1B873B23001F6BC2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		657B2CAA1B873B39001F6BC2 /* Quick.framework */ = {
@@ -1042,6 +969,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1088,6 +1016,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
