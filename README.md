@@ -1,3 +1,5 @@
+[!Build Status](https://travis-ci.org/DanielAsher/SwiftReferenceApp.svg?branch=feature%2Fswift-2.0)
+
 # SwiftReferenceApp
 
 An attempt to unify StateMachine, Tasks, Reactive, ViewModel and Binding patterns for a Swift/iOS app reference design.
