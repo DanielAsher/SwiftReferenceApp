@@ -41,16 +41,14 @@ public class App
     {
         user = User()
         
-        
-        
         // TODO: Consider whether these maps are inefficient.
 //        appEvent = self._hsmTransitionState      >- map { (o, event, n, u)            in return event }         
 //        appState = self._hsmTransitionState       >- map { (o, e, newState, u)      in return newState }
 //        userState = self._hsmTransitionState      >- map { (o, e, n, userState)      in return userState }
         
-        appEvent = self.transition >- map { t in return t.event }
-        appState = self.transition >- map { t in return t.newState }
-        userState = self.transition >- map { t in return t.userState }
+        appEvent    = self.transition.map { t in return t.event }
+        appState    = self.transition.map { t in return t.newState }
+        userState   = self.transition.map { t in return t.userState }
         
         // Create machine.
         machine  = StateMachine(schema: App.schema, subject: self)
@@ -58,7 +56,7 @@ public class App
         machine.addDidTransitionCallback { oldState, event, newState, trace in 
 //            let hsmState = (oldState, event, newState, self.user.machine.state)
             let appTransition = AppTransition( oldState: oldState, event:event, newState: newState, userState: self.user.machine.state ) 
-            self.transition.next(appTransition)
+            self.transition.sendNext(appTransition)
 //            self._hsmTransitionState.next(hsmState)
         }
     }

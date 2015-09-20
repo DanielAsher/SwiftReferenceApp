@@ -20,29 +20,24 @@ class MainViewController: UIViewController
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let dispose = disposeBag.addDisposable 
-        
+                
         // saveButton triggers app <- .Save
-        saveButton.rx_tap 
-            >- subscribeNext { app <- .Save } 
-            >- disposeBag.addDisposable
+        saveButton.rx_tap.subscribeNext { app <- .Save }.scopedDispose 
        
         // disable saveButton while appState = .Saving
-        app.appState 
-            >- map { $0.isSaving() == false }
-            >- saveButton.rx_subscribeEnabledTo >- dispose    
+        app.appState
+            .map { $0.isSaving() == false }
+            .subscribe(saveButton.rx_enabled)
                       
         // purchaseButton triggers app <- .Purchase
-        purchaseButton.rx_tap 
-            >- subscribeNext { app <- .Purchase } >- dispose
-      
+        purchaseButton.rx_tap.subscribeNext{ app <- .Purchase }.scopedDispose      
         // Set statusLabel.text to transition's description
-        app.transition >- subscribeNext { self.statusLabel.text = $0.description }
+        app.transition.subscribeNext{ self.statusLabel.text = $0.description }
         
         // Set userStateLabel.text to "userState"
-        app.userState 
-            >- subscribeNext { userState in self.userStatusLabel.text = "\(userState.DOTLabel)" } >- dispose    }
+        app.userState.subscribeNext{
+            self.userStatusLabel.text = "\($0.DOTLabel)" }.scopedDispose 
+        }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

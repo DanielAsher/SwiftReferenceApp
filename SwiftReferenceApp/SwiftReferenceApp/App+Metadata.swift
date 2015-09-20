@@ -74,19 +74,19 @@ extension AppEvent: DOTLabelable
 }
 
 // MARK: Add printable conformance
-extension AppState : Printable {
+extension AppState : CustomStringConvertible {
     public var description: String { return self.DOTLabel }
 }
 
-extension AppState : DebugPrintable {
+extension AppState : CustomDebugStringConvertible {
     public var debugDescription: String { return "AppState.\(self.DOTLabel)" }
 }
 
-extension AppEvent : Printable {
+extension AppEvent : CustomStringConvertible {
     public var description: String { return self.DOTLabel }
 }
 
-extension AppEvent : DebugPrintable {
+extension AppEvent : CustomDebugStringConvertible {
     public var debugDescription: String { return "AppEvent.\(self.DOTLabel)" }
 }
 
@@ -116,13 +116,13 @@ public func == (lhs: AppTransition, rhs: AppTransition) -> Bool {
     return o && e && n && u
 }
 
-extension AppTransition : Printable {
+extension AppTransition : CustomStringConvertible {
     public var description: String {
         return "AppTransition(oldState:\(self.oldState), event: \(self.event), newState: \(self.newState), userState: \(self.userState)"
     }
 }
 
-extension AppTransition :DebugPrintable {
+extension AppTransition :CustomDebugStringConvertible {
     public var debugDescription : String {
         return  "AppTransition(oldState:\(self.oldState), event: \(self.event), newState: \(self.newState), userState: \(self.userState)" 
     }

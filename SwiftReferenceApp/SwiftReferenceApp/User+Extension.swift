@@ -32,11 +32,11 @@ extension UserState: DOTLabelable
 }
 
 // MARK: Add printable conformance
-extension UserState : Printable {
+extension UserState : CustomStringConvertible {
     public var description: String { return self.DOTLabel }
 }
 
-extension UserState : DebugPrintable {
+extension UserState : CustomDebugStringConvertible {
     public var debugDescription: String { return "UserState.\(self.DOTLabel)" }
 }
 
