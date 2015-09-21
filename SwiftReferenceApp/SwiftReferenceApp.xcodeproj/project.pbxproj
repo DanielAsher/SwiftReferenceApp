@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		65185A0E1B89C309001F85D5 /* StateMachineSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65185A0D1B89C309001F85D5 /* StateMachineSpecs.swift */; };
+		653AC5641BAFFEE700250A7C /* SwiftParse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 653AC55D1BAFFE2D00250A7C /* SwiftParse.framework */; };
+		653AC5651BAFFEE700250A7C /* SwiftParse.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 653AC55D1BAFFE2D00250A7C /* SwiftParse.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		654F9F951B8759B60042F370 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654F9F941B8759B60042F370 /* User.swift */; };
 		656216281B87283E003F69C3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656216271B87283E003F69C3 /* AppDelegate.swift */; };
 		6562162B1B87283E003F69C3 /* SwiftReferenceApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 656216291B87283E003F69C3 /* SwiftReferenceApp.xcdatamodeld */; };
@@ -47,6 +49,41 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		653AC55C1BAFFE2D00250A7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 653AC5511BAFFE2D00250A7C /* SwiftParse.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 650722661B9F6A9800214138;
+			remoteInfo = "SwiftParse-iOS";
+		};
+		653AC55E1BAFFE2D00250A7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 653AC5511BAFFE2D00250A7C /* SwiftParse.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 650722701B9F6A9900214138;
+			remoteInfo = "SwiftParse-iOSTests";
+		};
+		653AC5601BAFFE2D00250A7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 653AC5511BAFFE2D00250A7C /* SwiftParse.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6513C7A11BA28BBA00912A7C;
+			remoteInfo = "SwiftParse-OSX";
+		};
+		653AC5621BAFFE2D00250A7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 653AC5511BAFFE2D00250A7C /* SwiftParse.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6513C7AA1BA28BBA00912A7C;
+			remoteInfo = "SwiftParse-OSXTests";
+		};
+		653AC5661BAFFEE700250A7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 653AC5511BAFFE2D00250A7C /* SwiftParse.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 650722651B9F6A9800214138;
+			remoteInfo = "SwiftParse-iOS";
+		};
 		6562163B1B87283E003F69C3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6562161A1B87283E003F69C3 /* Project object */;
@@ -266,6 +303,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				653AC5651BAFFEE700250A7C /* SwiftParse.framework in Embed Frameworks */,
 				65E6E6C11BAF2D8A005140DA /* RxCocoa.framework in Embed Frameworks */,
 				65C024CE1B873C9A0037E325 /* SwiftyStateMachine.framework in Embed Frameworks */,
 				65D837BB1B874AAD00B6D7D3 /* SwiftTask.framework in Embed Frameworks */,
@@ -279,6 +317,7 @@
 		6506B3451B99914B00607FC8 /* Swiftx.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Swiftx.playground; path = Playgrounds/Swiftx.playground; sourceTree = "<group>"; };
 		6507225B1B9F65B500214138 /* Parsing.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Parsing.playground; path = Playgrounds/Parsing.playground; sourceTree = "<group>"; };
 		65185A0D1B89C309001F85D5 /* StateMachineSpecs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateMachineSpecs.swift; sourceTree = "<group>"; };
+		653AC5511BAFFE2D00250A7C /* SwiftParse.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftParse.xcodeproj; path = ../Modules/SwiftParse/SwiftParse/SwiftParse.xcodeproj; sourceTree = "<group>"; };
 		654F9F941B8759B60042F370 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		654F9FC21B875A5D0042F370 /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		654F9FC41B8765A30042F370 /* App+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "App+Extension.swift"; sourceTree = "<group>"; };
@@ -333,6 +372,7 @@
 			files = (
 				65E6E6A71BAF2A92005140DA /* Swiftz.framework in Frameworks */,
 				65CD7D031BAF0E78001DF33F /* RxSwift.framework in Frameworks */,
+				653AC5641BAFFEE700250A7C /* SwiftParse.framework in Frameworks */,
 				65C024CD1B873C9A0037E325 /* SwiftyStateMachine.framework in Frameworks */,
 				65E6E6C01BAF2D8A005140DA /* RxCocoa.framework in Frameworks */,
 				65D837BA1B874AAD00B6D7D3 /* SwiftTask.framework in Frameworks */,
@@ -351,6 +391,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		653AC5521BAFFE2D00250A7C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				653AC55D1BAFFE2D00250A7C /* SwiftParse.framework */,
+				653AC55F1BAFFE2D00250A7C /* SwiftParse-iOSTests.xctest */,
+				653AC5611BAFFE2D00250A7C /* SwiftParse.framework */,
+				653AC5631BAFFE2D00250A7C /* SwiftParse-OSXTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		656216191B87283E003F69C3 = {
 			isa = PBXGroup;
 			children = (
@@ -437,6 +488,7 @@
 		657B2C571B873AA0001F6BC2 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				653AC5511BAFFE2D00250A7C /* SwiftParse.xcodeproj */,
 				65D837A71B8749E600B6D7D3 /* Nimble.xcodeproj */,
 				657B2CA01B873B39001F6BC2 /* Quick.xcodeproj */,
 				657B2C761B873AEB001F6BC2 /* Rx.xcodeproj */,
@@ -588,6 +640,7 @@
 			);
 			dependencies = (
 				65E6E6C31BAF2D8A005140DA /* PBXTargetDependency */,
+				653AC5671BAFFEE700250A7C /* PBXTargetDependency */,
 			);
 			name = SwiftReferenceApp;
 			productName = SwiftReferenceApp;
@@ -656,6 +709,10 @@
 					ProjectRef = 657B2C761B873AEB001F6BC2 /* Rx.xcodeproj */;
 				},
 				{
+					ProductGroup = 653AC5521BAFFE2D00250A7C /* Products */;
+					ProjectRef = 653AC5511BAFFE2D00250A7C /* SwiftParse.xcodeproj */;
+				},
+				{
 					ProductGroup = 657B2C681B873AD1001F6BC2 /* Products */;
 					ProjectRef = 657B2C671B873AD1001F6BC2 /* SwiftTask.xcodeproj */;
 				},
@@ -677,6 +734,34 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		653AC55D1BAFFE2D00250A7C /* SwiftParse.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SwiftParse.framework;
+			remoteRef = 653AC55C1BAFFE2D00250A7C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		653AC55F1BAFFE2D00250A7C /* SwiftParse-iOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SwiftParse-iOSTests.xctest";
+			remoteRef = 653AC55E1BAFFE2D00250A7C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		653AC5611BAFFE2D00250A7C /* SwiftParse.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SwiftParse.framework;
+			remoteRef = 653AC5601BAFFE2D00250A7C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		653AC5631BAFFE2D00250A7C /* SwiftParse-OSXTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SwiftParse-OSXTests.xctest";
+			remoteRef = 653AC5621BAFFE2D00250A7C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		657B2C601B873AB6001F6BC2 /* SwiftyStateMachine.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -937,6 +1022,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		653AC5671BAFFEE700250A7C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "SwiftParse-iOS";
+			targetProxy = 653AC5661BAFFEE700250A7C /* PBXContainerItemProxy */;
+		};
 		6562163C1B87283E003F69C3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 656216211B87283E003F69C3 /* SwiftReferenceApp */;
