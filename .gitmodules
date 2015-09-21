@@ -13,3 +13,6 @@
 [submodule "Modules/Swiftz"]
 	path = Modules/Swiftz
 	url = https://github.com/DanielAsher/Swiftz.git
+[submodule "Modules/SwiftParse"]
+	path = Modules/SwiftParse
+	url = https://github.com/DanielAsher/SwiftParse
