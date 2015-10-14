@@ -357,6 +357,7 @@
 		65B23AE21B8B306E0049D2DF /* App+Tasks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "App+Tasks.swift"; sourceTree = "<group>"; };
 		65B23AFA1B8B31870049D2DF /* App+Metadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "App+Metadata.swift"; sourceTree = "<group>"; };
 		65D837A71B8749E600B6D7D3 /* Nimble.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nimble.xcodeproj; path = ../Modules/Quick/Externals/Nimble/Nimble.xcodeproj; sourceTree = "<group>"; };
+		65E120B81BCBADAC00C83FE9 /* STM Santa Transactional Memory.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = "STM Santa Transactional Memory.playground"; path = "Playgrounds/STM Santa Transactional Memory.playground"; sourceTree = "<group>"; };
 		65FAA8BB1B877300000CC9D6 /* User+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+Extension.swift"; sourceTree = "<group>"; };
 		65FAA8BD1B877629000CC9D6 /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		65FAA8BF1B879FE0000CC9D6 /* ApplicationSchema.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ApplicationSchema.svg; sourceTree = "<group>"; };
@@ -572,6 +573,7 @@
 				658049B81B986E71001E7F21 /* Swiftz.playground */,
 				6506B3451B99914B00607FC8 /* Swiftx.playground */,
 				659791681B9EB6E90081166A /* Functional.playground */,
+				65E120B81BCBADAC00C83FE9 /* STM Santa Transactional Memory.playground */,
 			);
 			name = Playgrounds;
 			sourceTree = "<group>";
